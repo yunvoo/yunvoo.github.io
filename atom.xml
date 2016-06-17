@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yunvoo.com/"/>
-  <updated>2016-06-17T09:26:56.211Z</updated>
+  <updated>2016-06-17T09:17:45.040Z</updated>
   <id>http://yunvoo.com/</id>
   
   <author>
@@ -14,24 +14,6 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>myfirst</title>
-    <link href="http://yunvoo.com//blog/2016/06/17/myfirst.html"/>
-    <id>http://yunvoo.com//blog/2016/06/17/myfirst.html</id>
-    <published>2016-06-17T09:26:27.000Z</published>
-    <updated>2016-06-17T09:26:56.211Z</updated>
-    
-    <content type="html"></content>
-    
-    <summary type="html">
-    
-    </summary>
-    
-    
-      <category term="lihongchang.com" scheme="http://yunvoo.com/tags/lihongchang-com/"/>
-    
-  </entry>
   
   <entry>
     <title>Hello World</title>
