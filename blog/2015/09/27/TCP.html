@@ -86,7 +86,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="TCP，协议," />
 
 
 
@@ -104,15 +104,24 @@
 
 
 
-<meta name="description" content="The best way to prediet the future is to create it">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Yunvoo Blog">
-<meta property="og:url" content="http://yunvoo.com/index.html">
+<meta name="description" content="TCP被作为一种运行在分组交换网络（以及它们的互联系统）上的高可靠的主机到主机协议。TCP是面向连接的、端到端的通用协议，却对下层协议的假设甚少（可以是多网络环境，只要求一个不可靠的报文服务），一般用于互联网上不同主机的进程间通信。现行协议版本被IETF标准化为RFC-793。
+
+虽然TCP主要运行在互联网的IP协议层之上，但原则上，TCP能够在多种通信系统上进行操作，从硬连线连接到分组交换或电路">
+<meta property="og:type" content="article">
+<meta property="og:title" content="读 TCP 协议 RFC-793">
+<meta property="og:url" content="http://yunvoo.com/blog/2015/09/27/TCP.html">
 <meta property="og:site_name" content="Yunvoo Blog">
-<meta property="og:description" content="The best way to prediet the future is to create it">
+<meta property="og:description" content="TCP被作为一种运行在分组交换网络（以及它们的互联系统）上的高可靠的主机到主机协议。TCP是面向连接的、端到端的通用协议，却对下层协议的假设甚少（可以是多网络环境，只要求一个不可靠的报文服务），一般用于互联网上不同主机的进程间通信。现行协议版本被IETF标准化为RFC-793。
+
+虽然TCP主要运行在互联网的IP协议层之上，但原则上，TCP能够在多种通信系统上进行操作，从硬连线连接到分组交换或电路">
+<meta property="og:image" content="http://7xrzzi.com1.z0.glb.clouddn.com/yunvooliyunvooli_meitu_1.jpg">
+<meta property="og:updated_time" content="2016-06-18T03:56:36.814Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Yunvoo Blog">
-<meta name="twitter:description" content="The best way to prediet the future is to create it">
+<meta name="twitter:title" content="读 TCP 协议 RFC-793">
+<meta name="twitter:description" content="TCP被作为一种运行在分组交换网络（以及它们的互联系统）上的高可靠的主机到主机协议。TCP是面向连接的、端到端的通用协议，却对下层协议的假设甚少（可以是多网络环境，只要求一个不可靠的报文服务），一般用于互联网上不同主机的进程间通信。现行协议版本被IETF标准化为RFC-793。
+
+虽然TCP主要运行在互联网的IP协议层之上，但原则上，TCP能够在多种通信系统上进行操作，从硬连线连接到分组交换或电路">
+<meta name="twitter:image" content="http://7xrzzi.com1.z0.glb.clouddn.com/yunvooliyunvooli_meitu_1.jpg">
 
 
 
@@ -133,9 +142,9 @@
 
 
 
-  <link rel="canonical" href="http://yunvoo.com/"/>
+  <link rel="canonical" href="http://yunvoo.com/blog/2015/09/27/TCP.html"/>
 
-  <title> Yunvoo Blog </title>
+  <title> 读 TCP 协议 RFC-793 | Yunvoo Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -166,9 +175,7 @@
     
   
 
-  <div class="container one-collumn sidebar-position-left 
-   page-home 
- ">
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -295,9 +302,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
   
@@ -317,128 +324,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/blog/2016/06/17/hello-world.html" itemprop="url">
-                  Hello World
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-17T17:17:45+08:00" content="2016-06-17">
-              2016-06-17
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/blog/2016/06/17/hello-world.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2016/06/17/hello-world.html" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/blog/2016/06/17/hello-world.html" class="leancloud_visitors" data-flag-title="Hello World">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/blog/2015/09/27/TCP.html" itemprop="url">
-                  读 TCP 协议 RFC-793
-                </a>
+                读 TCP 协议 RFC-793
               
             
           </h1>
@@ -494,9 +380,7 @@
       
 
       
-        
-          
-            <p>TCP被作为一种运行在分组交换网络（以及它们的互联系统）上的高可靠的主机到主机协议。TCP是面向连接的、端到端的通用协议，却对下层协议的假设甚少（可以是多网络环境，只要求一个不可靠的报文服务），一般用于互联网上不同主机的进程间通信。<br>现行协议版本被IETF标准化为<a href="http://tools.ietf.org/html/rfc793" target="_blank" rel="external">RFC-793</a>。</p>
+        <p>TCP被作为一种运行在分组交换网络（以及它们的互联系统）上的高可靠的主机到主机协议。TCP是面向连接的、端到端的通用协议，却对下层协议的假设甚少（可以是多网络环境，只要求一个不可靠的报文服务），一般用于互联网上不同主机的进程间通信。<br>现行协议版本被IETF标准化为<a href="http://tools.ietf.org/html/rfc793" target="_blank" rel="external">RFC-793</a>。</p>
 <blockquote>
 <p>虽然TCP主要运行在互联网的IP协议层之上，但原则上，TCP能够在多种通信系统上进行操作，从硬连线连接到分组交换或电路交换系统。</p>
 </blockquote>
@@ -637,43 +521,95 @@
 
 
 
-          
+      
+    </div>
+
+    <div>
+      
         
       
     </div>
 
     <div>
       
-    </div>
+        
 
-    <div>
       
     </div>
 
     <footer class="post-footer">
       
-
+        <div class="post-tags">
+          
+            <a href="/tags/TCP，协议/" rel="tag">#TCP，协议</a>
+          
+        </div>
       
 
       
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/2016/06/17/hello-world.html" rel="prev" title="Hello World">
+                Hello World <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
       
-        <div class="post-eof"></div>
+
+      
       
     </footer>
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="/blog/2015/09/27/TCP.html"
+     data-title="读 TCP 协议 RFC-793"
+     data-content=""
+     data-url="http://yunvoo.com/blog/2015/09/27/TCP.html">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
 
 
           </div>
           
 
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
 
           
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="/blog/2015/09/27/TCP.html"
+           data-title="读 TCP 协议 RFC-793" data-url="http://yunvoo.com/blog/2015/09/27/TCP.html">
+      </div>
+    
+  </div>
+
 
         </div>
         
@@ -693,8 +629,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.png"
@@ -801,6 +746,17 @@
       </section>
 
       
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
+      
 
     </div>
   </aside>
@@ -903,6 +859,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
 
   
 

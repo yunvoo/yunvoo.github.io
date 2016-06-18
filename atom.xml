@@ -42,4 +42,164 @@
     
   </entry>
   
+  <entry>
+    <title>读 TCP 协议 RFC-793</title>
+    <link href="http://yunvoo.com//blog/2015/09/27/TCP.html"/>
+    <id>http://yunvoo.com//blog/2015/09/27/TCP.html</id>
+    <published>2015-09-26T16:00:00.000Z</published>
+    <updated>2016-06-18T03:56:36.814Z</updated>
+    
+    <content type="html">&lt;p&gt;TCP被作为一种运行在分组交换网络（以及它们的互联系统）上的高可靠的主机到主机协议。TCP是面向连接的、端到端的通用协议，却对下层协议的假设甚少（可以是多网络环境，只要求一个不可靠的报文服务），一般用于互联网上不同主机的进程间通信。&lt;br&gt;现行协议版本被IETF标准化为&lt;a href=&quot;http://tools.ietf.org/html/rfc793&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;RFC-793&lt;/a&gt;。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;虽然TCP主要运行在互联网的IP协议层之上，但原则上，TCP能够在多种通信系统上进行操作，从硬连线连接到分组交换或电路交换系统。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;font size=&quot;5&quot; color=&quot;#FF2D2D&quot;&gt;概述&lt;/font&gt; 
+
+&lt;font size=&quot;4&quot; color=&quot;#FF2D2D&quot;&gt;互联网系统元素&lt;/font&gt; 
+
+&lt;p&gt;Internet环境由连接在通过网关互联的网络上的主机组成。为了在不同主机的进程间通信，网络上运行着多层的协议。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;分组&lt;/strong&gt; 是主机以及它所在网络上一次交换的数据。 &lt;strong&gt;主机&lt;/strong&gt; 是连在网络上的计算机，是分组的源和目标。 &lt;strong&gt;进程&lt;/strong&gt; 是主机上的活跃元素。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;一个进程可能需要独立的多个连接，于是每个进程可以有多个端口来和其他进程通信。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;font size=&quot;4&quot; color=&quot;#FF2D2D&quot;&gt;操作模型&lt;/font&gt; 
+
+&lt;p&gt;进程通过调用TCP（以数据缓存作为参数）进行数据传输。TCP将数据打包为片段（segment），调用互联网模块传输给目标TCP。接收方TCP将每个片段放在接收用户的缓存中，然后提示用户。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;TCP在片段中包括控制信息，被用来确保传输数据的顺序。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;每个TCP模块关联着一个提供本地网络接口的IP模块，该模块将TCP片段打包成IP数据包，并将其路由到目标IP模块或中间网关。为了在本地网络中传输该数据报，它又被嵌入到本地网络分组中。 分组交换继续做打包、分段等其他操作来递送本地网络分组给目标IP模块。&lt;/p&gt;
+&lt;p&gt;在网络间的网关上，打开本地网络分组，得到IP数据报。然后决定接下来应该发送该数据报到那个网络。此后，该数据报被打包进适合下一个本地网络的本地网络分组，路由给下一网关或最终目标。&lt;/p&gt;
+&lt;p&gt;网关可以根据需要将IP数据报切分成较小的数据报片段。切分后的片段也可能被再次切分。根据IP数据报分片的格式的设计，目标IP模块可以将分片组装为IP数据报。&lt;/p&gt;
+&lt;p&gt;目标IP模块将数据报（如果需要，先进行组装）中的数据拿出来，传送给目标TCP模块。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;简单的模型中仍有很多的细节，比如服务类型。它为网关选择下一个网络的服务参数提供了信息。服务类型包括数据报的优先级，或者安全信息。这些允许主机和网关根据安全考虑，进行多安全层次的操作来分离数据报。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;font size=&quot;4&quot; color=&quot;#FF2D2D&quot;&gt;连接&lt;/font&gt; 
+
+&lt;p&gt;TCP连接用一对socket来标识，且TCP连接可以向两个方向传送数据，即TCP是全双工的。同时每个端口可以任意绑定一个进程，进程只能对属于自己的端口进行初始化。&lt;/p&gt;
+&lt;p&gt;每个数据流都需要维护一些状态信息。这些信息（包括socket、序列号、窗口大小）组成一个连接。一个连接用一组socket标识。&lt;/p&gt;
+&lt;p&gt;通信之前，双方应该建立一个连接。结束通信后连接被终止或关闭，释放的资源可供他用。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;为了在不可靠的Internet上建立连接和避免错误的连接初始化，TCP采用了握手机制和基于时钟的序列号。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;font size=&quot;4&quot; color=&quot;#FF2D2D&quot;&gt;接口&lt;/font&gt; 
+
+&lt;p&gt;TCP应作为操作系统的一个模块。其用户接口包括&lt;code&gt;OPEN&lt;/code&gt;,&lt;code&gt;CLOSE&lt;/code&gt;,&lt;code&gt;SEND&lt;/code&gt;,&lt;code&gt;RECEIVE&lt;/code&gt;,&lt;code&gt;STATUS&lt;/code&gt;。这些调用就像是文件调用一样：打开、读、关闭。TCP通过IP来间接调用本地网络接口，TCP接口提供了发送（或接收）数据报给任何互联网中TCP地址的调用。&lt;/p&gt;
+&lt;font size=&quot;4&quot; color=&quot;#FF2D2D&quot;&gt;优先级与安全性&lt;/font&gt; 
+
+&lt;p&gt;使用TCP的用户可能会指定优先级和安全性。当这些特性未被使用时，应提供默认值。&lt;/p&gt;
+&lt;font size=&quot;5&quot; color=&quot;#FF2D2D&quot;&gt;操作&lt;/font&gt; 
+
+&lt;p&gt;TCP允许的操作包括以下几个方面：&lt;/p&gt;
+&lt;font size=&quot;4&quot; color=&quot;#FF2D2D&quot;&gt;基本数据传输&lt;/font&gt; 
+
+&lt;p&gt;TCP能够在两个方向上传输连续的字节流，通常会把一些字节打包成片段，然后交给互联网系统进行传输。&lt;/p&gt;
+&lt;p&gt;通常TCP可以根据自己的方便，进行阻塞和转发。因此需要提供&lt;code&gt;PUSH&lt;/code&gt;操作，以免用户需要立即发送。该操作会导致TCP立即转发数据，但这个过程对接收方应是不可见的。&lt;/p&gt;
+&lt;font size=&quot;4&quot; color=&quot;#FF2D2D&quot;&gt;可靠性&lt;/font&gt; 
+
+&lt;p&gt;TCP能够从传输错误中恢复，除非互联网完全断开。传输错误包括：损坏、丢失、重复、乱序。&lt;/p&gt;
+&lt;p&gt;为了实现这个目的，每个传输的字节都被标记一个序列号（SEQ)，同时接收方应提供确认号（ACK）。如果确认号超时，则重发数据。在接受端，序列号用来重新排列乱序或重复的片段。数据损坏用一个校验值来处理，在接收端抛弃损坏的片段。&lt;/p&gt;
+&lt;font size=&quot;4&quot; color=&quot;#FF2D2D&quot;&gt;流控制&lt;/font&gt; 
+
+&lt;p&gt;TCP提供了一种手段来管理发送者发送的数据量。接收者发送一个“窗口”（接下来期望接受的字节范围）给发送者，发送者在接收到进一步允许前只能发送这些字节。&lt;/p&gt;
+&lt;font size=&quot;4&quot; color=&quot;#FF2D2D&quot;&gt;多路复用&lt;/font&gt; 
+
+&lt;p&gt;为了允许同一主机的不同进程同时使用TCP设施，TCP提供了一组端口，加上互联网通信层地址（IP），组成一个socket。一对socket唯一地标识了一个TCP连接。&lt;br&gt;而一个进程可以绑定到端口来监听网络。为了方便，将常用进程绑定到公开的确定端口。这样就可以通过公共地址来访问服务了。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;对于其他非公开确定的端口，建立连接涉及到更多的动态机制。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;font size=&quot;5&quot; color=&quot;#FF2D2D&quot;&gt;TCP头&lt;/font&gt; 
+
+&lt;p&gt;在传送的片段中，TCP头的位置紧接着IP头，其中提供了TCP协议规定的必要信息：&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt; 0                   1                   2                   3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;|          Source Port          |       Destination Port        |&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;|                        Sequence Number                        |&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;|                    Acknowledgment Number                      |&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;|  Data |           |U|A|P|R|S|F|                               |&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;| Offset| Reserved  |R|C|S|S|Y|I|            Window             |&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;|       |           |G|K|H|T|N|N|                               |&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;|           Checksum            |         Urgent Pointer        |&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;|                    Options                    |    Padding    |&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;|                             data                              |&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;字段说明：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;Source/Destination Port&lt;/code&gt;：源与目标端口。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Sequence Number&lt;/code&gt;：该片段中第一个数据字节的序列号。如果&lt;code&gt;SYN&lt;/code&gt;是1，则该序列号成为初始序列号（&lt;code&gt;ISN&lt;/code&gt;），第一个数据字节为&lt;code&gt;ISN+1&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Acknowledgment Number&lt;/code&gt;：如果&lt;code&gt;ACK&lt;/code&gt;是1，该字段包含期望收到的下一个序列号。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Data Offset&lt;/code&gt;：TCP头的长度，也就是数据的起始位置。单位为32位字。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Reserved&lt;/code&gt;：保留字段，必须为0。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Conrol Bits&lt;/code&gt;：&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;URG&lt;/code&gt;：&lt;code&gt;Urgent Pointer&lt;/code&gt;字段起作用。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ACK&lt;/code&gt;：&lt;code&gt;Acknowledgment&lt;/code&gt;字段起作用。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;PSH&lt;/code&gt;：&lt;code&gt;PUSH&lt;/code&gt;功能。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;RST&lt;/code&gt;：重置连接。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;SYN&lt;/code&gt;：同步序列号。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;FIN&lt;/code&gt;：别再发送了。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Window&lt;/code&gt;：期望接收的字节长度，从&lt;code&gt;Acknowledgment&lt;/code&gt;开始。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Checksum&lt;/code&gt;：头和数据中所有16位字的反码和的反码。如果是奇数字节，最后字节后补零。计算该字段时，该字段值为0。该校验和还包含了伪头部，它包含IP地址，用来防止路由错误。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Urgent Pointer&lt;/code&gt;：当前紧急数据的开始位置，从序列号算起。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Options&lt;/code&gt;：该字段位于TCP头的末尾，可以有多个整字节。可以包括选项类型、选项长度、选项数据。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Padding&lt;/code&gt;：值为0的补白，确保TCP头长度为32位的整数倍。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;font size=&quot;5&quot; color=&quot;#FF2D2D&quot;&gt;TCP状态&lt;/font&gt; 
+
+&lt;p&gt;一个TCP连接在整个生命周期内可能处在不同的状态，包括：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;LISTEN&lt;/code&gt;：等待任何远程TCP的连接请求。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;SYN-SENT&lt;/code&gt;：发送连接请求后，等待匹配连接请求。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;SYN-RECEIVED&lt;/code&gt;：收到并发送一个连接请求后，等待连接请求确认。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ESTABLISHED&lt;/code&gt;：一个打开的连接，收到的数据可以递交给用户，正常的数据传输状态。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;FIN-WAIT-1&lt;/code&gt;：等待远程TCP的终止请求，或等待终止请求的确认。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;FIN-WAIT-2&lt;/code&gt;：等待远程TCP的终止请求。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;CLOSE-WAIT&lt;/code&gt;：等待本地用户的连接终止请求。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;CLOSING&lt;/code&gt;：等待远程TCP的终止请求确认。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;LAST-ACK&lt;/code&gt;：等待远程TCP终止请求的确认，之前发送的终止请求包含终止请求的确认。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;TIME-WAIT&lt;/code&gt;：等待足够的时间，确保远程TCP收到了终止请求的确认。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;CLOSED&lt;/code&gt;：没有任何连接状态。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;font size=&quot;5&quot; color=&quot;#FF2D2D&quot;&gt;建立连接&lt;/font&gt; 
+
+&lt;p&gt;使用&lt;code&gt;OPEN&lt;/code&gt;调用来声明一个连接，同时提供本地端口、远程socket参数、以及被动等待还是主动连接。此时TCP会提供一个名称（关联着传输控制块，TCB，来存储该连接的变量的数据结构）用于后续调用。两个进程如果同时发起主动连接，它们也会正确地建立连接。这种灵活性在分布式系统中至关重要。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;本地被动连接可以指定远程socket，也可以不指定。后者将会接受所有的远程socket。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;建立连接采用三步握手过程，一般是一方初始化请求，另一方响应该请求。以下是一个简单的建立连接过程：&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;    TCP A                                                TCP B&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;1.  CLOSED                                               LISTEN&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2.  SYN-SENT    --&amp;gt; &amp;lt;SEQ=100&amp;gt;&amp;lt;CTL=SYN&amp;gt;               --&amp;gt; SYN-RECEIVED&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3.  ESTABLISHED &amp;lt;-- &amp;lt;SEQ=300&amp;gt;&amp;lt;ACK=101&amp;gt;&amp;lt;CTL=SYN,ACK&amp;gt;  &amp;lt;-- SYN-RECEIVED&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4.  ESTABLISHED --&amp;gt; &amp;lt;SEQ=101&amp;gt;&amp;lt;ACK=301&amp;gt;&amp;lt;CTL=ACK&amp;gt;       --&amp;gt; ESTABLISHED&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5.  ESTABLISHED --&amp;gt; &amp;lt;SEQ=101&amp;gt;&amp;lt;ACK=301&amp;gt;&amp;lt;CTL=ACK&amp;gt;&amp;lt;DATA&amp;gt; --&amp;gt; ESTABLISHED&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;blockquote&gt;
+&lt;p&gt;注意第5行，此时发送了一些数据，而&lt;code&gt;SEQ&lt;/code&gt;值没有变，因为&lt;code&gt;ACK&lt;/code&gt;报文不占用序列号空间（不同于数据和&lt;code&gt;SYN&lt;/code&gt;）。否则我们将需要确认&lt;code&gt;ACK&lt;/code&gt;。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;对于同时发起连接，将会稍微复杂一些：&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;    TCP A                                            TCP B&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;1.  CLOSED                                           CLOSED&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2.  SYN-SENT     --&amp;gt; &amp;lt;SEQ=100&amp;gt;&amp;lt;CTL=SYN&amp;gt;              ...&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3.  SYN-RECEIVED &amp;lt;-- &amp;lt;SEQ=300&amp;gt;&amp;lt;CTL=SYN&amp;gt;              &amp;lt;-- SYN-SENT&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4.               ... &amp;lt;SEQ=100&amp;gt;&amp;lt;CTL=SYN&amp;gt;              --&amp;gt; SYN-RECEIVED&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5.  SYN-RECEIVED --&amp;gt; &amp;lt;SEQ=100&amp;gt;&amp;lt;ACK=301&amp;gt;&amp;lt;CTL=SYN,ACK&amp;gt; ...&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6.  ESTABLISHED  &amp;lt;-- &amp;lt;SEQ=300&amp;gt;&amp;lt;ACK=101&amp;gt;&amp;lt;CTL=SYN,ACK&amp;gt; &amp;lt;-- SYN-RECEIVED&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7.               ... &amp;lt;SEQ=101&amp;gt;&amp;lt;ACK=301&amp;gt;&amp;lt;CTL=ACK&amp;gt;     --&amp;gt; ESTABLISHED&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;三路握手过程可以从旧的重复&lt;code&gt;SYN&lt;/code&gt;中恢复，要用到&lt;code&gt;RST&lt;/code&gt;字段：&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;    TCP A                                                TCP B&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;1.  CLOSED                                               LISTEN&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2.  SYN-SENT    --&amp;gt; &amp;lt;SEQ=100&amp;gt;&amp;lt;CTL=SYN&amp;gt;               ...&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3.  (duplicate) ... &amp;lt;SEQ=90&amp;gt;&amp;lt;CTL=SYN&amp;gt;               --&amp;gt; SYN-RECEIVED&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4.  SYN-SENT    &amp;lt;-- &amp;lt;SEQ=300&amp;gt;&amp;lt;ACK=91&amp;gt;&amp;lt;CTL=SYN,ACK&amp;gt;  &amp;lt;-- SYN-RECEIVED&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5.  SYN-SENT    --&amp;gt; &amp;lt;SEQ=91&amp;gt;&amp;lt;CTL=RST&amp;gt;               --&amp;gt; LISTEN&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6.              ... &amp;lt;SEQ=100&amp;gt;&amp;lt;CTL=SYN&amp;gt;               --&amp;gt; SYN-RECEIVED&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7.  SYN-SENT    &amp;lt;-- &amp;lt;SEQ=400&amp;gt;&amp;lt;ACK=101&amp;gt;&amp;lt;CTL=SYN,ACK&amp;gt;  &amp;lt;-- SYN-RECEIVED&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8.  ESTABLISHED --&amp;gt; &amp;lt;SEQ=101&amp;gt;&amp;lt;ACK=401&amp;gt;&amp;lt;CTL=ACK&amp;gt;      --&amp;gt; ESTABLISHED&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;blockquote&gt;
+&lt;p&gt;注意，第3行是旧的重复&lt;code&gt;SYN&lt;/code&gt;，接收方在不知情的情况下仍然确认了该&lt;code&gt;SYN&lt;/code&gt;。此时，发送方应重置该&lt;code&gt;SYN&lt;/code&gt;（地5行）。然后继续新的连接。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;另外一种情况是一方因故关闭，造成半开的连接。TCP的策略是发现这种情况并关闭该连接后重新由关闭方发起连接。&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;    TCP A                                           TCP B&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;1.  (CRASH)                               (send 300,receive 100)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2.  CLOSED                                           ESTABLISHED&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3.  SYN-SENT --&amp;gt; &amp;lt;SEQ=400&amp;gt;&amp;lt;CTL=SYN&amp;gt;              --&amp;gt; (??)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4.  (!!)     &amp;lt;-- &amp;lt;SEQ=300&amp;gt;&amp;lt;ACK=100&amp;gt;&amp;lt;CTL=ACK&amp;gt;     &amp;lt;-- ESTABLISHED&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5.  SYN-SENT --&amp;gt; &amp;lt;SEQ=100&amp;gt;&amp;lt;CTL=RST&amp;gt;              --&amp;gt; (Abort!!)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6.  SYN-SENT                                         CLOSED&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7.  SYN-SENT --&amp;gt; &amp;lt;SEQ=400&amp;gt;&amp;lt;CTL=SYN&amp;gt;              --&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;blockquote&gt;
+&lt;p&gt;注意，接收到&lt;code&gt;RST&lt;/code&gt;后首先进行验证（&lt;code&gt;RST&lt;/code&gt;的&lt;code&gt;SEQ&lt;/code&gt;必须在窗口内），然后进行重置。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;font size=&quot;5&quot; color=&quot;#FF2D2D&quot;&gt;关闭连接&lt;/font&gt; 
+
+&lt;p&gt;TCP是全双工的，&lt;code&gt;CLOSE&lt;/code&gt;操作却是单工的方式：&lt;code&gt;CLOSE&lt;/code&gt;之后不再发送数据，但仍然可以继续接收数据直到远程TCP关闭。即&lt;code&gt;CLOSE&lt;/code&gt;意味着：我没有要发送的数据了。&lt;/p&gt;
+&lt;p&gt;对于一方首先关闭连接的情况：&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;    TCP A                                                TCP B&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;1.  ESTABLISHED                                          ESTABLISHED&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2.  (Close)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    FIN-WAIT-1  --&amp;gt; &amp;lt;SEQ=100&amp;gt;&amp;lt;ACK=300&amp;gt;&amp;lt;CTL=FIN,ACK&amp;gt;  --&amp;gt; CLOSE-WAIT&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3.  FIN-WAIT-2  &amp;lt;-- &amp;lt;SEQ=300&amp;gt;&amp;lt;ACK=101&amp;gt;&amp;lt;CTL=ACK&amp;gt;      &amp;lt;-- CLOSE-WAIT&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4.                                                       (Close)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    TIME-WAIT   &amp;lt;-- &amp;lt;SEQ=300&amp;gt;&amp;lt;ACK=101&amp;gt;&amp;lt;CTL=FIN,ACK&amp;gt;  &amp;lt;-- LAST-ACK&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5.  TIME-WAIT   --&amp;gt; &amp;lt;SEQ=101&amp;gt;&amp;lt;ACK=301&amp;gt;&amp;lt;CTL=ACK&amp;gt;      --&amp;gt; CLOSED&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6.  (2 MSL)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    CLOSED&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;对于双方同时关闭连接的情况：&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;    TCP A                                                TCP B&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;1.  ESTABLISHED                                          ESTABLISHED&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2.  (Close)                                              (Close)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    FIN-WAIT-1  --&amp;gt; &amp;lt;SEQ=100&amp;gt;&amp;lt;ACK=300&amp;gt;&amp;lt;CTL=FIN,ACK&amp;gt;  ... FIN-WAIT-1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                &amp;lt;-- &amp;lt;SEQ=300&amp;gt;&amp;lt;ACK=100&amp;gt;&amp;lt;CTL=FIN,ACK&amp;gt;  &amp;lt;--&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                ... &amp;lt;SEQ=100&amp;gt;&amp;lt;ACK=300&amp;gt;&amp;lt;CTL=FIN,ACK&amp;gt;  --&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3.  CLOSING     --&amp;gt; &amp;lt;SEQ=101&amp;gt;&amp;lt;ACK=301&amp;gt;&amp;lt;CTL=ACK&amp;gt;      ... CLOSING&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                &amp;lt;-- &amp;lt;SEQ=301&amp;gt;&amp;lt;ACK=101&amp;gt;&amp;lt;CTL=ACK&amp;gt;      &amp;lt;--&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                ... &amp;lt;SEQ=101&amp;gt;&amp;lt;ACK=301&amp;gt;&amp;lt;CTL=ACK&amp;gt;      --&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4.  TIME-WAIT                                            TIME-WAIT&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    (2 MSL)                                              (2 MSL)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    CLOSED                                               CLOSED&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;MSL&lt;/strong&gt;: Maximum Segment Lifetime, the time a TCP segment can exist in the internetwork system.  Arbitrarily defined to be 2 minutes.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;参考：&lt;a href=&quot;http://tools.ietf.org/html/rfc793&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;RFC-793&lt;/a&gt;&lt;/p&gt;
+&lt;center&gt;&lt;br&gt;    &lt;p&gt;&lt;img src=&quot;http://7xrzzi.com1.z0.glb.clouddn.com/yunvooliyunvooli_meitu_1.jpg&quot; align=&quot;center&quot;&gt;&lt;/p&gt;&lt;br&gt;&lt;/center&gt;
+
+
+
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;TCP被作为一种运行在分组交换网络（以及它们的互联系统）上的高可靠的主机到主机协议。TCP是面向连接的、端到端的通用协议，却对下层协议的假设甚少（可以是多网络环境，只要求一个不可靠的报文服务），一般用于互联网上不同主机的进程间通信。&lt;br&gt;现行协议版本被IETF标准化为&lt;a
+    
+    </summary>
+    
+    
+      <category term="TCP，协议" scheme="http://yunvoo.com/tags/TCP%EF%BC%8C%E5%8D%8F%E8%AE%AE/"/>
+    
+  </entry>
+  
 </feed>
