@@ -318,119 +318,6 @@
             
               
                 
-                <a class="post-title-link" href="/blog/2015/07/22/memory-segment.html" itemprop="url">
-                  进程的地址空间：TEXT，DATA，BSS，HEAP，STACK
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-07-22T00:00:00+08:00" content="2015-07-22">
-              2015-07-22
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/blog/2015/07/22/memory-segment.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/07/22/memory-segment.html" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/blog/2015/07/22/memory-segment.html" class="leancloud_visitors" data-flag-title="进程的地址空间：TEXT，DATA，BSS，HEAP，STACK">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>现代操作系统对每个进程都分配了完整的虚拟内存地址空间。进程会把整个地址空间分成多个区间来使用。<br>程序员最为熟悉的两个区间莫过于<strong>堆</strong>和<strong>栈</strong>。然而还有其他的内存区间来存储代码、静态、全局变量等等。<br>本文来总结一下这些内存区间到底存的是哪些东西。先看图：</p>
-<div class="float: left; max-width: 350px;"><br><br><img src="/assets/img/blog/memory.png" alt="@2x"><br><br><small>图片来源：<br>  <a href="http://www.sw-at.com/blog/2011/03/23/where-does-code-execute-process-address-space-code-gvar-bss-heap-stack/">SWAT Blog</a><br></small><br><br></div>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/blog/2015/07/22/memory-segment.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
                 <a class="post-title-link" href="/blog/2015/07/22/effective-cpp-4.html" itemprop="url">
                   Item 4：确保变量的初始化
                 </a>
@@ -902,11 +789,291 @@ Item 1: View C++ as a federation of languages
 
 
     
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/blog/2015/07/18/vim-cpp.html" itemprop="url">
+                  在VIM下写C++能有多爽？
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-07-18T00:00:00+08:00" content="2015-07-18">
+              2015-07-18
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/blog/2015/07/18/vim-cpp.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/07/18/vim-cpp.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/blog/2015/07/18/vim-cpp.html" class="leancloud_visitors" data-flag-title="在VIM下写C++能有多爽？">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>我是坚定的Vim党，因为和命令行的集成如此之好，Vim可以解决任何问题。然而在这个世界上，即便是最好用的工具也是需要配置的。<br>由于最近在写C++，经过一番配置后，小编写C++已经感到非常爽了，于是决定用一篇文章来记录如何打造一个适合写C++的Vim编辑器！<br>包括C++的自动补全、括号引号匹配、格式化、注释、编译运行快捷键等。</p>
+<blockquote>
+<p>小编之前在<a href="!--￼6--">Vim初级：配置和使用</a>中介绍了Vim的基本配置与使用，<a href="!--￼7--">感受Vim的强大：进阶技巧</a>中介绍了更加方便的高级使用技巧。</p>
+</blockquote>
+<h1 id="基础设置"><a href="#基础设置" class="headerlink" title="基础设置"></a>基础设置</h1><p>稍微熟悉Vim的小伙伴都会知道这个文件<code>~/.vimrc</code>，如同绝大多数的Unix软件，Vim也是用基于文本的配置文件。<br>当前用户的Vim配置便存储在这个文件当中，该文件的每一行便是一个配置项（<code>function</code>除外）。</p>
+<p>配置文件中的所有语句都会在打开Vim时，在Ex模式下执行。例如，我们在Vim中打开行号：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:<span class="keyword">set</span> <span class="keyword">number</span></span><br></pre></td></tr></table></figure>
+<p>我们便可以在配置文件中加入：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">" ~/.vim</span></span><br><span class="line"><span class="keyword">set</span> <span class="keyword">number</span></span><br></pre></td></tr></table></figure>
+<p>同样重要的配置还有：</p>
+<ul>
+<li>打开语法高亮：<code>syntax on</code></li>
+<li>Tab大小：<code>set tabstop=4</code></li>
+<li>缩进大小：<code>set shiftwidth=4</code></li>
+</ul>
+<blockquote>
+<p>Vim是一个典型的Unix程序，上述命令都有缩写啦：number(nu), tabstop(ts), shiftwidth(sw), etc.</p>
+</blockquote>
+<p>更多关于基础配置项的信息，请参考我的另一篇博客： <a href="/2013/11/08/vim-config/">vim 的配置与使用</a></p>
+<h1 id="自动补全"><a href="#自动补全" class="headerlink" title="自动补全"></a>自动补全</h1><p>自动补全恐怕是代码编辑器最重要的特性了，我们暂且不提它毁了多少人的面试之路。</p>
+<p>由于Vim插件的风格、使用方式太过多样化，多语言的自动补全一直存在各种冲突，需要大量精力才能调通。<br>然而Github的出现给Vim插件带来了新的活力，现在我们通过基于Github的Vundle来安装插件，而不需要手动去vim.org上找插件了。</p>
+<p>废话少说，我推荐的插件叫做<a href="https://github.com/Valloric/YouCompleteMe">YouCompleteMe</a>，看图！</p>
+<p><img src="/assets/img/blog/youcompleteme.gif" alt="you complete me"></p>
+<p>YouCompleteMe功能很全：</p>
+<ul>
+<li>自动补全，在你写一个名称的过程中，会出现提示列表，同时给出每一项的函数签名（函数形参列表）。</li>
+<li>语法错误、警告的提示。比如变量未使用、函数未定义等等，很多编译warning都会直接提示出来，特别神奇。</li>
+</ul>
+<p>配置很容易，但需要先安装<a href="https://github.com/gmarik/vundle#about">Vundle</a>（如果你没有的话）。注意<code>vim +PluginInstall</code>后还需要去<code>~/.vim/bundle/YouCompleteMe</code>中<code>./install.sh</code>一下。</p>
+<blockquote>
+<p>如果你是MacOS用户，确保你的Vim升级到了7.4. 如何使用HomeBrew本文就不唠叨了。</p>
+</blockquote>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/blog/2015/07/18/vim-cpp.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/blog/2015/07/17/vim-advanced.html" itemprop="url">
+                  感受Vim的强大：进阶技巧
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-07-17T00:00:00+08:00" content="2015-07-17">
+              2015-07-17
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/blog/2015/07/17/vim-advanced.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/07/17/vim-advanced.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/blog/2015/07/17/vim-advanced.html" class="leancloud_visitors" data-flag-title="感受Vim的强大：进阶技巧">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>Vim是从vi发展出来的一个文本编辑器。代码补全、编译及错误跳转等方便编程的功能特别丰富，在程序员中被广泛使用。和Emacs并列成为类Unix系统用户最喜欢的编辑器。<br>如果你还没有使用过Vim，建议你先去看这个：<a href="!--￼4--">Vim初级：配置和使用</a>。本文介绍一些Vim的高级特性。包括块编辑、宏录制、语法高亮、键盘映射、函数定义、文件类型识别与对应插件加载等。</p>
+<blockquote>
+<p>英文文档：<a href="http://vimdoc.sourceforge.net/htmldoc/，中文文档：http://vimcdoc.sourceforge.net/doc/">http://vimdoc.sourceforge.net/htmldoc/，中文文档：http://vimcdoc.sourceforge.net/doc/</a></p>
+</blockquote>
+<h1 id="块编辑"><a href="#块编辑" class="headerlink" title="块编辑"></a>块编辑</h1><ul>
+<li><p><strong>可视</strong> 模式：<code>v</code> 可进入visual模式，使用标准快捷键移动光标可选择文本块，之后可输入标准编辑命令。</p>
+</li>
+<li><p><strong>列编辑</strong> 模式：<code>&lt;Ctrl&gt;v</code> 进入列编辑模式，移动光标将按列进行选中。例如：</p>
+<blockquote>
+<p>删除块注释：<code>&lt;Ctrl&gt;v</code> 进入列编辑模式，<code>ikjl</code> 选中注释列，<code>&lt;N&gt;x</code> 删除N个字符；</p>
+<p>添加块注释：<code>&lt;Ctrl&gt;v</code> 进入列编辑模式，<code>ikjl</code> 选中要注释的行，<code>I</code> 进入插入模式，输入几个注释字符，<code>&lt;Esc&gt;</code> 推出列编辑。</p>
+</blockquote>
+</li>
+</ul>
+<p>vim所有的模式（即工作状态）如下：</p>
+<ol>
+<li>(o) 普通模式: 输入命令时。</li>
+<li>(x) 可视模式: 可视区域高亮并输入命令时。</li>
+<li>(s) 选择模式: 类似于可视模式，但键入的字符对选择区进行替换。</li>
+<li>(o) 操作符等待模式: 操作符等待中 (“d”，”y”，”c” 等等之后)。</li>
+<li>(i) 插入模式: 也用于替换模式。</li>
+<li>(c) 命令行模式: 输入 “:” 或 “/“ 命令时。</li>
+</ol>
+<blockquote>
+<p><strong>行尾块</strong> ：因行尾参差不齐，块编辑一般用于行首、行间；行尾编辑要有一些技巧：<code>gg</code>到文件头，<code>&lt;Ctrl-v&gt;</code>进入块编辑模式，<code>G</code>选择所有内容；<code>$A</code>到行尾并进入插入模式，输入要插入的字符，<code>&lt;Esc&gt;</code>完成。</p>
+</blockquote>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/blog/2015/07/17/vim-advanced.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 

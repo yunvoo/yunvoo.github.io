@@ -318,498 +318,8 @@
             
               
                 
-                <a class="post-title-link" href="/blog/2015/06/12/css-line-wrap.html" itemprop="url">
-                  CSS Line Box：块级元素与行内元素
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-06-12T00:00:00+08:00" content="2015-06-12">
-              2015-06-12
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/blog/2015/06/12/css-line-wrap.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/06/12/css-line-wrap.html" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/blog/2015/06/12/css-line-wrap.html" class="leancloud_visitors" data-flag-title="CSS Line Box：块级元素与行内元素">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>CSS 将 DOM 树转换为由矩形 Box 构成的树，并通过设置这些 Box 的属性来改变其位置和大小，描述每个元素或文本的布局。这些 Box 分为三个级别：</p>
-<ul>
-<li><code>block-level</code> Box：<code>display</code>属性为<code>block</code>的Box，比如段落标签<code>&lt;p&gt;</code>；</li>
-<li><code>inline-level</code> Box：<code>display</code>属性为<code>inline-block</code>的Box，它们就像一行中的单词一样布局。它里面可以包含其他<code>inline-level</code>的Box，也可以包含<code>block-level</code>的Box；</li>
-<li>Line Box：一行单词就构成一个LineBox，这种Box是自动生成的，可以看做是<code>inline-level</code>Box的容器。</li>
-</ul>
-<p>溢出、折行、断词是Line Box中常见的问题，设置这些行为的CSS属性包括<code>white-space</code>、<code>line-spacing</code>、<code>text-overflow</code>、<code>word-wrap</code>、<code>word-break</code>等。<br>下面几小节中详细介绍这些属性的取值与对应的行为、以及常见的使用方法。</p>
-<p>更多信息请参考：<a href="http://www.w3.org/TR/css3-box/">W3C 标准：CSS3-Box</a></p>
-<h1 id="line-Box"><a href="#line-Box" class="headerlink" title="line Box"></a>line Box</h1><p>下面的小节中介绍的CSS属性只适用于LineBox，那么什么是LineBox呢？请看下面的HTML片段：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">li</span>&gt;</span>The first item in the list.</span><br><span class="line"> <span class="tag">&lt;<span class="name">li</span>&gt;</span>The second item.</span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p><code>ul</code>会生成一个<code>block-level</code>的 Box，然后为每个<code>li</code>元素生成一个<code>block-level</code>的 Box。<br>而每个<code>li</code>的 Box 中有一个Line Box，它包含了两个<code>inline-level</code>的 Box：<br>一个用来显示“ &middot; ”，一个用来显示文本。</p>
-<blockquote>
-<p>如果<code>li</code>产生了换行，将会变成多个<code>inline-level</code>Box，如果在<code>ul</code>中间产生了分页，那么<code>ul</code>会显示为两个<code>block-level</code>Box。</p>
-</blockquote>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/blog/2015/06/12/css-line-wrap.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/blog/2015/06/10/angular-route.html" itemprop="url">
-                  AngularJS 路由：ng-route 与 ui-router
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-06-10T00:00:00+08:00" content="2015-06-10">
-              2015-06-10
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/blog/2015/06/10/angular-route.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/06/10/angular-route.html" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/blog/2015/06/10/angular-route.html" class="leancloud_visitors" data-flag-title="AngularJS 路由：ng-route 与 ui-router">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><a href="https://docs.angularjs.org">AngularJS</a>的<a href="http://docs.angularjs.cn/api/ngRoute/service/$route">ng-route</a>模块为控制器和视图提供了[Deep-Linking]URL。<br>通俗来讲，<a href="http://docs.angularjs.cn/api/ngRoute/service/$route">ng-route</a>模块中的<code>$route</code>Service监测<code>$location.url()</code>的变化，并将它映射到预先定义的控制器。也就是在客户端进行URL的路由。<br>下面首先给出<code>$route</code>的使用示例，然后引入一个更加强大的客户端路由框架<a href="https://github.com/angular-ui/ui-router">ui-router</a>。</p>
-<h1 id="Angular-路由"><a href="#Angular-路由" class="headerlink" title="Angular 路由"></a>Angular 路由</h1><p>在APP中定义多个页面的控制器，并给出对应的模板。然后<code>$routeProvider</code>进行配置，即可将URL映射到这些控制器和视图。<br>首先定义一个基本的Angular APP，并引入<code>ngRoute</code>：</p>
-<blockquote>
-<p>Angular<code>$route</code>Service在<code>ngRoute</code>模块里。需要引入它对应的javascript文件，并在我们的APP里<code>ngRoute</code>添加为模块依赖（<a href="/web/angular-module.html">如何添加模块依赖？</a>）。</p>
-</blockquote>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> app = angular.module(<span class="string">'ngRouteExample'</span>, [<span class="string">'ngRoute'</span>])</span><br><span class="line">    .controller(<span class="string">'MainController'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">$scope</span>) </span>&#123;</span><br><span class="line">    &#125;)</span><br><span class="line">    .config(<span class="function"><span class="keyword">function</span>(<span class="params">$routeProvider, $locationProvider</span>) </span>&#123;</span><br><span class="line">      $routeProvider</span><br><span class="line">          .when(<span class="string">'/users'</span>, &#123;</span><br><span class="line">              templateUrl: <span class="string">'user-list.html'</span>,</span><br><span class="line">              controller: <span class="string">'UserListCtrl'</span></span><br><span class="line">          &#125;)</span><br><span class="line">          .when(<span class="string">'/users/:username'</span>, &#123;</span><br><span class="line">              templateUrl: <span class="string">'user.html'</span>,</span><br><span class="line">              controller: <span class="string">'UserCtrl'</span></span><br><span class="line">          &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// configure html5</span></span><br><span class="line">        $locationProvider.html5Mode(<span class="literal">true</span>);</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
-<p>上述代码中，<code>$routeProvider</code>定义了两个URL的映射：<code>/users</code>使用<code>user-list.html</code>作为模板，<code>UserListCtrl</code>作为控制器；<br><code>/users/:username</code>则会匹配类似<code>/users/alice</code>之类的URL，稍后你会看到如何获得<code>:username</code>匹配到的值。先看首页的模板：</p>
-<blockquote>
-<p><strong>HTML5Mode</strong>： 服务器端路由和客户端路由的URL以<code>#</code>分隔。例如<code>/foo/bar#/users/alice</code>，Angular通过操作锚点来进行路由。<br>然而<code>html5Mode(true)</code>将会去除<code>#</code>，URL变成<code>/foo/bar/users/alice</code>（这需要浏览器支持HTML5的，因为此时Angular通过<code>pushState</code>来进行路由）。<br>此时服务器对所有的客户端路由的URL都需要返回首页（<code>/foo/bar</code>）视图，再交给Angular路由到<code>/foo/bar/users/alice</code>对应的视图。</p>
-</blockquote>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-controller</span>=<span class="string">"MainController"</span>&gt;</span></span><br><span class="line">  Choose:</span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"users"</span>&gt;</span>user list<span class="tag">&lt;/<span class="name">a</span>&gt;</span> |</span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"users/alice"</span>&gt;</span>user: alice<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-view</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>注意到模板文件中有一个<code>div[ng-view]</code>，子页面将会载入到这里。</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/blog/2015/06/10/angular-route.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/blog/2015/06/07/angular-module.html" itemprop="url">
-                  AngularJS 模块化与依赖注入
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-06-07T00:00:00+08:00" content="2015-06-07">
-              2015-06-07
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/blog/2015/06/07/angular-module.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/06/07/angular-module.html" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/blog/2015/06/07/angular-module.html" class="leancloud_visitors" data-flag-title="AngularJS 模块化与依赖注入">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><a href="https://docs.angularjs.org">AngularJS</a>使用模块化的组织方式，和依赖注入的设计。这使得模块之间耦合度较低，模块更容易复用。同时支持声明式的编程风格。<br>在你创建Angular Module 或者 Service 之前，首先需要了解一下 Angular Module 和 Service 的工作方式。</p>
-<h1 id="模块概念"><a href="#模块概念" class="headerlink" title="模块概念"></a>模块概念</h1><p>在Angular中，一个Module通常对应一个js文件，其中可以包括Controller、Service、Filter、Directive等。<br>下面我们声明一个模块：<code>helloApp</code>，并在其中声明一个Controller：<code>worldCtrl</code>，一个Directive：<code>customer</code>，和一个Filter：<code>count</code>。</p>
-<p><img src="/assets/img/blog/angular/module-js@2x.png" alt=""></p>
-<p>接着在模板中，使用上面声明的<code>helloApp</code>模块作为Angular APP：</p>
-<p><img src="/assets/img/blog/angular/module-html@2x.png" alt=""></p>
-<ul>
-<li>Module依赖：在声明<code>helloApp</code>模块时，需要给出依赖模块的列表。同时这些模块对应的JS需要在HTML中加以引入。在<code>helloApp</code>中可以直接使用依赖模块中声明的Service、Directive、Filter。</li>
-<li>Service依赖：在声明Controller、Service、Directive、Filter的工厂方法中，把依赖的Service直接放到参数列表，Angular Injector会为你生成这些Service的实例。</li>
-</ul>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/blog/2015/06/07/angular-module.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/blog/2015/06/06/angular-data-binding-and-digest.html" itemprop="url">
-                  AngularJS 数据绑定与 $digest 循环
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-06-06T00:00:00+08:00" content="2015-06-06">
-              2015-06-06
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/blog/2015/06/06/angular-data-binding-and-digest.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/06/06/angular-data-binding-and-digest.html" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/blog/2015/06/06/angular-data-binding-and-digest.html" class="leancloud_visitors" data-flag-title="AngularJS 数据绑定与 $digest 循环">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>数据绑定可以说是<a href="https://docs.angularjs.org">AngularJS</a>最大的特色。在Angular中，视图和模型的数据不仅是双向绑定的，并而且是实时的。<br>使用Angular可以做到良好的甚至是神奇的用户体验，例如用户在输入表单的过程中实时地提示输入有误或者输入正确。</p>
-<h1 id="双向绑定"><a href="#双向绑定" class="headerlink" title="双向绑定"></a>双向绑定</h1><p>下图是模板引擎中常见的单向数据绑定：</p>
-<p><img src="/assets/img/blog/angular/One_Way_Data_Binding.png" alt=""></p>
-<p>通常在服务器端，将数据模型和模板结合，生成视图。当视图中的数据发生改变时，数据模型不会自动更新；模型发生改变时，视图也不会自动刷新。<br>因此开发者不得不写大量的代码来同步视图和模型。例如：</p>
-<ul>
-<li>视图-&gt;模型：绑定DOM事件来监听视图的改变，进而通过javascript函数来同步数据模型，更改javascript对象，或者发送HTTP请求到后台。</li>
-<li>模型-&gt;视图：模型改变时通过jQuery操作来更新DOM。如果数据模型在后台，可能还需要websocket之类的推送机制。</li>
-</ul>
-<p>而Angular提供了双向的数据绑定，我们可以在Angular Controller的<code>$scope</code>中声明数据模型，在模板中进行绑定。<br>Angular会自动添加DOM事件，并在<code>$scope</code>发生改变时自动进行DOM操作。下面是Angular双向绑定的MVT关系示意图：</p>
-<p><img src="/assets/img/blog/angular/Two_Way_Data_Binding.png" alt=""></p>
-<p>图片来源： <a href="https://docs.angularjs.org/guide/databinding">https://docs.angularjs.org/guide/databinding</a></p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/blog/2015/06/06/angular-data-binding-and-digest.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/blog/2015/06/05/angular-resource.html" itemprop="url">
-                  AngularJS Resource：与 RESTful API 交互
+                <a class="post-title-link" href="/blog/2015/06/05/angular-http.html" itemprop="url">
+                  AngularJS $http Service
                 </a>
               
             
@@ -833,8 +343,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/blog/2015/06/05/angular-resource.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/06/05/angular-resource.html" itemprop="commentsCount"></span>
+                <a href="/blog/2015/06/05/angular-http.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/06/05/angular-http.html" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -844,7 +354,7 @@
 
           
           
-             <span id="/blog/2015/06/05/angular-resource.html" class="leancloud_visitors" data-flag-title="AngularJS Resource：与 RESTful API 交互">
+             <span id="/blog/2015/06/05/angular-http.html" class="leancloud_visitors" data-flag-title="AngularJS $http Service">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -867,23 +377,655 @@
 
       
         
-          <p><a href="http://zh.wikipedia.org/zh-cn/REST">REST</a>（表征性状态传输，Representational State Transfer）是Roy Fielding博士在2000年他的博士论文中提出来的一种软件架构风格。RESTful风格的设计不仅具有更好的可读性（Human Readable），而且易于做缓存以及服务器扩展（scalability）。REST风格体现在URL设计上：</p>
-<ul>
-<li>每个URL对应一个资源</li>
-<li>对资源的不同操作对应于HTTP的不同方法</li>
-<li>资源表现形式（representation）通过<code>Accept</code>和<code>Content-Type</code>指定</li>
-</ul>
-<p><a href="https://docs.angularjs.org">AngularJS</a>提供了<code>$resource</code>Service来更方便地与RESTful服务器API进行交互，可以方便地定义一个REST资源，而不必手动所有的声明CRUD方法。</p>
-<p>参考文档： <a href="https://docs.angularjs.org/api/ngResource/service/$resource">https://docs.angularjs.org/api/ngResource/service/$resource</a></p>
-<h1 id="Resource-Factory"><a href="#Resource-Factory" class="headerlink" title="Resource Factory"></a>Resource Factory</h1><p><code>$resource</code>Service定义在<code>ngResource</code>Module中，需要在你的HTML中引入这个Module对应的JS，同时在你的APP中添加这样一个依赖：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> app = angular.module(<span class="string">'helloApp, ['</span>ngResource<span class="string">']);</span></span><br></pre></td></tr></table></figure>
-<p>然后为资源建立一个Factory：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">app.factory(<span class="string">'Notes'</span>, [<span class="string">'$resource'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">$resource</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> $resource(<span class="string">'/notes/:id'</span>);</span><br><span class="line">&#125;]);</span><br></pre></td></tr></table></figure>
+          <p><code>$http</code>是<a href="https://docs.angularjs.org">AngularJS</a>提供的一个核心Service，通过浏览器的<code>XMLHttpRequest</code>或JSONP与服务器进行交互。<br>这是一个非常常用的Service，类似于jQuery提供的AJAX。与jQuery类似，<code>$http</code>也采用了deferred/promise模式，不同的是Angular的deferred/promise模式是由Angular的<code>$q</code>Service来提供的。</p>
 <blockquote>
-<p>当然，你也可以不把<code>$esource</code>的实例放到Factory里，直接在控制器中存起来：<code>var Notes = $resource(&#39;/notes/:id)</code>。</p>
+<p>在Angular应用中尽量使用<code>$http</code>而不是jQuery函数来进行AJAX请求，因为<code>$http</code>会在响应到达时触发Angular更新视图（<code>$digest</code>循环）。<br>与此同时，<code>$http</code>还可以通过<code>$httpBackend</code>来Mock和单元测试。</p>
+</blockquote>
+<p><code>$http</code>文档参见： <a href="https://docs.angularjs.org/api/ng/service/$http">https://docs.angularjs.org/api/ng/service/$http</a></p>
+<h1 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h1><p>如果你熟悉了jQuery的AJAX操作，那么使用<code>$http</code>只是重新记住几个方法名而已。把<code>done</code>, <code>fail</code>, <code>always</code>换成<code>success</code>, <code>error</code>, <code>finally</code>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$http.get(<span class="string">'/someUrl'</span>)</span><br><span class="line">    .success(<span class="function"><span class="keyword">function</span>(<span class="params">data, status, headers, config</span>)</span>&#123;</span><br><span class="line">    <span class="comment">// GET成功时被回调</span></span><br><span class="line">    &#125;)</span><br><span class="line">    .error(<span class="function"><span class="keyword">function</span>(<span class="params">data, status, headers, config</span>)</span>&#123;</span><br><span class="line">    <span class="comment">// GET失败时被回调</span></span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+<p><code>$http</code>方法返回的是一个由<code>$q</code>Service提供的Promise对象，事实上Promise对象有三个通用方法：<code>then</code>, <code>catch</code>, <code>finally</code>。<br>上述的<code>success</code>和<code>error</code>是<code>$http</code>提供的两个额外的方法。Promise的三个方法参数如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">then(successCallback, errorCallback, notifyCallback);</span><br><span class="line"><span class="keyword">catch</span>(errorCallback);</span><br><span class="line"><span class="keyword">finally</span>(callback, notifyCallback);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Promise方法是可以链式调用的。</p>
+</blockquote>
+<h1 id="配置-httpProvider"><a href="#配置-httpProvider" class="headerlink" title="配置$httpProvider"></a>配置<code>$httpProvider</code></h1><p><code>$http</code> Service定义在<code>ng</code> Module里，由<code>$httpProvider</code>提供。于是我们可以通过设置<code>$httpProvider</code>来配置<code>$http</code>的行为。比如，给HTTP请求插入一个拦截器：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">someModule.config([<span class="string">'$httpProvider'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">$httpProvider</span>)</span>&#123;</span><br><span class="line">    $httpProvider.interceptors.push(<span class="function"><span class="keyword">function</span>(<span class="params">$q, dependency1, dependency2</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            request: <span class="function"><span class="keyword">function</span>(<span class="params">config</span>)</span>&#123;</span><br><span class="line">                <span class="comment">// 这里可以调整HTTP请求的配置</span></span><br><span class="line">                <span class="keyword">return</span> config;</span><br><span class="line">            &#125;,</span><br><span class="line">            response: <span class="function"><span class="keyword">function</span>(<span class="params">response</span>)</span>&#123;</span><br><span class="line">                <span class="comment">// 这里能拿到响应对象，当然也可以更改它</span></span><br><span class="line">                <span class="keyword">return</span> response;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;]);</span><br></pre></td></tr></table></figure>
+<p>还可以通过设置<code>$httpProvider</code>的<code>defaults</code>属性来进行请求/响应的转换（<code>transformRequest</code>, <code>transformResponse</code>）、设置请求的HTTP头字段（<code>headers</code>）。</p>
+<p>更多信息，请参考<code>$httpProvider</code>文档： <a href="https://docs.angularjs.org/api/ng/provider/$httpProvider">https://docs.angularjs.org/api/ng/provider/$httpProvider</a></p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/blog/2015/06/05/angular-http.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/blog/2015/06/04/angular-form.html" itemprop="url">
+                  AngularJS 表单（ng-form）验证
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-06-04T00:00:00+08:00" content="2015-06-04">
+              2015-06-04
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/blog/2015/06/04/angular-form.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/06/04/angular-form.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/blog/2015/06/04/angular-form.html" class="leancloud_visitors" data-flag-title="AngularJS 表单（ng-form）验证">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>在HTML中，用户通过<code>input</code>, <code>select</code>, <code>textarea</code>等元素进行输入，我们通常用表单来包装和管理这些控件。客户端表单验证非常重要，可以及时地为用户提供表单验证信息。但客户端表单验证只是为了增强用户体验，服务器端验证仍然是必要的。</p>
+<p><a href="https://docs.angularjs.org">AngularJS</a>最大的特点便是数据绑定。利用Angular在客户端脚本中构建MVC框架，Model和View之间可以实现双向绑定。因此<strong>AngularJS的表单验证可以做到实时的用户反馈</strong>。</p>
+<blockquote>
+<p>事实上，正是因为<strong>实时的用户反馈</strong>这个神奇的特性，我们团队在 <a href="http://tianmaying.com">http://tianmaying.com</a> 中也继续引入了AngularJS，尽管此时我们对单页应用已经不感兴趣。</p>
+</blockquote>
+<h1 id="一个简单的表单"><a href="#一个简单的表单" class="headerlink" title="一个简单的表单"></a>一个简单的表单</h1><p>Angular是模块化的，每个APP都是一个Angular Module。我们知道Module下可以包含这样四种内容：</p>
+<ul>
+<li>控制器（controllers），用来完成页面逻辑，不包含DOM操作、资源获取。</li>
+<li>服务（services），用来提供资源访问和获取，控制资源的访问，维护数据一致性。</li>
+<li>过滤器（filters），用来格式化数据显示，很多第三方插件以提供<code>filter</code>为主，例如<code>angular-moment</code>。</li>
+<li>语义标签（directives），增强的HTML标签，DOM操作都应当抽象为<code>directive</code>。</li>
+</ul>
+<p>Angular表单其实是Angular提供的Directive，它有一个别名叫<code>ng-form</code>。是这个Directive实例化了一个<code>FormController</code>来负责表单内的页面逻辑（主要是表单验证）。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-app</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">ng-form</span> <span class="attr">name</span>=<span class="string">someForm</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">ng-model</span>=<span class="string">"user.username"</span> <span class="attr">pattern</span>=<span class="string">"^\w&#123;6,18&#125;$"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"alert alert-danger"</span> <span class="attr">ng-show</span>=<span class="string">"someForm.username.$error.pattern"</span>&gt;</span></span><br><span class="line">      用户名必须为6-18个字母、数字或下划线</span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">ng-form</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><code>ng-model</code>可以把<code>input</code>的值双向地绑定到当前上下文的<code>user.username</code>变量。我们设置了用户名的<code>pattern</code>为6到18位。我们输入用户名时，<code>.alert</code>错误提示便会实时地显示或者隐藏。</p>
+<blockquote>
+<p>这里我们指定了<code>form</code>的<code>name</code>属性，<code>form</code> Directive 实例化的<code>FormController</code>就会以<code>someForm</code>命名，并插入到当前<code>$scope</code>。所以在模板中才能够访问<code>userForm</code>变量。另外，Angular的Pattern使用Javascript正则表达式语法，这里<code>\w</code>相当于<code>[a-zA-Z_]</code>。</p>
 </blockquote>
           <div class="post-more-link text-center">
-            <a class="btn" href="/blog/2015/06/05/angular-resource.html#more" rel="contents">
+            <a class="btn" href="/blog/2015/06/04/angular-form.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/blog/2015/05/31/angular-scope-initialize.html" itemprop="url">
+                  AngularJS 初始化过程
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-05-31T00:00:00+08:00" content="2015-05-31">
+              2015-05-31
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/blog/2015/05/31/angular-scope-initialize.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/05/31/angular-scope-initialize.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/blog/2015/05/31/angular-scope-initialize.html" class="leancloud_visitors" data-flag-title="AngularJS 初始化过程">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p><a href="https://docs.angularjs.org">AngularJS</a>属于典型的单页APP框架，现由Google维护，用在了Google的多款产品中。<br>如果你的项目引入了AngularJS，同时还有不少的jQuery代码，你可能会碰到两者初始化顺序的问题。<br>本文就来探讨AngularJS APP以及Controller的初始化过程和时机。</p>
+<h1 id="Angular-APP"><a href="#Angular-APP" class="headerlink" title="Angular APP"></a>Angular APP</h1><p>一个Angular APP其实就是一个Angular Module，通常可以包含若干Controller、Service以及Directive。甚至不自己定义APP也可以启动一个Angular应用，例如：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-app</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">ng-form</span>&gt;</span>...<span class="tag">&lt;/<span class="name">ng-form</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在你引入AngularJS之后，<code>div[ng-app]</code>便会在页面载入时启动，其子元素范围内构成一个<code>$scope</code>，可以使用angular标签（又称语义标签，其实就是<code>directive</code>）。通常我们会显示地定义一个Angular APP：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> app = angular.module(<span class="string">'helloApp'</span>, []); <span class="comment">// 第二个参数定义了Module依赖</span></span><br><span class="line"><span class="comment">// 添加controller</span></span><br><span class="line">app.controller(<span class="string">'worldCtrl'</span>, [<span class="string">'$scope'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">$scope</span>)</span>&#123;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">&#125;]);</span><br></pre></td></tr></table></figure>
+<p>然后在页面中引用它：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-app</span>=<span class="string">"helloApp"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">ng-form</span> <span class="attr">ng-controller</span>=<span class="string">'worldCtrl'</span>&gt;</span>...<span class="tag">&lt;/<span class="name">ng-form</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在<code>div[ng-app]</code>的子元素中可以使用该<code>app</code>下的所有控制器，<strong>控制器可以嵌套，子控制器的<code>$scope</code>直接共享父控制器的<code>$scope</code>中的变量</strong>。</p>
+<h1 id="Angular-APP-的启动"><a href="#Angular-APP-的启动" class="headerlink" title="Angular APP 的启动"></a>Angular APP 的启动</h1><p><strong>同一个页面中可以包含多于一个的APP，但不能嵌套</strong>。同一页面中有多于一个APP时AngularJS不会自动帮你启动APP了，你需要手动启动这些APP。例如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> element = $(<span class="string">'#some-div'</span>)[<span class="number">0</span>];</span><br><span class="line">angular.bootstrap(element, [<span class="string">'helloApp'</span>]);</span><br></pre></td></tr></table></figure>
+<p>AngularJS通过依赖注入的方式来实现模块化与封装。在启动APP之前，往往需要注入一些APP所在环境的信息：</p>
+<blockquote>
+<p>这是常见的需求。因为在AngularJS中，尽量不要去操作DOM（除非你在写<code>directive</code>），否则可测试性会严重下降。参见 <a href="http://docs.angularjs.cn/guide/controller">http://docs.angularjs.cn/guide/controller</a></p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> app = angular.module(<span class="string">'helloApp'</span>); <span class="comment">// 获得之前声明的那个叫helloApp的模块</span></span><br><span class="line">app.constant(<span class="string">'sessionInfo'</span>, &#123;</span><br><span class="line">    <span class="string">'currentUser'</span>: $(<span class="string">'input#current-user'</span>).val(),</span><br><span class="line">    <span class="string">'uploadDir'</span>:   $(<span class="string">'input#upload-dir'</span>).val()</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/blog/2015/05/31/angular-scope-initialize.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/blog/2015/05/03/mysql-note.html" itemprop="url">
+                  MySQL 学习笔记
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-05-03T00:00:00+08:00" content="2015-05-03">
+              2015-05-03
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/blog/2015/05/03/mysql-note.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/05/03/mysql-note.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/blog/2015/05/03/mysql-note.html" class="leancloud_visitors" data-flag-title="MySQL 学习笔记">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>在使用Django时学习过一些MySQL，暂作小记在此。小编的Django笔记在这里：<br><a href="/2015/05/15/django-startup.html">Django 搭建过程记录</a></p>
+<p>MySQL官方文档在这里：</p>
+<p><a href="http://dev.mysql.com/doc/refman/5.1/zh/sql-syntax.html">http://dev.mysql.com/doc/refman/5.1/zh/sql-syntax.html</a></p>
+<h1 id="database"><a href="#database" class="headerlink" title="database"></a>database</h1><p>查看所有</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">databases</span>;</span><br></pre></td></tr></table></figure>
+<p>进入</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> db_name;</span><br></pre></td></tr></table></figure>
+<p>删除</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">drop</span> <span class="keyword">database</span> db_name;</span><br></pre></td></tr></table></figure>
+<h1 id="table"><a href="#table" class="headerlink" title="table"></a>table</h1><p>查看所有</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">tables</span>;</span><br></pre></td></tr></table></figure>
+<p>查看结构</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">desc tb_name</span><br></pre></td></tr></table></figure>
+<p>修改表名</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> tb_name <span class="keyword">rename</span> <span class="keyword">to</span> bbb;</span><br></pre></td></tr></table></figure>
+<p>添加字段</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">alter table tb_name add column col_name varchar(30);</span><br><span class="line"># 添加主键</span><br><span class="line">alter table tb_name add col_name int(5) unsigned default 0 not null auto_increment ,add primary key (tb_name);</span><br></pre></td></tr></table></figure>
+<p>删除字段</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> tb_name <span class="keyword">drop</span> <span class="keyword">column</span> col_name;</span><br></pre></td></tr></table></figure>
+<p>修改字段名</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> tb_name <span class="keyword">change</span> col_name new_col_name <span class="built_in">int</span>;</span><br></pre></td></tr></table></figure>
+<p>修改字段属性</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> tb_name <span class="keyword">modify</span> col_name <span class="built_in">varchar</span>(<span class="number">22</span>);</span><br></pre></td></tr></table></figure>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/blog/2015/05/03/mysql-note.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/blog/2015/05/02/linux-windows-time.html" itemprop="url">
+                  Linux/Windows 时间不一致问题
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-05-02T00:00:00+08:00" content="2015-05-02">
+              2015-05-02
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/blog/2015/05/02/linux-windows-time.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/05/02/linux-windows-time.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/blog/2015/05/02/linux-windows-time.html" class="leancloud_visitors" data-flag-title="Linux/Windows 时间不一致问题">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>在使用Linux/Windows的双系统时，经常发现时间不正确：liunx下的时间或windows下的时间不对，往往相差8小时。在此给出解释和推荐解决方案。</p>
+<h2 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h2><ul>
+<li>CST：(China Standard Time,UTC+8:00) 中国沿海时间(北京时间)</li>
+<li>UTC：(Universal Time Coordinated,UTC) 世界协调时间</li>
+<li>GMT：(Greenwich Mean Time ,GMT）格林威治时间</li>
+<li>LT：(locale time）本地时间</li>
+</ul>
+<p>GPS 系统中有两种时间区分，一为UTC，另一为LT（地方时）两者的区别为时区不同，UTC就是0时区的时间，地方时为本地时间，如北京为早上八点（东八区），UTC时间就为零点，UTC时间比北京时晚八小时，以此计算即可。</p>
+<blockquote>
+<p>我们可以认为格林威治时间就是时间协调时间（GMT=UTC）</p>
+</blockquote>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/blog/2015/05/02/linux-windows-time.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/blog/2015/04/23/lamp-startup.html" itemprop="url">
+                  LAMP 搭建
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-04-23T00:00:00+08:00" content="2015-04-23">
+              2015-04-23
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/blog/2015/04/23/lamp-startup.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/04/23/lamp-startup.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/blog/2015/04/23/lamp-startup.html" class="leancloud_visitors" data-flag-title="LAMP 搭建">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          听说PHP是世界上最好的编程语言，小编也试了一把。暂作记录在此。万一小编以后转向PHP了呢？
+下载安装phpmysqlapache
+配置apache设置apache的配置文件httpd.conf，更改后要restart httpd
+
+web目录：更改 DocumentRoot
+  1Document
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/blog/2015/04/23/lamp-startup.html#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -917,7 +1059,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span>
   </nav>
 
 

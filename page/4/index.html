@@ -318,461 +318,6 @@
             
               
                 
-                <a class="post-title-link" href="/blog/2015/07/03/stl-function-objects-and-pointers.html" itemprop="url">
-                  C++手稿：STL中的函数对象与函数指针
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-07-03T00:00:00+08:00" content="2015-07-03">
-              2015-07-03
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/blog/2015/07/03/stl-function-objects-and-pointers.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/07/03/stl-function-objects-and-pointers.html" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/blog/2015/07/03/stl-function-objects-and-pointers.html" class="leancloud_visitors" data-flag-title="C++手稿：STL中的函数对象与函数指针">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>STL是C++的标准模板库（standard template library），自然其中定义的都是模板。<br>相比于类和函数声明的<strong>显式接口（explicit interface）</strong>，类模板和函数模板声明的接口属于<strong>隐式接口（implicit interface）</strong>。<br>因为模板参数应当满足的接口是由模板中表达式的合法性决定的，这一点给了模板很大的自由。<br>而<em>函数对象</em>和<em>函数指针</em>具有同样的调用语法，因此STL中这两者常常可以互换。</p>
-<blockquote>
-<p>更多关于隐式接口和显式接口的概念和区别，参见<a href="/2015/09/08/effective-cpp-41.html">Effective C++: Item 41</a>。</p>
-</blockquote>
-<p>先来感受一下C++中的函数对象和函数指针：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">printer</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b, T func)</span></span>&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;func(a, b)&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在STL中定义了很多像上面这样的模板，这里的T是一个可调用（实现了括号运算符）的东西。<br>这使得我们在使用模板时可以指定一个计算策略，它可以是函数对象，也可以是函数指针。</p>
-<blockquote>
-<p><code>Less&lt;int&gt;</code>便是一个常见的函数对象，常用来配置容器或算法。<code>&lt;functional&gt;</code>中定义了很多这样的函数对象。</p>
-</blockquote>
-<h1 id="函数指针"><a href="#函数指针" class="headerlink" title="函数指针"></a>函数指针</h1><p>函数指针通常用来将函数传参或存储。例如：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sum</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a+b;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    printer(<span class="number">2</span>, <span class="number">3</span>, sum);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>上述的<code>printer</code>调用方式，编译器会生成对应的函数实例：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">void printer(int a, int b, int (*func)(int, int))&#123;</span><br><span class="line">    cout&lt;&lt;func(a, b)&lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这里<code>T</code>的类型是<code>int (*)(int, int)</code>。</p>
-<blockquote>
-<p>如果你是python或者javascript程序员的话，上述过程没有什么特别的。<br>唯一要注意的是<code>func</code>的声明方式，星号要和标识符括起来：<code>(*func)</code>。</p>
-</blockquote>
-<h1 id="函数对象"><a href="#函数对象" class="headerlink" title="函数对象"></a>函数对象</h1><p>函数对象是重载了括号运算符的类的实例，它也可以这样调用：<code>func(a, b)</code>。例如：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Sum&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> a+b;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    printer(<span class="number">2</span>, <span class="number">3</span>, Sum());</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>编译器会生成这样的函数实例：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">printer</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b, Sum s)</span></span>&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;s(a, b)&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>函数对象可以实现更加复杂的有状态的运算，因为对象可以有更多的属性和方法。</p>
-</blockquote>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/blog/2015/07/03/stl-function-objects-and-pointers.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/blog/2015/07/01/introduction-to-stl.html" itemprop="url">
-                  C++手稿：STL小记
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-07-01T00:00:00+08:00" content="2015-07-01">
-              2015-07-01
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/blog/2015/07/01/introduction-to-stl.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/07/01/introduction-to-stl.html" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/blog/2015/07/01/introduction-to-stl.html" class="leancloud_visitors" data-flag-title="C++手稿：STL小记">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>STL (Standard Template Library) 提供了一些常用的数据结构和算法的模板，1998年加入C++标准。<br>STL中有三个重要的概念：</p>
-<ol>
-<li>容器：容纳各种数据类型的数据结构，是一系列的类模板。</li>
-<li>迭代器：迭代器用来迭代地访问容器中的元素。</li>
-<li>算法：用来操作容器中的元素，是一系列的函数模板。</li>
-</ol>
-<h1 id="STL-容器"><a href="#STL-容器" class="headerlink" title="STL 容器"></a>STL 容器</h1><p>STL中的容器定义在<code>std</code>命名空间下，需要引入头文件<br><code>&lt;vector&gt;</code>, <code>&lt;set&gt;</code>, <code>&lt;map&gt;</code>, <code>&lt;deque&gt;</code>, <code>&lt;list&gt;</code>, <code>&lt;stack&gt;</code><br>等。容器可以分为三大类：</p>
-<ol>
-<li>顺序容器<ul>
-<li><a href="http://www.cplusplus.com/reference/vector/vector">vector</a>：尾端插入元素有较高性能，动态数组实现；</li>
-<li><a href="http://www.cplusplus.com/reference/deque/deque/">deque</a>：收尾插入元素都有较高性能，动态数组实现；</li>
-<li><a href="http://www.cplusplus.com/reference/list/list/">list</a>：可以常数时间在任何地方插入元素，链表实现；</li>
-</ul>
-</li>
-<li>关联容器<ul>
-<li><a href="http://www.cplusplus.com/reference/set/set">set</a>：不同元素的集合，平衡二叉树实现，检索时间是 $O(log(N))$；</li>
-<li><a href="http://www.cplusplus.com/reference/set/multiset">multiset</a>：同上，但可以包含相同元数据；</li>
-<li><a href="http://www.cplusplus.com/reference/map/map">map</a>：同<code>set</code>，但存放的是键值对；</li>
-<li><a href="http://www.cplusplus.com/reference/map/multimap/">multimap</a>：同上，键可以重复；</li>
-</ul>
-</li>
-<li>容器适配器：<a href="http://www.cplusplus.com/reference/stack/stack">stack</a>，<a href="http://www.cplusplus.com/reference/queue/queue">queue</a>，<a href="http://www.cplusplus.com/reference/queue/priority_queue/">priority_queue</a>。</li>
-</ol>
-<p>这些容器有一些通用的方法：<code>empty</code>，<code>size</code>，<code>swap</code>，<code>max_size</code>。前两类容器支持迭代器，称为第一类容器。<br>顺序容器还有以下通用方法：<code>front</code>, <code>back</code>, <code>pop_back</code>, <code>push_back</code>。</p>
-<blockquote>
-<p>容器之间的比较取决于第一个不等的元素；如果长度相同且所有元素相等，两个容器相等；如果一个是另一个的子序列，则较短的容器小于较长的容器。</p>
-</blockquote>
-<p>存储键值对关联容器<code>map</code>和<code>multimap</code>的迭代器是一个<code>pair&lt;T1, T2&gt;</code>的指针。<br>插入时，可以使用<code>[]</code>运算符，也可以使用<code>insert</code>方法，它接受一个<code>pair&lt;T1, T2&gt;</code>对象：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">std</span>::<span class="built_in">map</span>&lt;<span class="keyword">char</span>,<span class="keyword">int</span>&gt; mymap;</span><br><span class="line">mymap.insert (mymap.begin(), <span class="built_in">std</span>::pair&lt;<span class="keyword">char</span>,<span class="keyword">int</span>&gt;(<span class="string">'c'</span>,<span class="number">400</span>));</span><br><span class="line">mymap.insert (mymap.begin(), <span class="built_in">std</span>::make_pair(<span class="string">'c'</span>,<span class="number">400</span>));</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><code>pair</code>模板类在<code>&lt;utility&gt;</code>中定义，在<code>&lt;map&gt;</code>中已经引入了。</p>
-</blockquote>
-<p>容器适配器是逻辑数据结构，需要用一种顺序容器来实现。例如，<code>stack</code>默认使用<code>deque</code>来实现，我们也可以指定它的实现方式。</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">stack</span>&lt;<span class="built_in">string</span>&gt; strstk;         <span class="comment">// string 型栈，deque实现</span></span><br><span class="line"><span class="built_in">stack</span>&lt;<span class="keyword">int</span>, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; stk;  <span class="comment">// int 型栈，vector实现</span></span><br></pre></td></tr></table></figure>
-<h1 id="STL-迭代器"><a href="#STL-迭代器" class="headerlink" title="STL 迭代器"></a>STL 迭代器</h1><p>只有第一类容器支持迭代器（容器适配器不支持迭代器）。来个例子：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; v;</span><br><span class="line"><span class="keyword">for</span>(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;::reverse_iterator r = v.rbegin(); r &lt; v.rend(); r++)&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;*r;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>取决于不同的存储方式，不同容器支持的迭代器是不同的。这些迭代器按功能的强弱分为5类：</p>
-<ol>
-<li>Input Iterator：提供只读访问</li>
-<li>Output Iterator：提供只写访问</li>
-<li>Forward Iterator：支持逐个向后迭代访问</li>
-<li>Bidirectional Iterator：能够双向地逐个迭代访问</li>
-<li>Random Access Iterator：可随机访问每个元素</li>
-</ol>
-<p>例如，双向迭代器不支持<code>&lt;</code>，<code>&gt;</code>，<code>[]</code>运算符，只能判等：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">list</span>&lt;<span class="keyword">int</span>&gt; l;</span><br><span class="line"><span class="keyword">for</span>(<span class="built_in">list</span>&lt;<span class="keyword">int</span>&gt;::const_iterator i = l.begin(); i != l.end(); ++i)&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;*i;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p><code>vector</code>和<code>deque</code>支持Random Access Iterator，<code>list</code>、<code>set/multiset</code>、<code>map/multimap</code>支持Bidirectional Iterator。</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/blog/2015/07/01/introduction-to-stl.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/blog/2015/06/30/std-string.html" itemprop="url">
-                  C++手稿：std::string
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-06-30T00:00:00+08:00" content="2015-06-30">
-              2015-06-30
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/reading/" itemprop="url" rel="index">
-                    <span itemprop="name">reading</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/blog/2015/06/30/std-string.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/06/30/std-string.html" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/blog/2015/06/30/std-string.html" class="leancloud_visitors" data-flag-title="C++手稿：std::string">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>字符串在很多编程语言中已经成为基本数据类型，C语言中我们使用<code>char*</code>来手动维护字符串的内存，<br>在C++中，可以使用<code>std::string</code>来方便地创建和操作字符串。</p>
-<p><code>string</code>是一个模板类，它有<code>basic_string&lt;T&gt;</code>定义：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> basic_string&lt;<span class="keyword">char</span>&gt; <span class="built_in">string</span>;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>C++的<code>string</code>可以通过成员方法<code>c_str()</code>转换为C语言的<code>char*</code>。</p>
-</blockquote>
-<p>参考文档：<a href="http://www.cplusplus.com/reference/string/string/">cplusplus.com/string</a></p>
-<h1 id="初始化与赋值"><a href="#初始化与赋值" class="headerlink" title="初始化与赋值"></a>初始化与赋值</h1><p><code>string</code>有两个常用的构造函数：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 用一个C字符串构造</span></span><br><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">str</span><span class="params">(<span class="string">"hello"</span>)</span></span>;</span><br><span class="line"><span class="comment">// 等价于</span></span><br><span class="line"><span class="built_in">string</span> str = <span class="string">"hello"</span>;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>也可以用N个同样的字符来构造字符串：<code>string str2(8, &#39;x&#39;)</code>。</p>
-</blockquote>
-<p>在C0x标准中，<code>std::to_string</code>可以将很多类型转换为一个<code>string</code>，可以代替<code>itoa</code>，例如：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">string</span> str = to_string(<span class="number">123</span>);</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p><code>string</code>构造函数不接受<code>char</code>和<code>int</code>类型。</p>
-</blockquote>
-<p>字符串可以直接互相赋值，内存会自动拷贝和销毁，我们大可不必管它。对于单个字符赋值可以使用下标运算符：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;str.length(); i++)&#123;</span><br><span class="line">    str[i] = <span class="string">'a'</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>与多数class类似，<code>string</code>也提供了<code>swap</code>：<code>str1.swap(s2)</code>将会交换二者的值。</p>
-</blockquote>
-<h1 id="运算符支持"><a href="#运算符支持" class="headerlink" title="运算符支持"></a>运算符支持</h1><p>有通用运算符支持的数据类型往往更容易理解和操作，其中最讨人喜欢的莫过于<code>+</code>运算符：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">str += str2;</span><br><span class="line">str = str + <span class="string">"hello"</span>;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>当然，你也可以直接调用<code>append</code>方法：<code>str.append(str2)</code>。</p>
-</blockquote>
-<p>除了<code>+</code>，<code>string</code>还支持一系列的比较运算符：<code>&lt;</code>, <code>==</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>!=</code>。</p>
-<blockquote>
-<p>当然，你仍然可以直接调用<code>compare</code>方法：<code>str1.compare(str2)</code>，<code>str1</code>小则会返回<code>-1</code>。</p>
-</blockquote>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/blog/2015/06/30/std-string.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
                 <a class="post-title-link" href="/blog/2015/06/29/cpp-encapsulation-and-inheritance.html" itemprop="url">
                   C++手稿：封装与继承
                 </a>
@@ -1004,11 +549,519 @@
 
 
     
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/blog/2015/06/26/jquery-event.html" itemprop="url">
+                  jQuery事件：bind、delegate、on的区别
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-06-26T00:00:00+08:00" content="2015-06-26">
+              2015-06-26
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/blog/2015/06/26/jquery-event.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/06/26/jquery-event.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/blog/2015/06/26/jquery-event.html" class="leancloud_visitors" data-flag-title="jQuery事件：bind、delegate、on的区别">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>最近在<a href="/2015/05/31/angular-scope-initialize.html">AngularJS</a>的开发中，遇到一个神奇的事情：我们用到<a href="http://lokeshdhakar.com/projects/lightbox2/">livebox</a>来预览评论列表中的图片，<br>然而评论列表是由Angular Resource动态载入的。不可思议的是，点击这些动态载入的图片仍然会触发lightbox的图片预览。<br>难道lightbox使用先进的<a href="https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver">MutationObserver</a>技术监听了DOM的变化？观察<a href="https://github.com/lokesh/lightbox2/blob/master/src/js/lightbox.js">lightbox源码</a>才发现，原来只是jQuery的<code>.on()</code>方法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">'body'</span>).on(<span class="string">'click'</span>, <span class="string">'a[rel^=lightbox], ...'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;&#125;);</span><br></pre></td></tr></table></figure>
+<p>本文便来详解各种jQuery事件绑定方法：<code>on</code>，<code>bind</code>，<code>delegate</code>，<code>live</code>，<code>unbind</code>，<code>trigger</code>。<br>同时总结一下常用的jQuery事件技术：如何阻止事件冒泡、阻止浏览器默认行为、解绑事件处理函数、自定义事件。</p>
+<h1 id="什么是-jQuery-事件"><a href="#什么是-jQuery-事件" class="headerlink" title="什么是 jQuery 事件"></a>什么是 jQuery 事件</h1><p><a href="https://api.jquery.com/category/events/">jQuery事件</a>是DOM事件的封装，同时支持自定义的扩展。在程序设计中，事件和代理有着相似的作用：<br>它们提供了一种机制，使得行为的实现方式和调用时机可以分离。</p>
+<p>不谈jQuery，DOM本身就提供了一系列的javascript事件，例如<code>click</code>，<code>keyup</code>，<code>submit</code>。<br>未实现相关业务逻辑，通常会为这些事件定义一系列的处理函数，<strong>处理函数定义了业务的实现方式，而浏览器知道这些业务的调用时机</strong>。<br>Javascript事件就是这样一种机制，使得行为的实现方式和调用时机可以动态地绑定。</p>
+<p>jQuery事件是通过封装javascript事件来实现的，例如<code>.keyup()</code>便是<code>onkeyup</code>的封装：</p>
+<blockquote>
+<p><code>.keyup()</code>： Bind an event handler to the “keyup” JavaScript event, or trigger that event on an element.</p>
+</blockquote>
+<p>除了封装大多数的javascript事件，jQuery提供了统一的事件绑定和触发机制：</p>
+<ul>
+<li>绑定事件：<code>bind</code>、<code>on</code>、<code>live</code>、<code>delegate</code>、<code>keyup(&lt;function&gt;)</code>；</li>
+<li>触发事件：<code>trigger(&#39;keyup&#39;)</code>、<code>keyup()</code>；</li>
+<li>解绑事件：<code>unbind</code>、<code>off</code>、<code>die</code>、<code>undelegate</code>。</li>
+</ul>
+<h1 id="事件绑定：bind"><a href="#事件绑定：bind" class="headerlink" title="事件绑定：bind"></a>事件绑定：bind</h1><p>使用javascript绑定一个事件很简单，只需要在HTML中设置<code>onxxx</code>属性，<br>并且在javascript中定义相关的处理函数便可以完成。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">onclick</span>=<span class="string">"func()"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">func</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'clicked!'</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>上述是基本的javascript事件处理方式，而jQuery提供了更加方便的方式：<code>.bind()</code>函数。</p>
+<blockquote>
+<p><code>.bind()</code>：Attach a handler to an event for the elements.</p>
+</blockquote>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">'foo'</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span><br><span class="line">$(<span class="string">'#foo'</span>).click(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'clicked!'</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><code>.click(&lt;function&gt;)</code>等效于<code>.bind(&#39;click&#39;, &lt;function&gt;)</code>。另外还可以通过<code>unbind</code>来解绑事件：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">'#foo'</span>).unbind(<span class="string">'click'</span>);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果<code>unbind</code>参数为空，则解绑匹配元素的所有事件处理函数。<br>在我的理解中，我们还是不要<code>off</code>，<code>unbind</code>，<code>die</code>吧。即使不谈效率，它们也使得软件更难理解了。<br>如果你感觉有需要，下面的<code>.on()</code>应该会满足你~</p>
+</blockquote>
+<p><code>.bind</code>将会给所有匹配的元素都绑定一次事件，当元素很多时性能会变差。<br>而且后来动态新增的元素不会被绑定。</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/blog/2015/06/26/jquery-event.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/blog/2015/06/25/operator-overload.html" itemprop="url">
+                  C++手稿：运算符重载
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-06-25T00:00:00+08:00" content="2015-06-25">
+              2015-06-25
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/blog/2015/06/25/operator-overload.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/06/25/operator-overload.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/blog/2015/06/25/operator-overload.html" class="leancloud_visitors" data-flag-title="C++手稿：运算符重载">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p><strong>运算符重载</strong>就是对已有的C++运算符赋予更多的语义，让一个运算符可以作用于其他的数据类型。<br>典型地，让运算符接受一个类的对象作为参数。</p>
+<p>通常有两种方式来重载一个运算符：</p>
+<ol>
+<li>声明一个普通函数，作为类的友元。</li>
+<li>声明为类的成员方法。</li>
+</ol>
+<blockquote>
+<p>事实上，运算符的本质是函数。每个运算符调用会转换为函数调用，运算符的操作数转换为函数参数。<br>运算符的重载本质上是方法的重载。</p>
+</blockquote>
+<p>这些运算符不允许重载：<code>.</code>，<code>.*</code>，<code>::</code>，<code>?:</code>，<code>sizeof</code>。</p>
+<h1 id="重载为普通函数"><a href="#重载为普通函数" class="headerlink" title="重载为普通函数"></a>重载为普通函数</h1><p>重载为普通函数时，参数的个数为运算符的目数：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">CPerson operator+(const CPerson&amp; male, const CPerson&amp; female)&#123;</span><br><span class="line">    return CPerson(male.name + female.name);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">CPerson male("Bob"), female("Alice");</span><br><span class="line">CPerson child1 = male + female;</span><br><span class="line">// 等价于</span><br><span class="line">CPerson child2 = operator+(male, female);</span><br></pre></td></tr></table></figure>
+<p>这些运算符必须重载为成员函数：<code>()</code>，<code>[]</code>，<code>-&gt;</code>，<code>=</code>。</p>
+<h1 id="重载为成员函数"><a href="#重载为成员函数" class="headerlink" title="重载为成员函数"></a>重载为成员函数</h1><p>重载为成员函数时，参数的个数为运算符的目数-1：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">class CPerson&#123;</span><br><span class="line">    string name;</span><br><span class="line">public:</span><br><span class="line">    CPerson(string name_):name(name_)&#123;&#125;</span><br><span class="line">    CPerson operator+(const CPerson&amp; female)&#123;</span><br><span class="line">        return CPerson(name + female.name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">CPerson male("Bob"), female("Alice");</span><br><span class="line">CPerson child1 = male + female;</span><br><span class="line">// 等价于</span><br><span class="line">CPerson child2 = male.operator+(female);</span><br></pre></td></tr></table></figure>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/blog/2015/06/25/operator-overload.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/blog/2015/06/24/cpp-static-and-const-member.html" itemprop="url">
+                  C++手稿：类的静态和常量成员
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-06-24T00:00:00+08:00" content="2015-06-24">
+              2015-06-24
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/blog/2015/06/24/cpp-static-and-const-member.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/06/24/cpp-static-and-const-member.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/blog/2015/06/24/cpp-static-and-const-member.html" class="leancloud_visitors" data-flag-title="C++手稿：类的静态和常量成员">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>本文总结了静态成员的使用、单例的实现、常量对象与常量方法，以及如何将常量方法重载为普通方法。</p>
+<h1 id="静态成员"><a href="#静态成员" class="headerlink" title="静态成员"></a>静态成员</h1><p>对象成员的声明前加<code>static</code>即可定义为静态成员，静态成员必须在声明类的文件中进行声明（通常会初始化），否则链接错。<br>访问静态成员可以通过类名，也可以通过对象名。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> CPerson&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">int</span> count;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">int</span> CPerson::count = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">CPerson p1, &amp;p2 = p1, *p3 = <span class="keyword">new</span> CPerson();</span><br><span class="line"></span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;CPerson::count&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;p1.count&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;p2.count&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;p3-&gt;count&lt;&lt;<span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>只有静态常量整型才可以在类的声明中，直接初始化。</li>
+<li><code>sizeof</code>运算符不会计算静态常量。</li>
+<li>静态方法不可访问非静态成员、<code>this</code>指针。</li>
+</ul>
+<h1 id="单例的实现"><a href="#单例的实现" class="headerlink" title="单例的实现"></a>单例的实现</h1><p>在C++中，借由静态成员变量，可以实现单例模式。首先需要将构造函数私有化，并提供获取单例的方法。<br>此后还需禁止复制构造函数、禁止赋值运算符。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> CPerson&#123;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">static</span> CPerson* p;</span><br><span class="line">    CPerson()&#123;&#125;;</span><br><span class="line">    CPerson(CPerson&amp;);</span><br><span class="line">    <span class="keyword">const</span> CPerson&amp; <span class="keyword">operator</span>= (<span class="keyword">const</span> CPerson&amp;);</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">static</span> Person* <span class="title">instance</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> p ? p : (p = <span class="keyword">new</span> P());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">CPerson* CPerson::p = <span class="literal">NULL</span>;</span><br></pre></td></tr></table></figure>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/blog/2015/06/24/cpp-static-and-const-member.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/blog/2015/06/22/cpp-object-lifecycle.html" itemprop="url">
+                  C++手稿：对象的生命周期，构造与析构
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-06-22T00:00:00+08:00" content="2015-06-22">
+              2015-06-22
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/blog/2015/06/22/cpp-object-lifecycle.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/06/22/cpp-object-lifecycle.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/blog/2015/06/22/cpp-object-lifecycle.html" class="leancloud_visitors" data-flag-title="C++手稿：对象的生命周期，构造与析构">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>本文总结了类的创建、复制和销毁过程中涉及到的成员函数：构造函数、析构函数、拷贝构造函数、赋值运算符等。<br>探讨了全局对象、静态对象、栈中的对象、堆中的对象的整个生命周期中，这些成员函数的调用时机。</p>
+<h1 id="类的声明"><a href="#类的声明" class="headerlink" title="类的声明"></a>类的声明</h1><p>C++引入类的概念来实现面向对象程序设计，先来看一个简单的类的声明：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> CPerson&#123;</span><br><span class="line">    <span class="keyword">public</span>: </span><br><span class="line">    <span class="comment">// 构造函数</span></span><br><span class="line">    CPerson()&#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">"constructor"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 构造函数（重载）</span></span><br><span class="line">    CPerson(<span class="keyword">int</span> age)&#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">"constructor "</span>&lt;&lt;age&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 声明可以与实现分离</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Hello</span><span class="params">()</span></span>; </span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">CPerson::Hello()&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"hello"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>构造函数定义为私有，可以防止该类被直接实例化。一般用于Singleton实现。</li>
+<li>不允许签名为<code>CPerson(CPerson p){}</code>的构造函数（编译错）。不允许带参数的析构函数（编译错）。构造函数可以有参数，不允许有返回值。总之，<strong>析构函数和构造函数</strong>签名不正确都会编译错。</li>
+</ul>
+<h1 id="对象实例化"><a href="#对象实例化" class="headerlink" title="对象实例化"></a>对象实例化</h1><p>可以直接定义对象变量，在栈中分配并初始化对象；也可以定义对象指针，从堆中分配空间并初始化对象。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CPerson p1;</span><br><span class="line"><span class="function">CPerson <span class="title">p2</span><span class="params">(<span class="number">2</span>)</span></span>;</span><br><span class="line">CPerson* p3 = <span class="keyword">new</span> CPerson(<span class="number">3</span>);</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">constructor</span><br><span class="line">constructor 2</span><br><span class="line">constructor 3</span><br></pre></td></tr></table></figure>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/blog/2015/06/22/cpp-object-lifecycle.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
