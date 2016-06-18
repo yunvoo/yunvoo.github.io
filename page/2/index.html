@@ -318,149 +318,6 @@
             
               
                 
-                <a class="post-title-link" href="/blog/2015/07/18/vim-cpp.html" itemprop="url">
-                  在VIM下写C++能有多爽？
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-07-18T00:00:00+08:00" content="2015-07-18">
-              2015-07-18
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/blog/2015/07/18/vim-cpp.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/07/18/vim-cpp.html" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/blog/2015/07/18/vim-cpp.html" class="leancloud_visitors" data-flag-title="在VIM下写C++能有多爽？">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>我是坚定的Vim党，因为和命令行的集成如此之好，Vim可以解决任何问题。然而在这个世界上，即便是最好用的工具也是需要配置的。<br>由于最近在写C++，经过一番配置后，小编写C++已经感到非常爽了，于是决定用一篇文章来记录如何打造一个适合写C++的Vim编辑器！<br>包括C++的自动补全、括号引号匹配、格式化、注释、编译运行快捷键等。</p>
-<blockquote>
-<p>小编之前在<a href="!--￼6--">Vim初级：配置和使用</a>中介绍了Vim的基本配置与使用，<a href="!--￼7--">感受Vim的强大：进阶技巧</a>中介绍了更加方便的高级使用技巧。</p>
-</blockquote>
-<h1 id="基础设置"><a href="#基础设置" class="headerlink" title="基础设置"></a>基础设置</h1><p>稍微熟悉Vim的小伙伴都会知道这个文件<code>~/.vimrc</code>，如同绝大多数的Unix软件，Vim也是用基于文本的配置文件。<br>当前用户的Vim配置便存储在这个文件当中，该文件的每一行便是一个配置项（<code>function</code>除外）。</p>
-<p>配置文件中的所有语句都会在打开Vim时，在Ex模式下执行。例如，我们在Vim中打开行号：</p>
-<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:<span class="keyword">set</span> <span class="keyword">number</span></span><br></pre></td></tr></table></figure>
-<p>我们便可以在配置文件中加入：</p>
-<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">" ~/.vim</span></span><br><span class="line"><span class="keyword">set</span> <span class="keyword">number</span></span><br></pre></td></tr></table></figure>
-<p>同样重要的配置还有：</p>
-<ul>
-<li>打开语法高亮：<code>syntax on</code></li>
-<li>Tab大小：<code>set tabstop=4</code></li>
-<li>缩进大小：<code>set shiftwidth=4</code></li>
-</ul>
-<blockquote>
-<p>Vim是一个典型的Unix程序，上述命令都有缩写啦：number(nu), tabstop(ts), shiftwidth(sw), etc.</p>
-</blockquote>
-<p>更多关于基础配置项的信息，请参考我的另一篇博客： <a href="/2013/11/08/vim-config/">vim 的配置与使用</a></p>
-<h1 id="自动补全"><a href="#自动补全" class="headerlink" title="自动补全"></a>自动补全</h1><p>自动补全恐怕是代码编辑器最重要的特性了，我们暂且不提它毁了多少人的面试之路。</p>
-<p>由于Vim插件的风格、使用方式太过多样化，多语言的自动补全一直存在各种冲突，需要大量精力才能调通。<br>然而Github的出现给Vim插件带来了新的活力，现在我们通过基于Github的Vundle来安装插件，而不需要手动去vim.org上找插件了。</p>
-<p>废话少说，我推荐的插件叫做<a href="https://github.com/Valloric/YouCompleteMe">YouCompleteMe</a>，看图！</p>
-<p><img src="/assets/img/blog/youcompleteme.gif" alt="you complete me"></p>
-<p>YouCompleteMe功能很全：</p>
-<ul>
-<li>自动补全，在你写一个名称的过程中，会出现提示列表，同时给出每一项的函数签名（函数形参列表）。</li>
-<li>语法错误、警告的提示。比如变量未使用、函数未定义等等，很多编译warning都会直接提示出来，特别神奇。</li>
-</ul>
-<p>配置很容易，但需要先安装<a href="https://github.com/gmarik/vundle#about">Vundle</a>（如果你没有的话）。注意<code>vim +PluginInstall</code>后还需要去<code>~/.vim/bundle/YouCompleteMe</code>中<code>./install.sh</code>一下。</p>
-<blockquote>
-<p>如果你是MacOS用户，确保你的Vim升级到了7.4. 如何使用HomeBrew本文就不唠叨了。</p>
-</blockquote>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/blog/2015/07/18/vim-cpp.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
                 <a class="post-title-link" href="/blog/2015/07/17/vim-advanced.html" itemprop="url">
                   感受Vim的强大：进阶技巧
                 </a>
@@ -1721,6 +1578,145 @@
 
 
     
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/blog/2015/06/26/jquery-event.html" itemprop="url">
+                  jQuery事件：bind、delegate、on的区别
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-06-26T00:00:00+08:00" content="2015-06-26">
+              2015-06-26
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/blog/2015/06/26/jquery-event.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/06/26/jquery-event.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/blog/2015/06/26/jquery-event.html" class="leancloud_visitors" data-flag-title="jQuery事件：bind、delegate、on的区别">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>最近在<a href="/2015/05/31/angular-scope-initialize.html">AngularJS</a>的开发中，遇到一个神奇的事情：我们用到<a href="http://lokeshdhakar.com/projects/lightbox2/">livebox</a>来预览评论列表中的图片，<br>然而评论列表是由Angular Resource动态载入的。不可思议的是，点击这些动态载入的图片仍然会触发lightbox的图片预览。<br>难道lightbox使用先进的<a href="https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver">MutationObserver</a>技术监听了DOM的变化？观察<a href="https://github.com/lokesh/lightbox2/blob/master/src/js/lightbox.js">lightbox源码</a>才发现，原来只是jQuery的<code>.on()</code>方法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">'body'</span>).on(<span class="string">'click'</span>, <span class="string">'a[rel^=lightbox], ...'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;&#125;);</span><br></pre></td></tr></table></figure>
+<p>本文便来详解各种jQuery事件绑定方法：<code>on</code>，<code>bind</code>，<code>delegate</code>，<code>live</code>，<code>unbind</code>，<code>trigger</code>。<br>同时总结一下常用的jQuery事件技术：如何阻止事件冒泡、阻止浏览器默认行为、解绑事件处理函数、自定义事件。</p>
+<h1 id="什么是-jQuery-事件"><a href="#什么是-jQuery-事件" class="headerlink" title="什么是 jQuery 事件"></a>什么是 jQuery 事件</h1><p><a href="https://api.jquery.com/category/events/">jQuery事件</a>是DOM事件的封装，同时支持自定义的扩展。在程序设计中，事件和代理有着相似的作用：<br>它们提供了一种机制，使得行为的实现方式和调用时机可以分离。</p>
+<p>不谈jQuery，DOM本身就提供了一系列的javascript事件，例如<code>click</code>，<code>keyup</code>，<code>submit</code>。<br>未实现相关业务逻辑，通常会为这些事件定义一系列的处理函数，<strong>处理函数定义了业务的实现方式，而浏览器知道这些业务的调用时机</strong>。<br>Javascript事件就是这样一种机制，使得行为的实现方式和调用时机可以动态地绑定。</p>
+<p>jQuery事件是通过封装javascript事件来实现的，例如<code>.keyup()</code>便是<code>onkeyup</code>的封装：</p>
+<blockquote>
+<p><code>.keyup()</code>： Bind an event handler to the “keyup” JavaScript event, or trigger that event on an element.</p>
+</blockquote>
+<p>除了封装大多数的javascript事件，jQuery提供了统一的事件绑定和触发机制：</p>
+<ul>
+<li>绑定事件：<code>bind</code>、<code>on</code>、<code>live</code>、<code>delegate</code>、<code>keyup(&lt;function&gt;)</code>；</li>
+<li>触发事件：<code>trigger(&#39;keyup&#39;)</code>、<code>keyup()</code>；</li>
+<li>解绑事件：<code>unbind</code>、<code>off</code>、<code>die</code>、<code>undelegate</code>。</li>
+</ul>
+<h1 id="事件绑定：bind"><a href="#事件绑定：bind" class="headerlink" title="事件绑定：bind"></a>事件绑定：bind</h1><p>使用javascript绑定一个事件很简单，只需要在HTML中设置<code>onxxx</code>属性，<br>并且在javascript中定义相关的处理函数便可以完成。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">onclick</span>=<span class="string">"func()"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">func</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'clicked!'</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>上述是基本的javascript事件处理方式，而jQuery提供了更加方便的方式：<code>.bind()</code>函数。</p>
+<blockquote>
+<p><code>.bind()</code>：Attach a handler to an event for the elements.</p>
+</blockquote>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">'foo'</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span><br><span class="line">$(<span class="string">'#foo'</span>).click(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'clicked!'</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><code>.click(&lt;function&gt;)</code>等效于<code>.bind(&#39;click&#39;, &lt;function&gt;)</code>。另外还可以通过<code>unbind</code>来解绑事件：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">'#foo'</span>).unbind(<span class="string">'click'</span>);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果<code>unbind</code>参数为空，则解绑匹配元素的所有事件处理函数。<br>在我的理解中，我们还是不要<code>off</code>，<code>unbind</code>，<code>die</code>吧。即使不谈效率，它们也使得软件更难理解了。<br>如果你感觉有需要，下面的<code>.on()</code>应该会满足你~</p>
+</blockquote>
+<p><code>.bind</code>将会给所有匹配的元素都绑定一次事件，当元素很多时性能会变差。<br>而且后来动态新增的元素不会被绑定。</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/blog/2015/06/26/jquery-event.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
   </section>
 
   
@@ -1766,7 +1762,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">36</span>
+              <span class="site-state-item-count">35</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1783,7 +1779,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-count">34</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
