@@ -318,8 +318,8 @@
             
               
                 
-                <a class="post-title-link" href="/blog/2015/06/05/angular-http.html" itemprop="url">
-                  AngularJS $http Service
+                <a class="post-title-link" href="/blog/2015/07/03/stl-function-objects-and-pointers.html" itemprop="url">
+                  C++手稿：STL中的函数对象与函数指针
                 </a>
               
             
@@ -332,8 +332,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-06-05T00:00:00+08:00" content="2015-06-05">
-              2015-06-05
+            <time itemprop="dateCreated" datetime="2015-07-03T00:00:00+08:00" content="2015-07-03">
+              2015-07-03
             </time>
           </span>
 
@@ -343,8 +343,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/blog/2015/06/05/angular-http.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/06/05/angular-http.html" itemprop="commentsCount"></span>
+                <a href="/blog/2015/07/03/stl-function-objects-and-pointers.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/07/03/stl-function-objects-and-pointers.html" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -354,7 +354,7 @@
 
           
           
-             <span id="/blog/2015/06/05/angular-http.html" class="leancloud_visitors" data-flag-title="AngularJS $http Service">
+             <span id="/blog/2015/07/03/stl-function-objects-and-pointers.html" class="leancloud_visitors" data-flag-title="C++手稿：STL中的函数对象与函数指针">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -377,24 +377,33 @@
 
       
         
-          <p><code>$http</code>是<a href="https://docs.angularjs.org">AngularJS</a>提供的一个核心Service，通过浏览器的<code>XMLHttpRequest</code>或JSONP与服务器进行交互。<br>这是一个非常常用的Service，类似于jQuery提供的AJAX。与jQuery类似，<code>$http</code>也采用了deferred/promise模式，不同的是Angular的deferred/promise模式是由Angular的<code>$q</code>Service来提供的。</p>
+          <p>STL是C++的标准模板库（standard template library），自然其中定义的都是模板。<br>相比于类和函数声明的<strong>显式接口（explicit interface）</strong>，类模板和函数模板声明的接口属于<strong>隐式接口（implicit interface）</strong>。<br>因为模板参数应当满足的接口是由模板中表达式的合法性决定的，这一点给了模板很大的自由。<br>而<em>函数对象</em>和<em>函数指针</em>具有同样的调用语法，因此STL中这两者常常可以互换。</p>
 <blockquote>
-<p>在Angular应用中尽量使用<code>$http</code>而不是jQuery函数来进行AJAX请求，因为<code>$http</code>会在响应到达时触发Angular更新视图（<code>$digest</code>循环）。<br>与此同时，<code>$http</code>还可以通过<code>$httpBackend</code>来Mock和单元测试。</p>
+<p>更多关于隐式接口和显式接口的概念和区别，参见<a href="/2015/09/08/effective-cpp-41.html">Effective C++: Item 41</a>。</p>
 </blockquote>
-<p><code>$http</code>文档参见： <a href="https://docs.angularjs.org/api/ng/service/$http">https://docs.angularjs.org/api/ng/service/$http</a></p>
-<h1 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h1><p>如果你熟悉了jQuery的AJAX操作，那么使用<code>$http</code>只是重新记住几个方法名而已。把<code>done</code>, <code>fail</code>, <code>always</code>换成<code>success</code>, <code>error</code>, <code>finally</code>：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$http.get(<span class="string">'/someUrl'</span>)</span><br><span class="line">    .success(<span class="function"><span class="keyword">function</span>(<span class="params">data, status, headers, config</span>)</span>&#123;</span><br><span class="line">    <span class="comment">// GET成功时被回调</span></span><br><span class="line">    &#125;)</span><br><span class="line">    .error(<span class="function"><span class="keyword">function</span>(<span class="params">data, status, headers, config</span>)</span>&#123;</span><br><span class="line">    <span class="comment">// GET失败时被回调</span></span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
-<p><code>$http</code>方法返回的是一个由<code>$q</code>Service提供的Promise对象，事实上Promise对象有三个通用方法：<code>then</code>, <code>catch</code>, <code>finally</code>。<br>上述的<code>success</code>和<code>error</code>是<code>$http</code>提供的两个额外的方法。Promise的三个方法参数如下：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">then(successCallback, errorCallback, notifyCallback);</span><br><span class="line"><span class="keyword">catch</span>(errorCallback);</span><br><span class="line"><span class="keyword">finally</span>(callback, notifyCallback);</span><br></pre></td></tr></table></figure>
+<p>先来感受一下C++中的函数对象和函数指针：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">printer</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b, T func)</span></span>&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;func(a, b)&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在STL中定义了很多像上面这样的模板，这里的T是一个可调用（实现了括号运算符）的东西。<br>这使得我们在使用模板时可以指定一个计算策略，它可以是函数对象，也可以是函数指针。</p>
 <blockquote>
-<p>Promise方法是可以链式调用的。</p>
+<p><code>Less&lt;int&gt;</code>便是一个常见的函数对象，常用来配置容器或算法。<code>&lt;functional&gt;</code>中定义了很多这样的函数对象。</p>
 </blockquote>
-<h1 id="配置-httpProvider"><a href="#配置-httpProvider" class="headerlink" title="配置$httpProvider"></a>配置<code>$httpProvider</code></h1><p><code>$http</code> Service定义在<code>ng</code> Module里，由<code>$httpProvider</code>提供。于是我们可以通过设置<code>$httpProvider</code>来配置<code>$http</code>的行为。比如，给HTTP请求插入一个拦截器：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">someModule.config([<span class="string">'$httpProvider'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">$httpProvider</span>)</span>&#123;</span><br><span class="line">    $httpProvider.interceptors.push(<span class="function"><span class="keyword">function</span>(<span class="params">$q, dependency1, dependency2</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            request: <span class="function"><span class="keyword">function</span>(<span class="params">config</span>)</span>&#123;</span><br><span class="line">                <span class="comment">// 这里可以调整HTTP请求的配置</span></span><br><span class="line">                <span class="keyword">return</span> config;</span><br><span class="line">            &#125;,</span><br><span class="line">            response: <span class="function"><span class="keyword">function</span>(<span class="params">response</span>)</span>&#123;</span><br><span class="line">                <span class="comment">// 这里能拿到响应对象，当然也可以更改它</span></span><br><span class="line">                <span class="keyword">return</span> response;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;]);</span><br></pre></td></tr></table></figure>
-<p>还可以通过设置<code>$httpProvider</code>的<code>defaults</code>属性来进行请求/响应的转换（<code>transformRequest</code>, <code>transformResponse</code>）、设置请求的HTTP头字段（<code>headers</code>）。</p>
-<p>更多信息，请参考<code>$httpProvider</code>文档： <a href="https://docs.angularjs.org/api/ng/provider/$httpProvider">https://docs.angularjs.org/api/ng/provider/$httpProvider</a></p>
+<h1 id="函数指针"><a href="#函数指针" class="headerlink" title="函数指针"></a>函数指针</h1><p>函数指针通常用来将函数传参或存储。例如：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sum</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a+b;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    printer(<span class="number">2</span>, <span class="number">3</span>, sum);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述的<code>printer</code>调用方式，编译器会生成对应的函数实例：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">void printer(int a, int b, int (*func)(int, int))&#123;</span><br><span class="line">    cout&lt;&lt;func(a, b)&lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里<code>T</code>的类型是<code>int (*)(int, int)</code>。</p>
+<blockquote>
+<p>如果你是python或者javascript程序员的话，上述过程没有什么特别的。<br>唯一要注意的是<code>func</code>的声明方式，星号要和标识符括起来：<code>(*func)</code>。</p>
+</blockquote>
+<h1 id="函数对象"><a href="#函数对象" class="headerlink" title="函数对象"></a>函数对象</h1><p>函数对象是重载了括号运算符的类的实例，它也可以这样调用：<code>func(a, b)</code>。例如：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Sum&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> a+b;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    printer(<span class="number">2</span>, <span class="number">3</span>, Sum());</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>编译器会生成这样的函数实例：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">printer</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b, Sum s)</span></span>&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;s(a, b)&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>函数对象可以实现更加复杂的有状态的运算，因为对象可以有更多的属性和方法。</p>
+</blockquote>
           <div class="post-more-link text-center">
-            <a class="btn" href="/blog/2015/06/05/angular-http.html#more" rel="contents">
+            <a class="btn" href="/blog/2015/07/03/stl-function-objects-and-pointers.html#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -445,8 +454,8 @@
             
               
                 
-                <a class="post-title-link" href="/blog/2015/06/04/angular-form.html" itemprop="url">
-                  AngularJS 表单（ng-form）验证
+                <a class="post-title-link" href="/blog/2015/07/01/introduction-to-stl.html" itemprop="url">
+                  C++手稿：STL小记
                 </a>
               
             
@@ -459,8 +468,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-06-04T00:00:00+08:00" content="2015-06-04">
-              2015-06-04
+            <time itemprop="dateCreated" datetime="2015-07-01T00:00:00+08:00" content="2015-07-01">
+              2015-07-01
             </time>
           </span>
 
@@ -470,8 +479,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/blog/2015/06/04/angular-form.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/06/04/angular-form.html" itemprop="commentsCount"></span>
+                <a href="/blog/2015/07/01/introduction-to-stl.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/07/01/introduction-to-stl.html" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -481,7 +490,7 @@
 
           
           
-             <span id="/blog/2015/06/04/angular-form.html" class="leancloud_visitors" data-flag-title="AngularJS 表单（ng-form）验证">
+             <span id="/blog/2015/07/01/introduction-to-stl.html" class="leancloud_visitors" data-flag-title="C++手稿：STL小记">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -504,408 +513,352 @@
 
       
         
-          <p>在HTML中，用户通过<code>input</code>, <code>select</code>, <code>textarea</code>等元素进行输入，我们通常用表单来包装和管理这些控件。客户端表单验证非常重要，可以及时地为用户提供表单验证信息。但客户端表单验证只是为了增强用户体验，服务器端验证仍然是必要的。</p>
-<p><a href="https://docs.angularjs.org">AngularJS</a>最大的特点便是数据绑定。利用Angular在客户端脚本中构建MVC框架，Model和View之间可以实现双向绑定。因此<strong>AngularJS的表单验证可以做到实时的用户反馈</strong>。</p>
+          <p>STL (Standard Template Library) 提供了一些常用的数据结构和算法的模板，1998年加入C++标准。<br>STL中有三个重要的概念：</p>
+<ol>
+<li>容器：容纳各种数据类型的数据结构，是一系列的类模板。</li>
+<li>迭代器：迭代器用来迭代地访问容器中的元素。</li>
+<li>算法：用来操作容器中的元素，是一系列的函数模板。</li>
+</ol>
+<h1 id="STL-容器"><a href="#STL-容器" class="headerlink" title="STL 容器"></a>STL 容器</h1><p>STL中的容器定义在<code>std</code>命名空间下，需要引入头文件<br><code>&lt;vector&gt;</code>, <code>&lt;set&gt;</code>, <code>&lt;map&gt;</code>, <code>&lt;deque&gt;</code>, <code>&lt;list&gt;</code>, <code>&lt;stack&gt;</code><br>等。容器可以分为三大类：</p>
+<ol>
+<li>顺序容器<ul>
+<li><a href="http://www.cplusplus.com/reference/vector/vector">vector</a>：尾端插入元素有较高性能，动态数组实现；</li>
+<li><a href="http://www.cplusplus.com/reference/deque/deque/">deque</a>：收尾插入元素都有较高性能，动态数组实现；</li>
+<li><a href="http://www.cplusplus.com/reference/list/list/">list</a>：可以常数时间在任何地方插入元素，链表实现；</li>
+</ul>
+</li>
+<li>关联容器<ul>
+<li><a href="http://www.cplusplus.com/reference/set/set">set</a>：不同元素的集合，平衡二叉树实现，检索时间是 $O(log(N))$；</li>
+<li><a href="http://www.cplusplus.com/reference/set/multiset">multiset</a>：同上，但可以包含相同元数据；</li>
+<li><a href="http://www.cplusplus.com/reference/map/map">map</a>：同<code>set</code>，但存放的是键值对；</li>
+<li><a href="http://www.cplusplus.com/reference/map/multimap/">multimap</a>：同上，键可以重复；</li>
+</ul>
+</li>
+<li>容器适配器：<a href="http://www.cplusplus.com/reference/stack/stack">stack</a>，<a href="http://www.cplusplus.com/reference/queue/queue">queue</a>，<a href="http://www.cplusplus.com/reference/queue/priority_queue/">priority_queue</a>。</li>
+</ol>
+<p>这些容器有一些通用的方法：<code>empty</code>，<code>size</code>，<code>swap</code>，<code>max_size</code>。前两类容器支持迭代器，称为第一类容器。<br>顺序容器还有以下通用方法：<code>front</code>, <code>back</code>, <code>pop_back</code>, <code>push_back</code>。</p>
 <blockquote>
-<p>事实上，正是因为<strong>实时的用户反馈</strong>这个神奇的特性，我们团队在 <a href="http://tianmaying.com">http://tianmaying.com</a> 中也继续引入了AngularJS，尽管此时我们对单页应用已经不感兴趣。</p>
+<p>容器之间的比较取决于第一个不等的元素；如果长度相同且所有元素相等，两个容器相等；如果一个是另一个的子序列，则较短的容器小于较长的容器。</p>
 </blockquote>
-<h1 id="一个简单的表单"><a href="#一个简单的表单" class="headerlink" title="一个简单的表单"></a>一个简单的表单</h1><p>Angular是模块化的，每个APP都是一个Angular Module。我们知道Module下可以包含这样四种内容：</p>
+<p>存储键值对关联容器<code>map</code>和<code>multimap</code>的迭代器是一个<code>pair&lt;T1, T2&gt;</code>的指针。<br>插入时，可以使用<code>[]</code>运算符，也可以使用<code>insert</code>方法，它接受一个<code>pair&lt;T1, T2&gt;</code>对象：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">std</span>::<span class="built_in">map</span>&lt;<span class="keyword">char</span>,<span class="keyword">int</span>&gt; mymap;</span><br><span class="line">mymap.insert (mymap.begin(), <span class="built_in">std</span>::pair&lt;<span class="keyword">char</span>,<span class="keyword">int</span>&gt;(<span class="string">'c'</span>,<span class="number">400</span>));</span><br><span class="line">mymap.insert (mymap.begin(), <span class="built_in">std</span>::make_pair(<span class="string">'c'</span>,<span class="number">400</span>));</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>pair</code>模板类在<code>&lt;utility&gt;</code>中定义，在<code>&lt;map&gt;</code>中已经引入了。</p>
+</blockquote>
+<p>容器适配器是逻辑数据结构，需要用一种顺序容器来实现。例如，<code>stack</code>默认使用<code>deque</code>来实现，我们也可以指定它的实现方式。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">stack</span>&lt;<span class="built_in">string</span>&gt; strstk;         <span class="comment">// string 型栈，deque实现</span></span><br><span class="line"><span class="built_in">stack</span>&lt;<span class="keyword">int</span>, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; stk;  <span class="comment">// int 型栈，vector实现</span></span><br></pre></td></tr></table></figure>
+<h1 id="STL-迭代器"><a href="#STL-迭代器" class="headerlink" title="STL 迭代器"></a>STL 迭代器</h1><p>只有第一类容器支持迭代器（容器适配器不支持迭代器）。来个例子：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; v;</span><br><span class="line"><span class="keyword">for</span>(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;::reverse_iterator r = v.rbegin(); r &lt; v.rend(); r++)&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;*r;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>取决于不同的存储方式，不同容器支持的迭代器是不同的。这些迭代器按功能的强弱分为5类：</p>
+<ol>
+<li>Input Iterator：提供只读访问</li>
+<li>Output Iterator：提供只写访问</li>
+<li>Forward Iterator：支持逐个向后迭代访问</li>
+<li>Bidirectional Iterator：能够双向地逐个迭代访问</li>
+<li>Random Access Iterator：可随机访问每个元素</li>
+</ol>
+<p>例如，双向迭代器不支持<code>&lt;</code>，<code>&gt;</code>，<code>[]</code>运算符，只能判等：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">list</span>&lt;<span class="keyword">int</span>&gt; l;</span><br><span class="line"><span class="keyword">for</span>(<span class="built_in">list</span>&lt;<span class="keyword">int</span>&gt;::const_iterator i = l.begin(); i != l.end(); ++i)&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;*i;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>vector</code>和<code>deque</code>支持Random Access Iterator，<code>list</code>、<code>set/multiset</code>、<code>map/multimap</code>支持Bidirectional Iterator。</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/blog/2015/07/01/introduction-to-stl.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/blog/2015/06/30/std-string.html" itemprop="url">
+                  C++手稿：std::string
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-06-30T00:00:00+08:00" content="2015-06-30">
+              2015-06-30
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/reading/" itemprop="url" rel="index">
+                    <span itemprop="name">reading</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/blog/2015/06/30/std-string.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/06/30/std-string.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/blog/2015/06/30/std-string.html" class="leancloud_visitors" data-flag-title="C++手稿：std::string">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>字符串在很多编程语言中已经成为基本数据类型，C语言中我们使用<code>char*</code>来手动维护字符串的内存，<br>在C++中，可以使用<code>std::string</code>来方便地创建和操作字符串。</p>
+<p><code>string</code>是一个模板类，它有<code>basic_string&lt;T&gt;</code>定义：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> basic_string&lt;<span class="keyword">char</span>&gt; <span class="built_in">string</span>;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>C++的<code>string</code>可以通过成员方法<code>c_str()</code>转换为C语言的<code>char*</code>。</p>
+</blockquote>
+<p>参考文档：<a href="http://www.cplusplus.com/reference/string/string/">cplusplus.com/string</a></p>
+<h1 id="初始化与赋值"><a href="#初始化与赋值" class="headerlink" title="初始化与赋值"></a>初始化与赋值</h1><p><code>string</code>有两个常用的构造函数：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 用一个C字符串构造</span></span><br><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">str</span><span class="params">(<span class="string">"hello"</span>)</span></span>;</span><br><span class="line"><span class="comment">// 等价于</span></span><br><span class="line"><span class="built_in">string</span> str = <span class="string">"hello"</span>;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>也可以用N个同样的字符来构造字符串：<code>string str2(8, &#39;x&#39;)</code>。</p>
+</blockquote>
+<p>在C0x标准中，<code>std::to_string</code>可以将很多类型转换为一个<code>string</code>，可以代替<code>itoa</code>，例如：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">string</span> str = to_string(<span class="number">123</span>);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>string</code>构造函数不接受<code>char</code>和<code>int</code>类型。</p>
+</blockquote>
+<p>字符串可以直接互相赋值，内存会自动拷贝和销毁，我们大可不必管它。对于单个字符赋值可以使用下标运算符：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;str.length(); i++)&#123;</span><br><span class="line">    str[i] = <span class="string">'a'</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>与多数class类似，<code>string</code>也提供了<code>swap</code>：<code>str1.swap(s2)</code>将会交换二者的值。</p>
+</blockquote>
+<h1 id="运算符支持"><a href="#运算符支持" class="headerlink" title="运算符支持"></a>运算符支持</h1><p>有通用运算符支持的数据类型往往更容易理解和操作，其中最讨人喜欢的莫过于<code>+</code>运算符：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">str += str2;</span><br><span class="line">str = str + <span class="string">"hello"</span>;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>当然，你也可以直接调用<code>append</code>方法：<code>str.append(str2)</code>。</p>
+</blockquote>
+<p>除了<code>+</code>，<code>string</code>还支持一系列的比较运算符：<code>&lt;</code>, <code>==</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>!=</code>。</p>
+<blockquote>
+<p>当然，你仍然可以直接调用<code>compare</code>方法：<code>str1.compare(str2)</code>，<code>str1</code>小则会返回<code>-1</code>。</p>
+</blockquote>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/blog/2015/06/30/std-string.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/blog/2015/06/29/cpp-encapsulation-and-inheritance.html" itemprop="url">
+                  C++手稿：封装与继承
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-06-29T00:00:00+08:00" content="2015-06-29">
+              2015-06-29
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/blog/2015/06/29/cpp-encapsulation-and-inheritance.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/06/29/cpp-encapsulation-and-inheritance.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/blog/2015/06/29/cpp-encapsulation-and-inheritance.html" class="leancloud_visitors" data-flag-title="C++手稿：封装与继承">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>本文总结了C++中类的继承相关的概念，包括可见性级别、继承的不同方式、构造与析构过程、封闭类、友元等。</p>
+<h1 id="可见性级别"><a href="#可见性级别" class="headerlink" title="可见性级别"></a>可见性级别</h1><p>C++类提供了数据结构和算法的封装，以及相应的3种可见级别。它们定义了不同的可见性：</p>
 <ul>
-<li>控制器（controllers），用来完成页面逻辑，不包含DOM操作、资源获取。</li>
-<li>服务（services），用来提供资源访问和获取，控制资源的访问，维护数据一致性。</li>
-<li>过滤器（filters），用来格式化数据显示，很多第三方插件以提供<code>filter</code>为主，例如<code>angular-moment</code>。</li>
-<li>语义标签（directives），增强的HTML标签，DOM操作都应当抽象为<code>directive</code>。</li>
+<li>Public：当前类以及子类的方法中可见，外部可见。</li>
+<li>Protected：当前类以及子类的方法中可见，外部不可见。</li>
+<li>Private：当前类的方法中可见，外部不可见。</li>
 </ul>
-<p>Angular表单其实是Angular提供的Directive，它有一个别名叫<code>ng-form</code>。是这个Directive实例化了一个<code>FormController</code>来负责表单内的页面逻辑（主要是表单验证）。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-app</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">ng-form</span> <span class="attr">name</span>=<span class="string">someForm</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">ng-model</span>=<span class="string">"user.username"</span> <span class="attr">pattern</span>=<span class="string">"^\w&#123;6,18&#125;$"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"alert alert-danger"</span> <span class="attr">ng-show</span>=<span class="string">"someForm.username.$error.pattern"</span>&gt;</span></span><br><span class="line">      用户名必须为6-18个字母、数字或下划线</span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">ng-form</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p><code>ng-model</code>可以把<code>input</code>的值双向地绑定到当前上下文的<code>user.username</code>变量。我们设置了用户名的<code>pattern</code>为6到18位。我们输入用户名时，<code>.alert</code>错误提示便会实时地显示或者隐藏。</p>
 <blockquote>
-<p>这里我们指定了<code>form</code>的<code>name</code>属性，<code>form</code> Directive 实例化的<code>FormController</code>就会以<code>someForm</code>命名，并插入到当前<code>$scope</code>。所以在模板中才能够访问<code>userForm</code>变量。另外，Angular的Pattern使用Javascript正则表达式语法，这里<code>\w</code>相当于<code>[a-zA-Z_]</code>。</p>
+<p>在一个对象的成员函数中，可以调用其他同类对象的私有方法。</p>
 </blockquote>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/blog/2015/06/04/angular-form.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/blog/2015/05/31/angular-scope-initialize.html" itemprop="url">
-                  AngularJS 初始化过程
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-05-31T00:00:00+08:00" content="2015-05-31">
-              2015-05-31
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/blog/2015/05/31/angular-scope-initialize.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/05/31/angular-scope-initialize.html" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/blog/2015/05/31/angular-scope-initialize.html" class="leancloud_visitors" data-flag-title="AngularJS 初始化过程">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><a href="https://docs.angularjs.org">AngularJS</a>属于典型的单页APP框架，现由Google维护，用在了Google的多款产品中。<br>如果你的项目引入了AngularJS，同时还有不少的jQuery代码，你可能会碰到两者初始化顺序的问题。<br>本文就来探讨AngularJS APP以及Controller的初始化过程和时机。</p>
-<h1 id="Angular-APP"><a href="#Angular-APP" class="headerlink" title="Angular APP"></a>Angular APP</h1><p>一个Angular APP其实就是一个Angular Module，通常可以包含若干Controller、Service以及Directive。甚至不自己定义APP也可以启动一个Angular应用，例如：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-app</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">ng-form</span>&gt;</span>...<span class="tag">&lt;/<span class="name">ng-form</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>在你引入AngularJS之后，<code>div[ng-app]</code>便会在页面载入时启动，其子元素范围内构成一个<code>$scope</code>，可以使用angular标签（又称语义标签，其实就是<code>directive</code>）。通常我们会显示地定义一个Angular APP：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> app = angular.module(<span class="string">'helloApp'</span>, []); <span class="comment">// 第二个参数定义了Module依赖</span></span><br><span class="line"><span class="comment">// 添加controller</span></span><br><span class="line">app.controller(<span class="string">'worldCtrl'</span>, [<span class="string">'$scope'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">$scope</span>)</span>&#123;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">&#125;]);</span><br></pre></td></tr></table></figure>
-<p>然后在页面中引用它：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-app</span>=<span class="string">"helloApp"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">ng-form</span> <span class="attr">ng-controller</span>=<span class="string">'worldCtrl'</span>&gt;</span>...<span class="tag">&lt;/<span class="name">ng-form</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>在<code>div[ng-app]</code>的子元素中可以使用该<code>app</code>下的所有控制器，<strong>控制器可以嵌套，子控制器的<code>$scope</code>直接共享父控制器的<code>$scope</code>中的变量</strong>。</p>
-<h1 id="Angular-APP-的启动"><a href="#Angular-APP-的启动" class="headerlink" title="Angular APP 的启动"></a>Angular APP 的启动</h1><p><strong>同一个页面中可以包含多于一个的APP，但不能嵌套</strong>。同一页面中有多于一个APP时AngularJS不会自动帮你启动APP了，你需要手动启动这些APP。例如：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> element = $(<span class="string">'#some-div'</span>)[<span class="number">0</span>];</span><br><span class="line">angular.bootstrap(element, [<span class="string">'helloApp'</span>]);</span><br></pre></td></tr></table></figure>
-<p>AngularJS通过依赖注入的方式来实现模块化与封装。在启动APP之前，往往需要注入一些APP所在环境的信息：</p>
-<blockquote>
-<p>这是常见的需求。因为在AngularJS中，尽量不要去操作DOM（除非你在写<code>directive</code>），否则可测试性会严重下降。参见 <a href="http://docs.angularjs.cn/guide/controller">http://docs.angularjs.cn/guide/controller</a></p>
-</blockquote>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> app = angular.module(<span class="string">'helloApp'</span>); <span class="comment">// 获得之前声明的那个叫helloApp的模块</span></span><br><span class="line">app.constant(<span class="string">'sessionInfo'</span>, &#123;</span><br><span class="line">    <span class="string">'currentUser'</span>: $(<span class="string">'input#current-user'</span>).val(),</span><br><span class="line">    <span class="string">'uploadDir'</span>:   $(<span class="string">'input#upload-dir'</span>).val()</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/blog/2015/05/31/angular-scope-initialize.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/blog/2015/05/03/mysql-note.html" itemprop="url">
-                  MySQL 学习笔记
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-05-03T00:00:00+08:00" content="2015-05-03">
-              2015-05-03
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/blog/2015/05/03/mysql-note.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/05/03/mysql-note.html" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/blog/2015/05/03/mysql-note.html" class="leancloud_visitors" data-flag-title="MySQL 学习笔记">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>在使用Django时学习过一些MySQL，暂作小记在此。小编的Django笔记在这里：<br><a href="/2015/05/15/django-startup.html">Django 搭建过程记录</a></p>
-<p>MySQL官方文档在这里：</p>
-<p><a href="http://dev.mysql.com/doc/refman/5.1/zh/sql-syntax.html">http://dev.mysql.com/doc/refman/5.1/zh/sql-syntax.html</a></p>
-<h1 id="database"><a href="#database" class="headerlink" title="database"></a>database</h1><p>查看所有</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">databases</span>;</span><br></pre></td></tr></table></figure>
-<p>进入</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> db_name;</span><br></pre></td></tr></table></figure>
-<p>删除</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">drop</span> <span class="keyword">database</span> db_name;</span><br></pre></td></tr></table></figure>
-<h1 id="table"><a href="#table" class="headerlink" title="table"></a>table</h1><p>查看所有</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">tables</span>;</span><br></pre></td></tr></table></figure>
-<p>查看结构</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">desc tb_name</span><br></pre></td></tr></table></figure>
-<p>修改表名</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> tb_name <span class="keyword">rename</span> <span class="keyword">to</span> bbb;</span><br></pre></td></tr></table></figure>
-<p>添加字段</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">alter table tb_name add column col_name varchar(30);</span><br><span class="line"># 添加主键</span><br><span class="line">alter table tb_name add col_name int(5) unsigned default 0 not null auto_increment ,add primary key (tb_name);</span><br></pre></td></tr></table></figure>
-<p>删除字段</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> tb_name <span class="keyword">drop</span> <span class="keyword">column</span> col_name;</span><br></pre></td></tr></table></figure>
-<p>修改字段名</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> tb_name <span class="keyword">change</span> col_name new_col_name <span class="built_in">int</span>;</span><br></pre></td></tr></table></figure>
-<p>修改字段属性</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> tb_name <span class="keyword">modify</span> col_name <span class="built_in">varchar</span>(<span class="number">22</span>);</span><br></pre></td></tr></table></figure>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/blog/2015/05/03/mysql-note.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/blog/2015/05/02/linux-windows-time.html" itemprop="url">
-                  Linux/Windows 时间不一致问题
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-05-02T00:00:00+08:00" content="2015-05-02">
-              2015-05-02
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/blog/2015/05/02/linux-windows-time.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/05/02/linux-windows-time.html" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/blog/2015/05/02/linux-windows-time.html" class="leancloud_visitors" data-flag-title="Linux/Windows 时间不一致问题">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>在使用Linux/Windows的双系统时，经常发现时间不正确：liunx下的时间或windows下的时间不对，往往相差8小时。在此给出解释和推荐解决方案。</p>
-<h2 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h2><ul>
-<li>CST：(China Standard Time,UTC+8:00) 中国沿海时间(北京时间)</li>
-<li>UTC：(Universal Time Coordinated,UTC) 世界协调时间</li>
-<li>GMT：(Greenwich Mean Time ,GMT）格林威治时间</li>
-<li>LT：(locale time）本地时间</li>
+<p>多数现代的面向对象语言中，仅提供Private和Public两种可见性，C++的可见级别略显复杂。<br>然而三种继承方式以及多继承机制，让问题更加复杂。简单起见，此处只讨论Private和Public方式的单继承。</p>
+<ul>
+<li>Public继承：子类中可访问基类<code>public</code>、<code>protected</code>成员，子类外部可见父类<code>public</code>成员。</li>
+<li>Private继承：子类中可访问基类<code>public</code>、<code>protected</code>成员，子类外部不可见父类成员。</li>
 </ul>
-<p>GPS 系统中有两种时间区分，一为UTC，另一为LT（地方时）两者的区别为时区不同，UTC就是0时区的时间，地方时为本地时间，如北京为早上八点（东八区），UTC时间就为零点，UTC时间比北京时晚八小时，以此计算即可。</p>
+<h1 id="类的继承"><a href="#类的继承" class="headerlink" title="类的继承"></a>类的继承</h1><ul>
+<li><p>Public继承表示”is a”的关系（见<a href="!--￼6--">Effective C++: Item 32</a>），子类的对象同时也是一个基类的对象。<br>子类的行为应符合基类的行为，因此Public继承中通常不会覆盖基类成员。</p>
+</li>
+<li><p>Private继承表示“以…实现“的关系，子类是以基类来实现的<br>对于一个子类的对象，其外部不可见基类的行为。Private继承更像是对象组合。</p>
+</li>
+</ul>
 <blockquote>
-<p>我们可以认为格林威治时间就是时间协调时间（GMT=UTC）</p>
+<p>对于Public继承，子类的指针、引用、变量可以直接赋值给基类的指针、引用、变量。</p>
 </blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> CBase&#123;&#125;;</span><br><span class="line"><span class="keyword">class</span> CDerived: <span class="keyword">public</span> CBase&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    CDerived(): CBase()&#123;&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
           <div class="post-more-link text-center">
-            <a class="btn" href="/blog/2015/05/02/linux-windows-time.html#more" rel="contents">
+            <a class="btn" href="/blog/2015/06/29/cpp-encapsulation-and-inheritance.html#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -956,8 +909,8 @@
             
               
                 
-                <a class="post-title-link" href="/blog/2015/04/23/lamp-startup.html" itemprop="url">
-                  LAMP 搭建
+                <a class="post-title-link" href="/blog/2015/06/28/cpp-polymorphism.html" itemprop="url">
+                  C++手稿：虚函数与多态
                 </a>
               
             
@@ -970,8 +923,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-04-23T00:00:00+08:00" content="2015-04-23">
-              2015-04-23
+            <time itemprop="dateCreated" datetime="2015-06-28T00:00:00+08:00" content="2015-06-28">
+              2015-06-28
             </time>
           </span>
 
@@ -981,8 +934,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/blog/2015/04/23/lamp-startup.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/04/23/lamp-startup.html" itemprop="commentsCount"></span>
+                <a href="/blog/2015/06/28/cpp-polymorphism.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/06/28/cpp-polymorphism.html" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -992,7 +945,7 @@
 
           
           
-             <span id="/blog/2015/04/23/lamp-startup.html" class="leancloud_visitors" data-flag-title="LAMP 搭建">
+             <span id="/blog/2015/06/28/cpp-polymorphism.html" class="leancloud_visitors" data-flag-title="C++手稿：虚函数与多态">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -1016,16 +969,12 @@
       
         
           
-          听说PHP是世界上最好的编程语言，小编也试了一把。暂作记录在此。万一小编以后转向PHP了呢？
-下载安装phpmysqlapache
-配置apache设置apache的配置文件httpd.conf，更改后要restart httpd
+          C++类继承带来了诸多好处：基类代码复用、通用的方法和属性、更好的可维护性，然而最大的好处莫过于提供统一的接口。接口是一种对类型的抽象，它统一了一系列类的行为，不同类的对象之间交互更加容易。Java、objective C等面向对象语言都提供了接口的概念，在C++中可以通过抽象类来模拟接口的行为。
 
-web目录：更改 DocumentRoot
-  1Document
           ...
 
           <div class="post-more-link text-center">
-            <a class="btn" href="/blog/2015/04/23/lamp-startup.html#more" rel="contents">
+            <a class="btn" href="/blog/2015/06/28/cpp-polymorphism.html#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1059,7 +1008,7 @@ web目录：更改 DocumentRoot
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span>
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
