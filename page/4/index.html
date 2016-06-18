@@ -318,8 +318,8 @@
             
               
                 
-                <a class="post-title-link" href="/blog/2015/06/04/angular-form.html" itemprop="url">
-                  AngularJS 表单（ng-form）验证
+                <a class="post-title-link" href="/blog/2015/06/28/cpp-polymorphism.html" itemprop="url">
+                  C++手稿：虚函数与多态
                 </a>
               
             
@@ -332,8 +332,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-06-04T00:00:00+08:00" content="2015-06-04">
-              2015-06-04
+            <time itemprop="dateCreated" datetime="2015-06-28T00:00:00+08:00" content="2015-06-28">
+              2015-06-28
             </time>
           </span>
 
@@ -343,8 +343,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/blog/2015/06/04/angular-form.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/06/04/angular-form.html" itemprop="commentsCount"></span>
+                <a href="/blog/2015/06/28/cpp-polymorphism.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/06/28/cpp-polymorphism.html" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -354,7 +354,7 @@
 
           
           
-             <span id="/blog/2015/06/04/angular-form.html" class="leancloud_visitors" data-flag-title="AngularJS 表单（ng-form）验证">
+             <span id="/blog/2015/06/28/cpp-polymorphism.html" class="leancloud_visitors" data-flag-title="C++手稿：虚函数与多态">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -377,152 +377,177 @@
 
       
         
-          <p>在HTML中，用户通过<code>input</code>, <code>select</code>, <code>textarea</code>等元素进行输入，我们通常用表单来包装和管理这些控件。客户端表单验证非常重要，可以及时地为用户提供表单验证信息。但客户端表单验证只是为了增强用户体验，服务器端验证仍然是必要的。</p>
-<p><a href="https://docs.angularjs.org">AngularJS</a>最大的特点便是数据绑定。利用Angular在客户端脚本中构建MVC框架，Model和View之间可以实现双向绑定。因此<strong>AngularJS的表单验证可以做到实时的用户反馈</strong>。</p>
+          
+            <p>C++类继承带来了诸多好处：基类代码复用、通用的方法和属性、更好的可维护性，<br>然而最大的好处莫过于提供统一的接口。接口是一种对类型的抽象，它统一了一系列类的行为，<br>不同类的对象之间交互更加容易。Java、objective C等面向对象语言都提供了接口的概念，<br>在C++中可以通过抽象类来模拟接口的行为。</p>
+<p>与此同时，C++通过虚函数实现了多态：通过基类指针或引用调用虚函数时，会调用当前对象的实际类型中声明的函数。<br>为了这个特性，包含虚函数的C++对象中会存储一个虚函数表指针，来完成动态联编。</p>
 <blockquote>
-<p>事实上，正是因为<strong>实时的用户反馈</strong>这个神奇的特性，我们团队在 <a href="http://tianmaying.com">http://tianmaying.com</a> 中也继续引入了AngularJS，尽管此时我们对单页应用已经不感兴趣。</p>
+<p>编译程序在编译阶段并不能确切知道将要调用的函数，只有在程序运行时才能确定将要调用的函数，<br>为此要确切知道该调用的函数，要求联编工作要在程序运行时进行，<br>这种在程序运行时进行联编工作被称为<strong>动态联编</strong>。</p>
 </blockquote>
-<h1 id="一个简单的表单"><a href="#一个简单的表单" class="headerlink" title="一个简单的表单"></a>一个简单的表单</h1><p>Angular是模块化的，每个APP都是一个Angular Module。我们知道Module下可以包含这样四种内容：</p>
+<h1 id="虚函数"><a href="#虚函数" class="headerlink" title="虚函数"></a>虚函数</h1><p>虚函数通过<code>virtual</code>关键字来声明。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> CPerson&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">hello</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">"I'm a person"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">class</span> CMan: <span class="keyword">public</span> CPerson&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="comment">// 子类中不必声明virtual</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">hello</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">"I'm a man"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">CPerson *p = <span class="keyword">new</span> CMan();</span><br><span class="line">p-&gt;hello();</span><br><span class="line"><span class="comment">// I'm a man</span></span><br></pre></td></tr></table></figure>
+<p>上述代码中，通过基类指针调用虚函数时，子类的同名函数得到了执行。多态在C++中有三种形态：</p>
+<ol>
+<li>通过基类指针调用基类和子类的同名虚函数时，会调用对象的实际类型中的虚函数。</li>
+<li>通过基类引用调用基类和子类的同名虚函数时，会调用对象的实际类型中的虚函数。</li>
+<li>基类或子类的成员函数中调用基类和子类的同名虚函数，会调用对象的实际类型中的虚函数。</li>
+</ol>
+<h1 id="纯虚函数"><a href="#纯虚函数" class="headerlink" title="纯虚函数"></a>纯虚函数</h1><p>虚函数的声明以<code>=0</code>结束，便可将它声明为纯虚函数。包含纯虚函数的类不允许实例化，称为<strong>抽象类</strong>。<br>事实上纯虚函数提供了面向对象中接口的功能。当然，这样的接口是以继承的方式实现的。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> CPerson&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">hello</span><span class="params">()</span> </span>= <span class="number">0</span>;</span><br><span class="line">&#125;;</span><br><span class="line">CPerson p;  <span class="comment">// compile error</span></span><br></pre></td></tr></table></figure>
+<p>注意空方法、纯虚函数、方法声明的区别。类声明中的空方法给出了方法声明+方法定义。<br>只声明但没有定义的方法将会产生链接错，无论是否被调用过。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> CPerson&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">empty</span><span class="params">()</span></span>&#123;&#125;;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">declare</span><span class="params">()</span></span>;</span><br><span class="line">&#125;;</span><br><span class="line">CPerson::declare()&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h1 id="访问级别"><a href="#访问级别" class="headerlink" title="访问级别"></a>访问级别</h1><p>虚函数的调用会在运行时动态匹配当前类型，然而成员函数的访问性检查是语法检查的一部分，在编译期完成。<br>如果虚函数在父类中是Private，即使在子类中是Public，也不可以通过父类指针调用它：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> CPerson&#123;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">hello</span><span class="params">()</span></span>; </span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">class</span> CMan: <span class="keyword">public</span> CPerson&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">hello</span><span class="params">()</span></span>; </span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">CPerson* p = <span class="keyword">new</span> CMan;</span><br><span class="line">p-&gt;hello(); <span class="comment">// 编译错</span></span><br></pre></td></tr></table></figure>
+<h1 id="虚析构函数"><a href="#虚析构函数" class="headerlink" title="虚析构函数"></a>虚析构函数</h1><p>虚函数的机制使得我们可以通过更加通用的基类指针来操作对象。然而使用基类指针来<code>delete</code>对象则面临着问题：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CPerson *p = <span class="keyword">new</span> CMan();</span><br><span class="line"><span class="keyword">delete</span> p;</span><br></pre></td></tr></table></figure>
+<p>上述代码只会回收<code>CMan</code>中<code>CPerson</code>部分所占用的内存，执行了<code>CPerson</code>的析构函数，却没有执行<code>CMan</code>的虚构函数。<br>解决办法很直观：将析构函数设为<code>virtual</code>。更多讨论见<a href="!--￼8--">Effective C++: Item 7</a>。</p>
+<blockquote>
+<p>构造函数不允许是虚函数，编译错。</p>
+</blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> CPerson&#123;</span><br><span class="line"><span class="keyword">public</span>: </span><br><span class="line">    <span class="keyword">virtual</span> ~CPerson()&#123;&#125;;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">class</span> CMan: <span class="keyword">public</span> CPerson&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    ~CMan()&#123;&#125;; </span><br><span class="line">&#125;;</span><br><span class="line">CPerson *p = <span class="keyword">new</span> CMan();</span><br><span class="line"><span class="keyword">delete</span> p;</span><br></pre></td></tr></table></figure>
+<p>这样，<code>delete</code>时会先调用<code>~CMan()</code>在调用<code>~CPerson()</code>。</p>
+<h1 id="构造函数调用虚函数"><a href="#构造函数调用虚函数" class="headerlink" title="构造函数调用虚函数"></a>构造函数调用虚函数</h1><p>当执行构造函数时，当前对象的类型为构造函数所属在的类。<br>所以在构造函数中调用虚函数和调用普通函数是一样的，不会动态联编，<br>被调用的函数来自自己或者基类。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> CPerson&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">hello</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">"I'm a person"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">bye</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">"Bye, person"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">class</span> CMan: <span class="keyword">public</span> CPerson&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    CMan()&#123;</span><br><span class="line">        hello();</span><br><span class="line">        bye();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">hello</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">"I'm a man"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">class</span> CReek: <span class="keyword">public</span> CMan&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">hello</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">"I'm a reek"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">bye</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">"Bye, reek"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    CReek r;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述的调用结果是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">I&apos;m a man</span><br><span class="line">Bye, person</span><br></pre></td></tr></table></figure>
+<p><code>hello</code>和<code>bye</code>都是虚函数，其中<code>hello</code>三个层级都有定义，但被执行的是当前类<code>CMan</code>中的定义；<br><code>bye</code>在上下两个层级有定义，被执行的是上一级类<code>CPerson</code>中的定义。<br>可见，构造函数执行时当前对象的类型是定义构造函数的类。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/blog/2015/06/26/jquery-event.html" itemprop="url">
+                  jQuery事件：bind、delegate、on的区别
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-06-26T00:00:00+08:00" content="2015-06-26">
+              2015-06-26
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/blog/2015/06/26/jquery-event.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/06/26/jquery-event.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/blog/2015/06/26/jquery-event.html" class="leancloud_visitors" data-flag-title="jQuery事件：bind、delegate、on的区别">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>最近在<a href="/2015/05/31/angular-scope-initialize.html">AngularJS</a>的开发中，遇到一个神奇的事情：我们用到<a href="http://lokeshdhakar.com/projects/lightbox2/">livebox</a>来预览评论列表中的图片，<br>然而评论列表是由Angular Resource动态载入的。不可思议的是，点击这些动态载入的图片仍然会触发lightbox的图片预览。<br>难道lightbox使用先进的<a href="https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver">MutationObserver</a>技术监听了DOM的变化？观察<a href="https://github.com/lokesh/lightbox2/blob/master/src/js/lightbox.js">lightbox源码</a>才发现，原来只是jQuery的<code>.on()</code>方法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">'body'</span>).on(<span class="string">'click'</span>, <span class="string">'a[rel^=lightbox], ...'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">event</span>)</span>&#123;&#125;);</span><br></pre></td></tr></table></figure>
+<p>本文便来详解各种jQuery事件绑定方法：<code>on</code>，<code>bind</code>，<code>delegate</code>，<code>live</code>，<code>unbind</code>，<code>trigger</code>。<br>同时总结一下常用的jQuery事件技术：如何阻止事件冒泡、阻止浏览器默认行为、解绑事件处理函数、自定义事件。</p>
+<h1 id="什么是-jQuery-事件"><a href="#什么是-jQuery-事件" class="headerlink" title="什么是 jQuery 事件"></a>什么是 jQuery 事件</h1><p><a href="https://api.jquery.com/category/events/">jQuery事件</a>是DOM事件的封装，同时支持自定义的扩展。在程序设计中，事件和代理有着相似的作用：<br>它们提供了一种机制，使得行为的实现方式和调用时机可以分离。</p>
+<p>不谈jQuery，DOM本身就提供了一系列的javascript事件，例如<code>click</code>，<code>keyup</code>，<code>submit</code>。<br>未实现相关业务逻辑，通常会为这些事件定义一系列的处理函数，<strong>处理函数定义了业务的实现方式，而浏览器知道这些业务的调用时机</strong>。<br>Javascript事件就是这样一种机制，使得行为的实现方式和调用时机可以动态地绑定。</p>
+<p>jQuery事件是通过封装javascript事件来实现的，例如<code>.keyup()</code>便是<code>onkeyup</code>的封装：</p>
+<blockquote>
+<p><code>.keyup()</code>： Bind an event handler to the “keyup” JavaScript event, or trigger that event on an element.</p>
+</blockquote>
+<p>除了封装大多数的javascript事件，jQuery提供了统一的事件绑定和触发机制：</p>
 <ul>
-<li>控制器（controllers），用来完成页面逻辑，不包含DOM操作、资源获取。</li>
-<li>服务（services），用来提供资源访问和获取，控制资源的访问，维护数据一致性。</li>
-<li>过滤器（filters），用来格式化数据显示，很多第三方插件以提供<code>filter</code>为主，例如<code>angular-moment</code>。</li>
-<li>语义标签（directives），增强的HTML标签，DOM操作都应当抽象为<code>directive</code>。</li>
+<li>绑定事件：<code>bind</code>、<code>on</code>、<code>live</code>、<code>delegate</code>、<code>keyup(&lt;function&gt;)</code>；</li>
+<li>触发事件：<code>trigger(&#39;keyup&#39;)</code>、<code>keyup()</code>；</li>
+<li>解绑事件：<code>unbind</code>、<code>off</code>、<code>die</code>、<code>undelegate</code>。</li>
 </ul>
-<p>Angular表单其实是Angular提供的Directive，它有一个别名叫<code>ng-form</code>。是这个Directive实例化了一个<code>FormController</code>来负责表单内的页面逻辑（主要是表单验证）。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-app</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">ng-form</span> <span class="attr">name</span>=<span class="string">someForm</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">ng-model</span>=<span class="string">"user.username"</span> <span class="attr">pattern</span>=<span class="string">"^\w&#123;6,18&#125;$"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"alert alert-danger"</span> <span class="attr">ng-show</span>=<span class="string">"someForm.username.$error.pattern"</span>&gt;</span></span><br><span class="line">      用户名必须为6-18个字母、数字或下划线</span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">ng-form</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p><code>ng-model</code>可以把<code>input</code>的值双向地绑定到当前上下文的<code>user.username</code>变量。我们设置了用户名的<code>pattern</code>为6到18位。我们输入用户名时，<code>.alert</code>错误提示便会实时地显示或者隐藏。</p>
+<h1 id="事件绑定：bind"><a href="#事件绑定：bind" class="headerlink" title="事件绑定：bind"></a>事件绑定：bind</h1><p>使用javascript绑定一个事件很简单，只需要在HTML中设置<code>onxxx</code>属性，<br>并且在javascript中定义相关的处理函数便可以完成。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">onclick</span>=<span class="string">"func()"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">func</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'clicked!'</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>上述是基本的javascript事件处理方式，而jQuery提供了更加方便的方式：<code>.bind()</code>函数。</p>
 <blockquote>
-<p>这里我们指定了<code>form</code>的<code>name</code>属性，<code>form</code> Directive 实例化的<code>FormController</code>就会以<code>someForm</code>命名，并插入到当前<code>$scope</code>。所以在模板中才能够访问<code>userForm</code>变量。另外，Angular的Pattern使用Javascript正则表达式语法，这里<code>\w</code>相当于<code>[a-zA-Z_]</code>。</p>
+<p><code>.bind()</code>：Attach a handler to an event for the elements.</p>
 </blockquote>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/blog/2015/06/04/angular-form.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/blog/2015/05/31/angular-scope-initialize.html" itemprop="url">
-                  AngularJS 初始化过程
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-05-31T00:00:00+08:00" content="2015-05-31">
-              2015-05-31
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/blog/2015/05/31/angular-scope-initialize.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/05/31/angular-scope-initialize.html" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/blog/2015/05/31/angular-scope-initialize.html" class="leancloud_visitors" data-flag-title="AngularJS 初始化过程">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><a href="https://docs.angularjs.org">AngularJS</a>属于典型的单页APP框架，现由Google维护，用在了Google的多款产品中。<br>如果你的项目引入了AngularJS，同时还有不少的jQuery代码，你可能会碰到两者初始化顺序的问题。<br>本文就来探讨AngularJS APP以及Controller的初始化过程和时机。</p>
-<h1 id="Angular-APP"><a href="#Angular-APP" class="headerlink" title="Angular APP"></a>Angular APP</h1><p>一个Angular APP其实就是一个Angular Module，通常可以包含若干Controller、Service以及Directive。甚至不自己定义APP也可以启动一个Angular应用，例如：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-app</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">ng-form</span>&gt;</span>...<span class="tag">&lt;/<span class="name">ng-form</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>在你引入AngularJS之后，<code>div[ng-app]</code>便会在页面载入时启动，其子元素范围内构成一个<code>$scope</code>，可以使用angular标签（又称语义标签，其实就是<code>directive</code>）。通常我们会显示地定义一个Angular APP：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> app = angular.module(<span class="string">'helloApp'</span>, []); <span class="comment">// 第二个参数定义了Module依赖</span></span><br><span class="line"><span class="comment">// 添加controller</span></span><br><span class="line">app.controller(<span class="string">'worldCtrl'</span>, [<span class="string">'$scope'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">$scope</span>)</span>&#123;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">&#125;]);</span><br></pre></td></tr></table></figure>
-<p>然后在页面中引用它：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-app</span>=<span class="string">"helloApp"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">ng-form</span> <span class="attr">ng-controller</span>=<span class="string">'worldCtrl'</span>&gt;</span>...<span class="tag">&lt;/<span class="name">ng-form</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>在<code>div[ng-app]</code>的子元素中可以使用该<code>app</code>下的所有控制器，<strong>控制器可以嵌套，子控制器的<code>$scope</code>直接共享父控制器的<code>$scope</code>中的变量</strong>。</p>
-<h1 id="Angular-APP-的启动"><a href="#Angular-APP-的启动" class="headerlink" title="Angular APP 的启动"></a>Angular APP 的启动</h1><p><strong>同一个页面中可以包含多于一个的APP，但不能嵌套</strong>。同一页面中有多于一个APP时AngularJS不会自动帮你启动APP了，你需要手动启动这些APP。例如：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> element = $(<span class="string">'#some-div'</span>)[<span class="number">0</span>];</span><br><span class="line">angular.bootstrap(element, [<span class="string">'helloApp'</span>]);</span><br></pre></td></tr></table></figure>
-<p>AngularJS通过依赖注入的方式来实现模块化与封装。在启动APP之前，往往需要注入一些APP所在环境的信息：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">'foo'</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span><br><span class="line">$(<span class="string">'#foo'</span>).click(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'clicked!'</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><code>.click(&lt;function&gt;)</code>等效于<code>.bind(&#39;click&#39;, &lt;function&gt;)</code>。另外还可以通过<code>unbind</code>来解绑事件：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">'#foo'</span>).unbind(<span class="string">'click'</span>);</span><br></pre></td></tr></table></figure>
 <blockquote>
-<p>这是常见的需求。因为在AngularJS中，尽量不要去操作DOM（除非你在写<code>directive</code>），否则可测试性会严重下降。参见 <a href="http://docs.angularjs.cn/guide/controller">http://docs.angularjs.cn/guide/controller</a></p>
+<p>如果<code>unbind</code>参数为空，则解绑匹配元素的所有事件处理函数。<br>在我的理解中，我们还是不要<code>off</code>，<code>unbind</code>，<code>die</code>吧。即使不谈效率，它们也使得软件更难理解了。<br>如果你感觉有需要，下面的<code>.on()</code>应该会满足你~</p>
 </blockquote>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> app = angular.module(<span class="string">'helloApp'</span>); <span class="comment">// 获得之前声明的那个叫helloApp的模块</span></span><br><span class="line">app.constant(<span class="string">'sessionInfo'</span>, &#123;</span><br><span class="line">    <span class="string">'currentUser'</span>: $(<span class="string">'input#current-user'</span>).val(),</span><br><span class="line">    <span class="string">'uploadDir'</span>:   $(<span class="string">'input#upload-dir'</span>).val()</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p><code>.bind</code>将会给所有匹配的元素都绑定一次事件，当元素很多时性能会变差。<br>而且后来动态新增的元素不会被绑定。</p>
           <div class="post-more-link text-center">
-            <a class="btn" href="/blog/2015/05/31/angular-scope-initialize.html#more" rel="contents">
+            <a class="btn" href="/blog/2015/06/26/jquery-event.html#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -573,8 +598,8 @@
             
               
                 
-                <a class="post-title-link" href="/blog/2015/05/03/mysql-note.html" itemprop="url">
-                  MySQL 学习笔记
+                <a class="post-title-link" href="/blog/2015/06/25/operator-overload.html" itemprop="url">
+                  C++手稿：运算符重载
                 </a>
               
             
@@ -587,8 +612,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-05-03T00:00:00+08:00" content="2015-05-03">
-              2015-05-03
+            <time itemprop="dateCreated" datetime="2015-06-25T00:00:00+08:00" content="2015-06-25">
+              2015-06-25
             </time>
           </span>
 
@@ -598,8 +623,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/blog/2015/05/03/mysql-note.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/05/03/mysql-note.html" itemprop="commentsCount"></span>
+                <a href="/blog/2015/06/25/operator-overload.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/06/25/operator-overload.html" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -609,7 +634,7 @@
 
           
           
-             <span id="/blog/2015/05/03/mysql-note.html" class="leancloud_visitors" data-flag-title="MySQL 学习笔记">
+             <span id="/blog/2015/06/25/operator-overload.html" class="leancloud_visitors" data-flag-title="C++手稿：运算符重载">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -632,153 +657,23 @@
 
       
         
-          <p>在使用Django时学习过一些MySQL，暂作小记在此。小编的Django笔记在这里：<br><a href="/2015/05/15/django-startup.html">Django 搭建过程记录</a></p>
-<p>MySQL官方文档在这里：</p>
-<p><a href="http://dev.mysql.com/doc/refman/5.1/zh/sql-syntax.html">http://dev.mysql.com/doc/refman/5.1/zh/sql-syntax.html</a></p>
-<h1 id="database"><a href="#database" class="headerlink" title="database"></a>database</h1><p>查看所有</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">databases</span>;</span><br></pre></td></tr></table></figure>
-<p>进入</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> db_name;</span><br></pre></td></tr></table></figure>
-<p>删除</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">drop</span> <span class="keyword">database</span> db_name;</span><br></pre></td></tr></table></figure>
-<h1 id="table"><a href="#table" class="headerlink" title="table"></a>table</h1><p>查看所有</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">tables</span>;</span><br></pre></td></tr></table></figure>
-<p>查看结构</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">desc tb_name</span><br></pre></td></tr></table></figure>
-<p>修改表名</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> tb_name <span class="keyword">rename</span> <span class="keyword">to</span> bbb;</span><br></pre></td></tr></table></figure>
-<p>添加字段</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">alter table tb_name add column col_name varchar(30);</span><br><span class="line"># 添加主键</span><br><span class="line">alter table tb_name add col_name int(5) unsigned default 0 not null auto_increment ,add primary key (tb_name);</span><br></pre></td></tr></table></figure>
-<p>删除字段</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> tb_name <span class="keyword">drop</span> <span class="keyword">column</span> col_name;</span><br></pre></td></tr></table></figure>
-<p>修改字段名</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> tb_name <span class="keyword">change</span> col_name new_col_name <span class="built_in">int</span>;</span><br></pre></td></tr></table></figure>
-<p>修改字段属性</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> tb_name <span class="keyword">modify</span> col_name <span class="built_in">varchar</span>(<span class="number">22</span>);</span><br></pre></td></tr></table></figure>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/blog/2015/05/03/mysql-note.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/blog/2015/05/02/linux-windows-time.html" itemprop="url">
-                  Linux/Windows 时间不一致问题
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-05-02T00:00:00+08:00" content="2015-05-02">
-              2015-05-02
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/blog/2015/05/02/linux-windows-time.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/05/02/linux-windows-time.html" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/blog/2015/05/02/linux-windows-time.html" class="leancloud_visitors" data-flag-title="Linux/Windows 时间不一致问题">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>在使用Linux/Windows的双系统时，经常发现时间不正确：liunx下的时间或windows下的时间不对，往往相差8小时。在此给出解释和推荐解决方案。</p>
-<h2 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h2><ul>
-<li>CST：(China Standard Time,UTC+8:00) 中国沿海时间(北京时间)</li>
-<li>UTC：(Universal Time Coordinated,UTC) 世界协调时间</li>
-<li>GMT：(Greenwich Mean Time ,GMT）格林威治时间</li>
-<li>LT：(locale time）本地时间</li>
-</ul>
-<p>GPS 系统中有两种时间区分，一为UTC，另一为LT（地方时）两者的区别为时区不同，UTC就是0时区的时间，地方时为本地时间，如北京为早上八点（东八区），UTC时间就为零点，UTC时间比北京时晚八小时，以此计算即可。</p>
+          <p><strong>运算符重载</strong>就是对已有的C++运算符赋予更多的语义，让一个运算符可以作用于其他的数据类型。<br>典型地，让运算符接受一个类的对象作为参数。</p>
+<p>通常有两种方式来重载一个运算符：</p>
+<ol>
+<li>声明一个普通函数，作为类的友元。</li>
+<li>声明为类的成员方法。</li>
+</ol>
 <blockquote>
-<p>我们可以认为格林威治时间就是时间协调时间（GMT=UTC）</p>
+<p>事实上，运算符的本质是函数。每个运算符调用会转换为函数调用，运算符的操作数转换为函数参数。<br>运算符的重载本质上是方法的重载。</p>
 </blockquote>
+<p>这些运算符不允许重载：<code>.</code>，<code>.*</code>，<code>::</code>，<code>?:</code>，<code>sizeof</code>。</p>
+<h1 id="重载为普通函数"><a href="#重载为普通函数" class="headerlink" title="重载为普通函数"></a>重载为普通函数</h1><p>重载为普通函数时，参数的个数为运算符的目数：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">CPerson operator+(const CPerson&amp; male, const CPerson&amp; female)&#123;</span><br><span class="line">    return CPerson(male.name + female.name);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">CPerson male("Bob"), female("Alice");</span><br><span class="line">CPerson child1 = male + female;</span><br><span class="line">// 等价于</span><br><span class="line">CPerson child2 = operator+(male, female);</span><br></pre></td></tr></table></figure>
+<p>这些运算符必须重载为成员函数：<code>()</code>，<code>[]</code>，<code>-&gt;</code>，<code>=</code>。</p>
+<h1 id="重载为成员函数"><a href="#重载为成员函数" class="headerlink" title="重载为成员函数"></a>重载为成员函数</h1><p>重载为成员函数时，参数的个数为运算符的目数-1：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">class CPerson&#123;</span><br><span class="line">    string name;</span><br><span class="line">public:</span><br><span class="line">    CPerson(string name_):name(name_)&#123;&#125;</span><br><span class="line">    CPerson operator+(const CPerson&amp; female)&#123;</span><br><span class="line">        return CPerson(name + female.name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">CPerson male("Bob"), female("Alice");</span><br><span class="line">CPerson child1 = male + female;</span><br><span class="line">// 等价于</span><br><span class="line">CPerson child2 = male.operator+(female);</span><br></pre></td></tr></table></figure>
           <div class="post-more-link text-center">
-            <a class="btn" href="/blog/2015/05/02/linux-windows-time.html#more" rel="contents">
+            <a class="btn" href="/blog/2015/06/25/operator-overload.html#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -829,8 +724,8 @@
             
               
                 
-                <a class="post-title-link" href="/blog/2015/04/23/lamp-startup.html" itemprop="url">
-                  LAMP 搭建
+                <a class="post-title-link" href="/blog/2015/06/24/cpp-static-and-const-member.html" itemprop="url">
+                  C++手稿：类的静态和常量成员
                 </a>
               
             
@@ -843,8 +738,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-04-23T00:00:00+08:00" content="2015-04-23">
-              2015-04-23
+            <time itemprop="dateCreated" datetime="2015-06-24T00:00:00+08:00" content="2015-06-24">
+              2015-06-24
             </time>
           </span>
 
@@ -854,8 +749,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/blog/2015/04/23/lamp-startup.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/04/23/lamp-startup.html" itemprop="commentsCount"></span>
+                <a href="/blog/2015/06/24/cpp-static-and-const-member.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/06/24/cpp-static-and-const-member.html" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -865,7 +760,7 @@
 
           
           
-             <span id="/blog/2015/04/23/lamp-startup.html" class="leancloud_visitors" data-flag-title="LAMP 搭建">
+             <span id="/blog/2015/06/24/cpp-static-and-const-member.html" class="leancloud_visitors" data-flag-title="C++手稿：类的静态和常量成员">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -888,30 +783,264 @@
 
       
         
-          
-            <p>听说PHP是世界上最好的编程语言，小编也试了一把。暂作记录在此。<br>万一小编以后转向PHP了呢？</p>
-<h1 id="下载安装"><a href="#下载安装" class="headerlink" title="下载安装"></a>下载安装</h1><p><a href="http://www.php.net" target="_blank" rel="external">php</a><br><a href="http://httpd.apache.org" target="_blank" rel="external">mysql</a><br><a href="http://www.mysql.com/" target="_blank" rel="external">apache</a></p>
-<h1 id="配置apache"><a href="#配置apache" class="headerlink" title="配置apache"></a>配置apache</h1><p>设置apache的配置文件<code>httpd.conf</code>，更改后要<code>restart httpd</code></p>
+          <p>本文总结了静态成员的使用、单例的实现、常量对象与常量方法，以及如何将常量方法重载为普通方法。</p>
+<h1 id="静态成员"><a href="#静态成员" class="headerlink" title="静态成员"></a>静态成员</h1><p>对象成员的声明前加<code>static</code>即可定义为静态成员，静态成员必须在声明类的文件中进行声明（通常会初始化），否则链接错。<br>访问静态成员可以通过类名，也可以通过对象名。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> CPerson&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">int</span> count;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">int</span> CPerson::count = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">CPerson p1, &amp;p2 = p1, *p3 = <span class="keyword">new</span> CPerson();</span><br><span class="line"></span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;CPerson::count&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;p1.count&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;p2.count&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;p3-&gt;count&lt;&lt;<span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
 <ul>
-<li><p>web目录：更改 DocumentRoot</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DocumentRoot &quot;E:/web&quot;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>默认页面：找到 DirectoryIndex 并改成</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DirectoryIndex index.html index.php test.php hello.php</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>php支持：找到loadmodule部分添加</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#这里dll在php安装路径，并且要对应apache版本，这里是2.2.22</span><br><span class="line">LoadModule php5_module &quot;D:/Program Files (x86)/php-5.4.8/php5apache2_2.dll&quot;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>添加对.php文件支持</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AddType application/x-httpd-php .php</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>路径访问权限，更改要与 DocumentRoot 一致</p>
-</li>
+<li>只有静态常量整型才可以在类的声明中，直接初始化。</li>
+<li><code>sizeof</code>运算符不会计算静态常量。</li>
+<li>静态方法不可访问非静态成员、<code>this</code>指针。</li>
 </ul>
-<h1 id="Apache使用"><a href="#Apache使用" class="headerlink" title="Apache使用"></a>Apache使用</h1><p>以下关注Debian兼容的操作系统。文档：<a href="http://man.ddvip.com/linux/debian/apache2/" target="_blank" rel="external">http://man.ddvip.com/linux/debian/apache2/</a></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#启动</span></span><br><span class="line">sudo /etc/init.d/apache2 start</span><br><span class="line"><span class="comment">#停止</span></span><br><span class="line">sudo /etc/init.d/apache2 stop</span><br><span class="line"><span class="comment">#或者直接结束进程</span></span><br><span class="line">sudo killall apache2</span><br><span class="line"><span class="comment">#配置文件</span></span><br><span class="line">ls /etc/apache2</span><br></pre></td></tr></table></figure>
+<h1 id="单例的实现"><a href="#单例的实现" class="headerlink" title="单例的实现"></a>单例的实现</h1><p>在C++中，借由静态成员变量，可以实现单例模式。首先需要将构造函数私有化，并提供获取单例的方法。<br>此后还需禁止复制构造函数、禁止赋值运算符。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> CPerson&#123;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">static</span> CPerson* p;</span><br><span class="line">    CPerson()&#123;&#125;;</span><br><span class="line">    CPerson(CPerson&amp;);</span><br><span class="line">    <span class="keyword">const</span> CPerson&amp; <span class="keyword">operator</span>= (<span class="keyword">const</span> CPerson&amp;);</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">static</span> Person* <span class="title">instance</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> p ? p : (p = <span class="keyword">new</span> P());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">CPerson* CPerson::p = <span class="literal">NULL</span>;</span><br></pre></td></tr></table></figure>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/blog/2015/06/24/cpp-static-and-const-member.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/blog/2015/06/22/cpp-object-lifecycle.html" itemprop="url">
+                  C++手稿：对象的生命周期，构造与析构
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-06-22T00:00:00+08:00" content="2015-06-22">
+              2015-06-22
+            </time>
+          </span>
 
           
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/blog/2015/06/22/cpp-object-lifecycle.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/06/22/cpp-object-lifecycle.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/blog/2015/06/22/cpp-object-lifecycle.html" class="leancloud_visitors" data-flag-title="C++手稿：对象的生命周期，构造与析构">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>本文总结了类的创建、复制和销毁过程中涉及到的成员函数：构造函数、析构函数、拷贝构造函数、赋值运算符等。<br>探讨了全局对象、静态对象、栈中的对象、堆中的对象的整个生命周期中，这些成员函数的调用时机。</p>
+<h1 id="类的声明"><a href="#类的声明" class="headerlink" title="类的声明"></a>类的声明</h1><p>C++引入类的概念来实现面向对象程序设计，先来看一个简单的类的声明：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> CPerson&#123;</span><br><span class="line">    <span class="keyword">public</span>: </span><br><span class="line">    <span class="comment">// 构造函数</span></span><br><span class="line">    CPerson()&#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">"constructor"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 构造函数（重载）</span></span><br><span class="line">    CPerson(<span class="keyword">int</span> age)&#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">"constructor "</span>&lt;&lt;age&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 声明可以与实现分离</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Hello</span><span class="params">()</span></span>; </span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">CPerson::Hello()&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"hello"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>构造函数定义为私有，可以防止该类被直接实例化。一般用于Singleton实现。</li>
+<li>不允许签名为<code>CPerson(CPerson p){}</code>的构造函数（编译错）。不允许带参数的析构函数（编译错）。构造函数可以有参数，不允许有返回值。总之，<strong>析构函数和构造函数</strong>签名不正确都会编译错。</li>
+</ul>
+<h1 id="对象实例化"><a href="#对象实例化" class="headerlink" title="对象实例化"></a>对象实例化</h1><p>可以直接定义对象变量，在栈中分配并初始化对象；也可以定义对象指针，从堆中分配空间并初始化对象。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CPerson p1;</span><br><span class="line"><span class="function">CPerson <span class="title">p2</span><span class="params">(<span class="number">2</span>)</span></span>;</span><br><span class="line">CPerson* p3 = <span class="keyword">new</span> CPerson(<span class="number">3</span>);</span><br></pre></td></tr></table></figure>
+<p>输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">constructor</span><br><span class="line">constructor 2</span><br><span class="line">constructor 3</span><br></pre></td></tr></table></figure>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/blog/2015/06/22/cpp-object-lifecycle.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/blog/2015/06/17/css-alignment.html" itemprop="url">
+                  inline元素的对齐问题
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-06-17T00:00:00+08:00" content="2015-06-17">
+              2015-06-17
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/blog/2015/06/17/css-alignment.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/06/17/css-alignment.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/blog/2015/06/17/css-alignment.html" class="leancloud_visitors" data-flag-title="inline元素的对齐问题">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>元素对齐是CSS中最常见的问题之一，控制元素对齐的属性包括<code>text-align</code>, <code>verticle-align</code>, <code>margin</code>, <code>line-height</code>等。<br>本文便来探讨inline元素的对齐行为，以及<code>text-align</code>和<code>verticle-align</code>的使用方法，并给出实例。</p>
+<h1 id="text-align"><a href="#text-align" class="headerlink" title="text-align"></a>text-align</h1><p><a href="https://developer.mozilla.org/zh-CN/docs/CSS/text-align">text-align</a>指定了行内内容（例如文字）如何相对它的块父元素对齐。<strong>作用于当前元素的子元素，且子元素需是<code>inline</code>的</strong>。例如：</p>
+<p>常用的取值有：<code>left</code>, <code>right</code>, <code>center</code>。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span><br><span class="line"><span class="selector-class">.right</span>&#123;</span><br><span class="line">  <span class="attribute">text-align</span>: right;</span><br><span class="line">&#125;</span><br><span class="line"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"right"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">span</span>&gt;</span>Gesetz zur Änderung des Fernstra<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><img src="/assets/img/blog/css/pull-right@2x.png" alt="css: pull right"></p>
+<h1 id="vertical-align"><a href="#vertical-align" class="headerlink" title="vertical-align"></a>vertical-align</h1><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/vertical-align">vertical-align</a>指定行内（inline）元素或表格单元格（table-cell）元素的垂直对齐方式。<br>与<code>text-align</code>不同，<strong><code>vertical-align</code>作用于当前元素</strong>。</p>
+<blockquote>
+<p>为什么要是行内元素呢？因为如果是块元素的话，它总是会占据整行，就无所谓谁和谁垂直对齐了。</p>
+</blockquote>
+<p>常用的取值有：<code>top</code>, <code>bottom</code>, <code>middle</code>，默认值为<code>baseline</code>。</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/blog/2015/06/17/css-alignment.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -942,7 +1071,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span>
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 

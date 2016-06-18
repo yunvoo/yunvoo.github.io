@@ -107,7 +107,7 @@
 <meta name="description" content="The best way to prediet the future is to create it">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Yunvoo Blog">
-<meta property="og:url" content="http://yunvoo.com/page/2/index.html">
+<meta property="og:url" content="http://yunvoo.com/page/6/index.html">
 <meta property="og:site_name" content="Yunvoo Blog">
 <meta property="og:description" content="The best way to prediet the future is to create it">
 <meta name="twitter:card" content="summary">
@@ -133,7 +133,7 @@
 
 
 
-  <link rel="canonical" href="http://yunvoo.com/page/2/"/>
+  <link rel="canonical" href="http://yunvoo.com/page/6/"/>
 
   <title> Yunvoo Blog </title>
 </head>
@@ -318,8 +318,8 @@
             
               
                 
-                <a class="post-title-link" href="/blog/2015/07/21/effective-cpp-3.html" itemprop="url">
-                  Item 3：尽量使用常量
+                <a class="post-title-link" href="/blog/2015/06/04/angular-form.html" itemprop="url">
+                  AngularJS 表单（ng-form）验证
                 </a>
               
             
@@ -332,8 +332,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-07-21T00:00:00+08:00" content="2015-07-21">
-              2015-07-21
+            <time itemprop="dateCreated" datetime="2015-06-04T00:00:00+08:00" content="2015-06-04">
+              2015-06-04
             </time>
           </span>
 
@@ -343,8 +343,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/blog/2015/07/21/effective-cpp-3.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/07/21/effective-cpp-3.html" itemprop="commentsCount"></span>
+                <a href="/blog/2015/06/04/angular-form.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/06/04/angular-form.html" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -354,7 +354,7 @@
 
           
           
-             <span id="/blog/2015/07/21/effective-cpp-3.html" class="leancloud_visitors" data-flag-title="Item 3：尽量使用常量">
+             <span id="/blog/2015/06/04/angular-form.html" class="leancloud_visitors" data-flag-title="AngularJS 表单（ng-form）验证">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -377,23 +377,26 @@
 
       
         
-          <blockquote>
-<p>Item 3: Use const whenever possible</p>
+          <p>在HTML中，用户通过<code>input</code>, <code>select</code>, <code>textarea</code>等元素进行输入，我们通常用表单来包装和管理这些控件。客户端表单验证非常重要，可以及时地为用户提供表单验证信息。但客户端表单验证只是为了增强用户体验，服务器端验证仍然是必要的。</p>
+<p><a href="https://docs.angularjs.org">AngularJS</a>最大的特点便是数据绑定。利用Angular在客户端脚本中构建MVC框架，Model和View之间可以实现双向绑定。因此<strong>AngularJS的表单验证可以做到实时的用户反馈</strong>。</p>
+<blockquote>
+<p>事实上，正是因为<strong>实时的用户反馈</strong>这个神奇的特性，我们团队在 <a href="http://tianmaying.com">http://tianmaying.com</a> 中也继续引入了AngularJS，尽管此时我们对单页应用已经不感兴趣。</p>
 </blockquote>
-<p>尽量使用常量。不需多说，这是防卫型（defensive）程序设计的原则，<br>尽量使用常量限定符，从而防止客户错误地使用你的代码。</p>
-<h1 id="常量的声明"><a href="#常量的声明" class="headerlink" title="常量的声明"></a>常量的声明</h1><p>总结一下各种指针的声明方式吧：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">char</span> greeting[] = <span class="string">"Hello"</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">char</span> *p = greeting;                    <span class="comment">// non-const pointer, non-const data</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">char</span> *p = greeting;              <span class="comment">// non-const pointer, const data</span></span><br><span class="line"><span class="keyword">char</span> * <span class="keyword">const</span> p = greeting;             <span class="comment">// const pointer, non-const data</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">char</span> * <span class="keyword">const</span> p = greeting;       <span class="comment">// const pointer, const data</span></span><br></pre></td></tr></table></figure>
-<p><code>const</code>出现在<code>*</code>左边则被指向的对象是常量，出现在<code>*</code>右边则指针本身是常量。<br>然而对于常量对象，有人把<code>const</code>放在类型左边，有人把<code>const</code>放在<code>*</code>左边，都是可以的：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f1</span><span class="params">(<span class="keyword">const</span> Widget *pw)</span></span>;   <span class="comment">// f1 takes a pointer to a constant Widget object</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f2</span><span class="params">(Widget <span class="keyword">const</span> *pw)</span></span>;   <span class="comment">// 等效</span></span><br></pre></td></tr></table></figure>
-<p>STL的iterator也是类似的，如果你希望指针本身是常量，可以声明<code>const iterator</code>；<br>如果你希望指针指向的对象是常量，请使用<code>const_iterator</code>：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; vec;</span><br><span class="line"></span><br><span class="line"><span class="comment">// iter acts like a T* const</span></span><br><span class="line"><span class="keyword">const</span> <span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;::iterator iter = vec.begin();</span><br><span class="line">*iter = <span class="number">10</span>;                              <span class="comment">// OK, changes what iter points to</span></span><br><span class="line">++iter;                                  <span class="comment">// error! iter is const</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//cIter acts like a const T*</span></span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;::const_iterator cIter = vec.begin();</span><br><span class="line">*cIter = <span class="number">10</span>;                             <span class="comment">// error! *cIter is const</span></span><br><span class="line">++cIter;                                 <span class="comment">// fine, changes cIter</span></span><br></pre></td></tr></table></figure>
-<p>返回值声明为常量可以防止你的代码被错误地使用，例如实数相加的方法：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Rational <span class="keyword">operator</span>*(<span class="keyword">const</span> Rational&amp; lhs, <span class="keyword">const</span> Rational&amp; rhs);</span><br></pre></td></tr></table></figure>
-<p>当用户错误地使用<code>=</code>时：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Rational a, b, c;</span><br><span class="line"><span class="keyword">if</span> (a * b = c)&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>编译器便会给出错误：不可赋值给常量。</p>
+<h1 id="一个简单的表单"><a href="#一个简单的表单" class="headerlink" title="一个简单的表单"></a>一个简单的表单</h1><p>Angular是模块化的，每个APP都是一个Angular Module。我们知道Module下可以包含这样四种内容：</p>
+<ul>
+<li>控制器（controllers），用来完成页面逻辑，不包含DOM操作、资源获取。</li>
+<li>服务（services），用来提供资源访问和获取，控制资源的访问，维护数据一致性。</li>
+<li>过滤器（filters），用来格式化数据显示，很多第三方插件以提供<code>filter</code>为主，例如<code>angular-moment</code>。</li>
+<li>语义标签（directives），增强的HTML标签，DOM操作都应当抽象为<code>directive</code>。</li>
+</ul>
+<p>Angular表单其实是Angular提供的Directive，它有一个别名叫<code>ng-form</code>。是这个Directive实例化了一个<code>FormController</code>来负责表单内的页面逻辑（主要是表单验证）。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-app</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">ng-form</span> <span class="attr">name</span>=<span class="string">someForm</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">input</span> <span class="attr">name</span>=<span class="string">"username"</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">ng-model</span>=<span class="string">"user.username"</span> <span class="attr">pattern</span>=<span class="string">"^\w&#123;6,18&#125;$"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"alert alert-danger"</span> <span class="attr">ng-show</span>=<span class="string">"someForm.username.$error.pattern"</span>&gt;</span></span><br><span class="line">      用户名必须为6-18个字母、数字或下划线</span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">ng-form</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p><code>ng-model</code>可以把<code>input</code>的值双向地绑定到当前上下文的<code>user.username</code>变量。我们设置了用户名的<code>pattern</code>为6到18位。我们输入用户名时，<code>.alert</code>错误提示便会实时地显示或者隐藏。</p>
+<blockquote>
+<p>这里我们指定了<code>form</code>的<code>name</code>属性，<code>form</code> Directive 实例化的<code>FormController</code>就会以<code>someForm</code>命名，并插入到当前<code>$scope</code>。所以在模板中才能够访问<code>userForm</code>变量。另外，Angular的Pattern使用Javascript正则表达式语法，这里<code>\w</code>相当于<code>[a-zA-Z_]</code>。</p>
+</blockquote>
           <div class="post-more-link text-center">
-            <a class="btn" href="/blog/2015/07/21/effective-cpp-3.html#more" rel="contents">
+            <a class="btn" href="/blog/2015/06/04/angular-form.html#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -444,8 +447,8 @@
             
               
                 
-                <a class="post-title-link" href="/blog/2015/07/20/effective-cpp-2.html" itemprop="url">
-                  Item 2：避免使用define
+                <a class="post-title-link" href="/blog/2015/05/31/angular-scope-initialize.html" itemprop="url">
+                  AngularJS 初始化过程
                 </a>
               
             
@@ -458,8 +461,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-07-20T00:00:00+08:00" content="2015-07-20">
-              2015-07-20
+            <time itemprop="dateCreated" datetime="2015-05-31T00:00:00+08:00" content="2015-05-31">
+              2015-05-31
             </time>
           </span>
 
@@ -469,8 +472,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/blog/2015/07/20/effective-cpp-2.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/07/20/effective-cpp-2.html" itemprop="commentsCount"></span>
+                <a href="/blog/2015/05/31/angular-scope-initialize.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/05/31/angular-scope-initialize.html" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -480,7 +483,7 @@
 
           
           
-             <span id="/blog/2015/07/20/effective-cpp-2.html" class="leancloud_visitors" data-flag-title="Item 2：避免使用define">
+             <span id="/blog/2015/05/31/angular-scope-initialize.html" class="leancloud_visitors" data-flag-title="AngularJS 初始化过程">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -503,16 +506,23 @@
 
       
         
-          <blockquote>
-<p>Item 2: Prefer consts, enums, and inlines to #defines</p>
+          <p><a href="https://docs.angularjs.org">AngularJS</a>属于典型的单页APP框架，现由Google维护，用在了Google的多款产品中。<br>如果你的项目引入了AngularJS，同时还有不少的jQuery代码，你可能会碰到两者初始化顺序的问题。<br>本文就来探讨AngularJS APP以及Controller的初始化过程和时机。</p>
+<h1 id="Angular-APP"><a href="#Angular-APP" class="headerlink" title="Angular APP"></a>Angular APP</h1><p>一个Angular APP其实就是一个Angular Module，通常可以包含若干Controller、Service以及Directive。甚至不自己定义APP也可以启动一个Angular应用，例如：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-app</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">ng-form</span>&gt;</span>...<span class="tag">&lt;/<span class="name">ng-form</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在你引入AngularJS之后，<code>div[ng-app]</code>便会在页面载入时启动，其子元素范围内构成一个<code>$scope</code>，可以使用angular标签（又称语义标签，其实就是<code>directive</code>）。通常我们会显示地定义一个Angular APP：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> app = angular.module(<span class="string">'helloApp'</span>, []); <span class="comment">// 第二个参数定义了Module依赖</span></span><br><span class="line"><span class="comment">// 添加controller</span></span><br><span class="line">app.controller(<span class="string">'worldCtrl'</span>, [<span class="string">'$scope'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">$scope</span>)</span>&#123;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">&#125;]);</span><br></pre></td></tr></table></figure>
+<p>然后在页面中引用它：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-app</span>=<span class="string">"helloApp"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">ng-form</span> <span class="attr">ng-controller</span>=<span class="string">'worldCtrl'</span>&gt;</span>...<span class="tag">&lt;/<span class="name">ng-form</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在<code>div[ng-app]</code>的子元素中可以使用该<code>app</code>下的所有控制器，<strong>控制器可以嵌套，子控制器的<code>$scope</code>直接共享父控制器的<code>$scope</code>中的变量</strong>。</p>
+<h1 id="Angular-APP-的启动"><a href="#Angular-APP-的启动" class="headerlink" title="Angular APP 的启动"></a>Angular APP 的启动</h1><p><strong>同一个页面中可以包含多于一个的APP，但不能嵌套</strong>。同一页面中有多于一个APP时AngularJS不会自动帮你启动APP了，你需要手动启动这些APP。例如：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> element = $(<span class="string">'#some-div'</span>)[<span class="number">0</span>];</span><br><span class="line">angular.bootstrap(element, [<span class="string">'helloApp'</span>]);</span><br></pre></td></tr></table></figure>
+<p>AngularJS通过依赖注入的方式来实现模块化与封装。在启动APP之前，往往需要注入一些APP所在环境的信息：</p>
+<blockquote>
+<p>这是常见的需求。因为在AngularJS中，尽量不要去操作DOM（除非你在写<code>directive</code>），否则可测试性会严重下降。参见 <a href="http://docs.angularjs.cn/guide/controller">http://docs.angularjs.cn/guide/controller</a></p>
 </blockquote>
-<p>尽量使用常量、枚举和内联函数，代替<code>#define</code>。我们知道<code>#define</code>定义的宏会在编译时进行替换，属于模块化程序设计的概念。<br>宏是全局的，面向对象程序设计中破坏了封装。因此在C++中尽量避免它！</p>
-<p>接着我们具体来看<code>#define</code>造成的问题。</p>
-<h1 id="不易理解"><a href="#不易理解" class="headerlink" title="不易理解"></a>不易理解</h1><p>众所周知，由于预处理器会直接替换的原因，宏定义最好用括号括起来。<code>#define</code>函数将会产生出乎意料的结果：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> MAX(a,b) a&gt;b?a:b</span></span><br><span class="line">MAX(i++,j)</span><br></pre></td></tr></table></figure>
-<p><code>i</code>自加次数将取决于<code>j</code>的大小，然而调用者并不知情。宏的行为不易理解，本质上是因为宏并非C++语言的一部分，它只是源代码的预处理手段。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> app = angular.module(<span class="string">'helloApp'</span>); <span class="comment">// 获得之前声明的那个叫helloApp的模块</span></span><br><span class="line">app.constant(<span class="string">'sessionInfo'</span>, &#123;</span><br><span class="line">    <span class="string">'currentUser'</span>: $(<span class="string">'input#current-user'</span>).val(),</span><br><span class="line">    <span class="string">'uploadDir'</span>:   $(<span class="string">'input#upload-dir'</span>).val()</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
           <div class="post-more-link text-center">
-            <a class="btn" href="/blog/2015/07/20/effective-cpp-2.html#more" rel="contents">
+            <a class="btn" href="/blog/2015/05/31/angular-scope-initialize.html#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -563,8 +573,8 @@
             
               
                 
-                <a class="post-title-link" href="/blog/2015/07/19/effective-cpp-1.html" itemprop="url">
-                  Item 1：将C++视作一系列的语言
+                <a class="post-title-link" href="/blog/2015/05/03/mysql-note.html" itemprop="url">
+                  MySQL 学习笔记
                 </a>
               
             
@@ -577,8 +587,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-07-19T00:00:00+08:00" content="2015-07-19">
-              2015-07-19
+            <time itemprop="dateCreated" datetime="2015-05-03T00:00:00+08:00" content="2015-05-03">
+              2015-05-03
             </time>
           </span>
 
@@ -588,8 +598,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/blog/2015/07/19/effective-cpp-1.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/07/19/effective-cpp-1.html" itemprop="commentsCount"></span>
+                <a href="/blog/2015/05/03/mysql-note.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/05/03/mysql-note.html" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -599,7 +609,7 @@
 
           
           
-             <span id="/blog/2015/07/19/effective-cpp-1.html" class="leancloud_visitors" data-flag-title="Item 1：将C++视作一系列的语言">
+             <span id="/blog/2015/05/03/mysql-note.html" class="leancloud_visitors" data-flag-title="MySQL 学习笔记">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -622,163 +632,31 @@
 
       
         
-          
-            <blockquote>
-<p>Item 1: View C++ as a federation of languages</p>
-</blockquote>
-<p>最初，C++只是C语言加上一些面向对象的特性，所以C++的原名是“C with Classes”。<br>现在的C++已经逐渐成熟，成为一门<strong>多范式的程序设计语言</strong>（multiparadigm programming language）。同时支持过程式、面向对象、函数式、泛型编程，以及元编程。</p>
-<p>C++的灵活使得它在很多问题上并没有统一的规则，而是取决于具体的程序设计范式和当前架构的设计意图。这样的情况下，我们最好把C++看做是一系列的编程语言，而非一种特定的编程语言。</p>
-<p>C++有四种主要的子语言：</p>
-<ul>
-<li>C。C++是基于C设计的，你可以只使用C++中C的那部分语法。此时你会发现你的程序反映的完全是C的特征：没有模板、没有异常、没有重载。</li>
-<li>Object-Oriented C++。面向对象程序设计也是C++的设计初衷：构造与析构、封装与继承、多态、动态绑定的虚函数。</li>
-<li>Template C++。这是C++的泛型编程部分，多数程序员很少涉及，但模板在很多情况下仍然很方便。另外<strong>模板元编程</strong>（template metaprogramming）也是一个新兴的程序设计范式，虽然有点非主流。</li>
-<li>STL。这是一个特殊的模板库，它的容器、迭代器和算法优雅地结合在一起，只是在使用时你需要遵循它的程序设计惯例。当然你也可以基于其他想法来构建模板库。</li>
-</ul>
-<p>总之C++并非单一的一门语言，它有很多不同的规则集。因而C++可以被视为四种主要子语言的集合，每个子语言都有自己的程序设计惯例。</p>
-<p>C++程序设计的惯例并非一尘不变，而是取决于你使用C++语言的哪一部分。例如，<br>在基于C语言的程序设计中，基本类型传参时传值比传引用更有效率。<br>然而当你接触Object-Oriented C++时会发现，传常量指针是更好的选择。<br>但是你如果又碰到了STL，其中的迭代器和函数对象都是基于C语言的指针而设计的，<br>这时又回到了原来的规则：传值比传引用更好。</p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/blog/2015/07/18/vim-cpp.html" itemprop="url">
-                  在VIM下写C++能有多爽？
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-07-18T00:00:00+08:00" content="2015-07-18">
-              2015-07-18
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/blog/2015/07/18/vim-cpp.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/07/18/vim-cpp.html" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/blog/2015/07/18/vim-cpp.html" class="leancloud_visitors" data-flag-title="在VIM下写C++能有多爽？">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>我是坚定的Vim党，因为和命令行的集成如此之好，Vim可以解决任何问题。然而在这个世界上，即便是最好用的工具也是需要配置的。<br>由于最近在写C++，经过一番配置后，小编写C++已经感到非常爽了，于是决定用一篇文章来记录如何打造一个适合写C++的Vim编辑器！<br>包括C++的自动补全、括号引号匹配、格式化、注释、编译运行快捷键等。</p>
-<blockquote>
-<p>小编之前在<a href="!--￼6--">Vim初级：配置和使用</a>中介绍了Vim的基本配置与使用，<a href="!--￼7--">感受Vim的强大：进阶技巧</a>中介绍了更加方便的高级使用技巧。</p>
-</blockquote>
-<h1 id="基础设置"><a href="#基础设置" class="headerlink" title="基础设置"></a>基础设置</h1><p>稍微熟悉Vim的小伙伴都会知道这个文件<code>~/.vimrc</code>，如同绝大多数的Unix软件，Vim也是用基于文本的配置文件。<br>当前用户的Vim配置便存储在这个文件当中，该文件的每一行便是一个配置项（<code>function</code>除外）。</p>
-<p>配置文件中的所有语句都会在打开Vim时，在Ex模式下执行。例如，我们在Vim中打开行号：</p>
-<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:<span class="keyword">set</span> <span class="keyword">number</span></span><br></pre></td></tr></table></figure>
-<p>我们便可以在配置文件中加入：</p>
-<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">" ~/.vim</span></span><br><span class="line"><span class="keyword">set</span> <span class="keyword">number</span></span><br></pre></td></tr></table></figure>
-<p>同样重要的配置还有：</p>
-<ul>
-<li>打开语法高亮：<code>syntax on</code></li>
-<li>Tab大小：<code>set tabstop=4</code></li>
-<li>缩进大小：<code>set shiftwidth=4</code></li>
-</ul>
-<blockquote>
-<p>Vim是一个典型的Unix程序，上述命令都有缩写啦：number(nu), tabstop(ts), shiftwidth(sw), etc.</p>
-</blockquote>
-<p>更多关于基础配置项的信息，请参考我的另一篇博客： <a href="/2013/11/08/vim-config/">vim 的配置与使用</a></p>
-<h1 id="自动补全"><a href="#自动补全" class="headerlink" title="自动补全"></a>自动补全</h1><p>自动补全恐怕是代码编辑器最重要的特性了，我们暂且不提它毁了多少人的面试之路。</p>
-<p>由于Vim插件的风格、使用方式太过多样化，多语言的自动补全一直存在各种冲突，需要大量精力才能调通。<br>然而Github的出现给Vim插件带来了新的活力，现在我们通过基于Github的Vundle来安装插件，而不需要手动去vim.org上找插件了。</p>
-<p>废话少说，我推荐的插件叫做<a href="https://github.com/Valloric/YouCompleteMe">YouCompleteMe</a>，看图！</p>
-<p><img src="/assets/img/blog/youcompleteme.gif" alt="you complete me"></p>
-<p>YouCompleteMe功能很全：</p>
-<ul>
-<li>自动补全，在你写一个名称的过程中，会出现提示列表，同时给出每一项的函数签名（函数形参列表）。</li>
-<li>语法错误、警告的提示。比如变量未使用、函数未定义等等，很多编译warning都会直接提示出来，特别神奇。</li>
-</ul>
-<p>配置很容易，但需要先安装<a href="https://github.com/gmarik/vundle#about">Vundle</a>（如果你没有的话）。注意<code>vim +PluginInstall</code>后还需要去<code>~/.vim/bundle/YouCompleteMe</code>中<code>./install.sh</code>一下。</p>
-<blockquote>
-<p>如果你是MacOS用户，确保你的Vim升级到了7.4. 如何使用HomeBrew本文就不唠叨了。</p>
-</blockquote>
+          <p>在使用Django时学习过一些MySQL，暂作小记在此。小编的Django笔记在这里：<br><a href="/2015/05/15/django-startup.html">Django 搭建过程记录</a></p>
+<p>MySQL官方文档在这里：</p>
+<p><a href="http://dev.mysql.com/doc/refman/5.1/zh/sql-syntax.html">http://dev.mysql.com/doc/refman/5.1/zh/sql-syntax.html</a></p>
+<h1 id="database"><a href="#database" class="headerlink" title="database"></a>database</h1><p>查看所有</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">databases</span>;</span><br></pre></td></tr></table></figure>
+<p>进入</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> db_name;</span><br></pre></td></tr></table></figure>
+<p>删除</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">drop</span> <span class="keyword">database</span> db_name;</span><br></pre></td></tr></table></figure>
+<h1 id="table"><a href="#table" class="headerlink" title="table"></a>table</h1><p>查看所有</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> <span class="keyword">tables</span>;</span><br></pre></td></tr></table></figure>
+<p>查看结构</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">desc tb_name</span><br></pre></td></tr></table></figure>
+<p>修改表名</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> tb_name <span class="keyword">rename</span> <span class="keyword">to</span> bbb;</span><br></pre></td></tr></table></figure>
+<p>添加字段</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">alter table tb_name add column col_name varchar(30);</span><br><span class="line"># 添加主键</span><br><span class="line">alter table tb_name add col_name int(5) unsigned default 0 not null auto_increment ,add primary key (tb_name);</span><br></pre></td></tr></table></figure>
+<p>删除字段</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> tb_name <span class="keyword">drop</span> <span class="keyword">column</span> col_name;</span><br></pre></td></tr></table></figure>
+<p>修改字段名</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> tb_name <span class="keyword">change</span> col_name new_col_name <span class="built_in">int</span>;</span><br></pre></td></tr></table></figure>
+<p>修改字段属性</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> tb_name <span class="keyword">modify</span> col_name <span class="built_in">varchar</span>(<span class="number">22</span>);</span><br></pre></td></tr></table></figure>
           <div class="post-more-link text-center">
-            <a class="btn" href="/blog/2015/07/18/vim-cpp.html#more" rel="contents">
+            <a class="btn" href="/blog/2015/05/03/mysql-note.html#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -829,8 +707,8 @@
             
               
                 
-                <a class="post-title-link" href="/blog/2015/07/17/vim-advanced.html" itemprop="url">
-                  感受Vim的强大：进阶技巧
+                <a class="post-title-link" href="/blog/2015/05/02/linux-windows-time.html" itemprop="url">
+                  Linux/Windows 时间不一致问题
                 </a>
               
             
@@ -843,8 +721,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-07-17T00:00:00+08:00" content="2015-07-17">
-              2015-07-17
+            <time itemprop="dateCreated" datetime="2015-05-02T00:00:00+08:00" content="2015-05-02">
+              2015-05-02
             </time>
           </span>
 
@@ -854,8 +732,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/blog/2015/07/17/vim-advanced.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/07/17/vim-advanced.html" itemprop="commentsCount"></span>
+                <a href="/blog/2015/05/02/linux-windows-time.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/05/02/linux-windows-time.html" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -865,7 +743,7 @@
 
           
           
-             <span id="/blog/2015/07/17/vim-advanced.html" class="leancloud_visitors" data-flag-title="感受Vim的强大：进阶技巧">
+             <span id="/blog/2015/05/02/linux-windows-time.html" class="leancloud_visitors" data-flag-title="Linux/Windows 时间不一致问题">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -888,168 +766,152 @@
 
       
         
-          <p>Vim是从vi发展出来的一个文本编辑器。代码补全、编译及错误跳转等方便编程的功能特别丰富，在程序员中被广泛使用。和Emacs并列成为类Unix系统用户最喜欢的编辑器。<br>如果你还没有使用过Vim，建议你先去看这个：<a href="!--￼4--">Vim初级：配置和使用</a>。本文介绍一些Vim的高级特性。包括块编辑、宏录制、语法高亮、键盘映射、函数定义、文件类型识别与对应插件加载等。</p>
+          <p>在使用Linux/Windows的双系统时，经常发现时间不正确：liunx下的时间或windows下的时间不对，往往相差8小时。在此给出解释和推荐解决方案。</p>
+<h2 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h2><ul>
+<li>CST：(China Standard Time,UTC+8:00) 中国沿海时间(北京时间)</li>
+<li>UTC：(Universal Time Coordinated,UTC) 世界协调时间</li>
+<li>GMT：(Greenwich Mean Time ,GMT）格林威治时间</li>
+<li>LT：(locale time）本地时间</li>
+</ul>
+<p>GPS 系统中有两种时间区分，一为UTC，另一为LT（地方时）两者的区别为时区不同，UTC就是0时区的时间，地方时为本地时间，如北京为早上八点（东八区），UTC时间就为零点，UTC时间比北京时晚八小时，以此计算即可。</p>
 <blockquote>
-<p>英文文档：<a href="http://vimdoc.sourceforge.net/htmldoc/，中文文档：http://vimcdoc.sourceforge.net/doc/">http://vimdoc.sourceforge.net/htmldoc/，中文文档：http://vimcdoc.sourceforge.net/doc/</a></p>
+<p>我们可以认为格林威治时间就是时间协调时间（GMT=UTC）</p>
 </blockquote>
-<h1 id="块编辑"><a href="#块编辑" class="headerlink" title="块编辑"></a>块编辑</h1><ul>
-<li><p><strong>可视</strong> 模式：<code>v</code> 可进入visual模式，使用标准快捷键移动光标可选择文本块，之后可输入标准编辑命令。</p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/blog/2015/05/02/linux-windows-time.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/blog/2015/04/23/lamp-startup.html" itemprop="url">
+                  LAMP 搭建
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-04-23T00:00:00+08:00" content="2015-04-23">
+              2015-04-23
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/blog/2015/04/23/lamp-startup.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/04/23/lamp-startup.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/blog/2015/04/23/lamp-startup.html" class="leancloud_visitors" data-flag-title="LAMP 搭建">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>听说PHP是世界上最好的编程语言，小编也试了一把。暂作记录在此。<br>万一小编以后转向PHP了呢？</p>
+<h1 id="下载安装"><a href="#下载安装" class="headerlink" title="下载安装"></a>下载安装</h1><p><a href="http://www.php.net" target="_blank" rel="external">php</a><br><a href="http://httpd.apache.org" target="_blank" rel="external">mysql</a><br><a href="http://www.mysql.com/" target="_blank" rel="external">apache</a></p>
+<h1 id="配置apache"><a href="#配置apache" class="headerlink" title="配置apache"></a>配置apache</h1><p>设置apache的配置文件<code>httpd.conf</code>，更改后要<code>restart httpd</code></p>
+<ul>
+<li><p>web目录：更改 DocumentRoot</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DocumentRoot &quot;E:/web&quot;</span><br></pre></td></tr></table></figure>
 </li>
-<li><p><strong>列编辑</strong> 模式：<code>&lt;Ctrl&gt;v</code> 进入列编辑模式，移动光标将按列进行选中。例如：</p>
-<blockquote>
-<p>删除块注释：<code>&lt;Ctrl&gt;v</code> 进入列编辑模式，<code>ikjl</code> 选中注释列，<code>&lt;N&gt;x</code> 删除N个字符；</p>
-<p>添加块注释：<code>&lt;Ctrl&gt;v</code> 进入列编辑模式，<code>ikjl</code> 选中要注释的行，<code>I</code> 进入插入模式，输入几个注释字符，<code>&lt;Esc&gt;</code> 推出列编辑。</p>
-</blockquote>
+<li><p>默认页面：找到 DirectoryIndex 并改成</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DirectoryIndex index.html index.php test.php hello.php</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>php支持：找到loadmodule部分添加</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#这里dll在php安装路径，并且要对应apache版本，这里是2.2.22</span><br><span class="line">LoadModule php5_module &quot;D:/Program Files (x86)/php-5.4.8/php5apache2_2.dll&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>添加对.php文件支持</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AddType application/x-httpd-php .php</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>路径访问权限，更改要与 DocumentRoot 一致</p>
 </li>
 </ul>
-<p>vim所有的模式（即工作状态）如下：</p>
-<ol>
-<li>(o) 普通模式: 输入命令时。</li>
-<li>(x) 可视模式: 可视区域高亮并输入命令时。</li>
-<li>(s) 选择模式: 类似于可视模式，但键入的字符对选择区进行替换。</li>
-<li>(o) 操作符等待模式: 操作符等待中 (“d”，”y”，”c” 等等之后)。</li>
-<li>(i) 插入模式: 也用于替换模式。</li>
-<li>(c) 命令行模式: 输入 “:” 或 “/“ 命令时。</li>
-</ol>
-<blockquote>
-<p><strong>行尾块</strong> ：因行尾参差不齐，块编辑一般用于行首、行间；行尾编辑要有一些技巧：<code>gg</code>到文件头，<code>&lt;Ctrl-v&gt;</code>进入块编辑模式，<code>G</code>选择所有内容；<code>$A</code>到行尾并进入插入模式，输入要插入的字符，<code>&lt;Esc&gt;</code>完成。</p>
-</blockquote>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/blog/2015/07/17/vim-advanced.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/blog/2015/07/16/css-priority.html" itemprop="url">
-                  各种CSS选择器的优先级
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-07-16T00:00:00+08:00" content="2015-07-16">
-              2015-07-16
-            </time>
-          </span>
+<h1 id="Apache使用"><a href="#Apache使用" class="headerlink" title="Apache使用"></a>Apache使用</h1><p>以下关注Debian兼容的操作系统。文档：<a href="http://man.ddvip.com/linux/debian/apache2/" target="_blank" rel="external">http://man.ddvip.com/linux/debian/apache2/</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#启动</span></span><br><span class="line">sudo /etc/init.d/apache2 start</span><br><span class="line"><span class="comment">#停止</span></span><br><span class="line">sudo /etc/init.d/apache2 stop</span><br><span class="line"><span class="comment">#或者直接结束进程</span></span><br><span class="line">sudo killall apache2</span><br><span class="line"><span class="comment">#配置文件</span></span><br><span class="line">ls /etc/apache2</span><br></pre></td></tr></table></figure>
 
           
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/blog/2015/07/16/css-priority.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/07/16/css-priority.html" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/blog/2015/07/16/css-priority.html" class="leancloud_visitors" data-flag-title="各种CSS选择器的优先级">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>CSS规则之间可以互相覆盖，这一点我们应该已经习以为常了。然而正是由于规则之间可以互相覆盖、子元素继承父元素的默认行为，导致了CSS冲突的问题。<br>碰到CSS冲突时，通常我们会加入一些更加详细的规则来明确如何显示，以此解决冲突。通常越详细的规则优先级会越高，但优先级究竟是如何定义的呢？</p>
-<p>首先根据CSS定义位置来区别，优先级从低到高如下：</p>
-<ul>
-<li>浏览器默认样式（Browser Default Style）</li>
-<li>外部样式表</li>
-<li>内部样式表</li>
-<li>行内样式 (e.g., style=”font-weight:bold”)</li>
-</ul>
-<p>同样定义位置的规则，根据不同类型选择器的个数来确定。选择器的优先级从低到高如下规则：</p>
-<ul>
-<li>F: Universal selectors (e.g., *)</li>
-<li>E: Type selectors (e.g., h1)</li>
-<li>D: Class selectors (e.g., .example)</li>
-<li>C: Attributes selectors (e.g., [type=”radio”])</li>
-<li>B: Pseudo-classes (e.g., :hover)</li>
-<li>A: ID selectors (e.g., #example)</li>
-</ul>
-<blockquote>
-<p>即 ID &gt; 伪类 &gt; 属性 &gt; 类 &gt; 元素 &gt; 通配符，首先我们数规则中ID的个数，ID个数越多的规则优先级越高。如果相同，再数伪类，以此类推。</p>
-</blockquote>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/blog/2015/07/16/css-priority.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
         
       
     </div>
@@ -1080,7 +942,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span>
   </nav>
 
 

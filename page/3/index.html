@@ -318,8 +318,8 @@
             
               
                 
-                <a class="post-title-link" href="/blog/2015/06/25/operator-overload.html" itemprop="url">
-                  C++手稿：运算符重载
+                <a class="post-title-link" href="/blog/2015/07/07/cpp-functions-and-arguments.html" itemprop="url">
+                  C++手稿：函数与参数
                 </a>
               
             
@@ -332,8 +332,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-06-25T00:00:00+08:00" content="2015-06-25">
-              2015-06-25
+            <time itemprop="dateCreated" datetime="2015-07-07T00:00:00+08:00" content="2015-07-07">
+              2015-07-07
             </time>
           </span>
 
@@ -343,8 +343,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/blog/2015/06/25/operator-overload.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/06/25/operator-overload.html" itemprop="commentsCount"></span>
+                <a href="/blog/2015/07/07/cpp-functions-and-arguments.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/07/07/cpp-functions-and-arguments.html" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -354,7 +354,7 @@
 
           
           
-             <span id="/blog/2015/06/25/operator-overload.html" class="leancloud_visitors" data-flag-title="C++手稿：运算符重载">
+             <span id="/blog/2015/07/07/cpp-functions-and-arguments.html" class="leancloud_visitors" data-flag-title="C++手稿：函数与参数">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -377,387 +377,472 @@
 
       
         
-          <p><strong>运算符重载</strong>就是对已有的C++运算符赋予更多的语义，让一个运算符可以作用于其他的数据类型。<br>典型地，让运算符接受一个类的对象作为参数。</p>
-<p>通常有两种方式来重载一个运算符：</p>
+          
+            <p>本文就小编曾经遇到的函数及其参数问题，整理一篇博客在此。涉及到默认参数、函数重载、可变参数等方面。</p>
+<h1 id="默认参数"><a href="#默认参数" class="headerlink" title="默认参数"></a>默认参数</h1><p>在函数声明中可以设置若干个默认参数，这些参数在函数调用时可以省略。例如：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print</span><span class="params">(<span class="keyword">int</span> a = <span class="number">3</span>, <span class="keyword">int</span> b=<span class="number">4</span>)</span></span>&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;a&lt;&lt;<span class="string">" "</span>&lt;&lt;b&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br><span class="line">print();  <span class="comment">// 3 4</span></span><br><span class="line">print(<span class="number">4</span>); <span class="comment">// 4 4</span></span><br><span class="line">print(,<span class="number">3</span>); <span class="comment">// compile error</span></span><br></pre></td></tr></table></figure>
+<p>默认参数提供了更灵活的函数声明。简化函数逻辑的同时，也提供了一种扩展既有函数的方式。</p>
+<p>在很多情况下，函数的声明与定义是分开的。语法上讲我们可以在声明时给出默认参数，<br>也可以在定义时给出默认参数。然而在函数调用处，编译器会进行语法检查，<br>被调用的“函数签名”是否存在、是否有歧义，只取决于调用处可见的那个函数（声明或定义）。</p>
+<h1 id="函数重载"><a href="#函数重载" class="headerlink" title="函数重载"></a>函数重载</h1><p>C++中可以通过不同的参数个数来进行函数重载。唯一需要注意的是提供默认参数时，<strong>重载函数的调用会有二义性</strong>。例如：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print</span><span class="params">(<span class="keyword">int</span> a = <span class="number">1</span>)</span></span>&#123;&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">print</span><span class="params">(<span class="keyword">int</span> a = <span class="number">1</span>, <span class="keyword">int</span> b = <span class="number">2</span>)</span></span>&#123;&#125;</span><br><span class="line">print();</span><br></pre></td></tr></table></figure>
+<p>同时定义上述两个<code>print</code>函数没有问题，因为它们的函数签名是不同的。但<code>print()</code>的调用存在歧义，此处会发生编译错误。<br>因此，<strong>使用默认参数时，要避免函数重载的二义性</strong>。</p>
+<blockquote>
+<p>除了虚函数外，函数调用的函数地址是在编译期决定的。</p>
+</blockquote>
+<h1 id="可变参数"><a href="#可变参数" class="headerlink" title="可变参数"></a>可变参数</h1><p>可变参数是指一个函数可以接受可变数目的参数，在C语言中最常见的便是<code>printf</code>和<code>scanf</code>。<br>它们是如何实现的呢？</p>
+<blockquote>
+<p>当然这不是函数重载，我们只定义一个函数，它可以接受任意个参数。</p>
+</blockquote>
+<p>我们知道函数调用前需要将参数压栈，默认情况下C++会将参数从右向左顺序压栈。<br>栈空间是从高地址向低地址生长的，故第一个参数拥有最低的地址。<br>获取第一个参数后，我们只要知道后续参数的类型和个数，就可以逐个按照地址取出来。</p>
+<blockquote>
+<p>在DLL生成和跨语言的过程调用时，常常遇到压栈顺序和由谁清空参数栈的问题，它们可以在函数声明中加入类似<code>_stdcall</code>、<code>_cdecl</code>等关键字来指定。</p>
+</blockquote>
+<p>如何定义一个可变参数的函数？C++提供了<a href="http://www.cplusplus.com/reference/cstdarg/" target="_blank" rel="external">stdarg.h</a>头文件，它定义了若干宏来方便上述的操作。<br>首先使用<code>va_list</code>来获取参数栈，<code>va_start</code>来指定第一个参数的地址。<br>此后便可以使用<code>va_arg()</code>来获取后续的参数了，这时需要指定类型（因为需要确定空间大小）。<br>最后用<code>va_end</code>来释放资源。一个简单的可变参数的函数像这样：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdarg.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">my_print</span><span class="params">(<span class="keyword">int</span> count, ...)</span></span>&#123;</span><br><span class="line">    va_list ap;</span><br><span class="line">    va_start(ap, count);</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>; j&lt;count; j++)</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;va_arg(ap, <span class="keyword">double</span>)&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    va_end(ap);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>第一个参数是必不可少的，我们需要用它来确定参数的个数。</p>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/blog/2015/07/05/cpp-pointers-and-references.html" itemprop="url">
+                  C++手稿：指针与引用
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-07-05T00:00:00+08:00" content="2015-07-05">
+              2015-07-05
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/blog/2015/07/05/cpp-pointers-and-references.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/07/05/cpp-pointers-and-references.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/blog/2015/07/05/cpp-pointers-and-references.html" class="leancloud_visitors" data-flag-title="C++手稿：指针与引用">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>C++的引用和指针始终是最容易出错的地方，大量的C++错误都是由空引用和空指针造成的。<br>与此同时，常量指针、函数指针、数组指针也是容易产生困惑的地方。<br>本文便来总结一下C++中引用和指针的用法，以及智能指针的概念。</p>
+<h1 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h1><p>引用是C++的C语言的扩充，用来定义一个变量的别名。其使用方式同被引用的变量，且可以通过参数传递引用。<br>引用在定义时必须初始化为一个变量，初始化为常量或表达式都会引发编译错误。</p>
+<p>引用是一种隐式的指针，对它的操作都会被解释为对它引用的对象的操作。<br>引用不占用栈空间，因为编译器知道它的地址。但作为参数传递引用时，会把指针放在参数栈中。例如：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">function</span><span class="params">(<span class="keyword">int</span>&amp; x)</span> </span>&#123;</span><br><span class="line">     x = <span class="number">10</span>;</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">     <span class="keyword">int</span> i = <span class="number">5</span>;</span><br><span class="line">     <span class="keyword">int</span>&amp; j = i;</span><br><span class="line">     function(j);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p> 其中<code>j</code>并不占用当前的栈空间，而<code>function</code>被调用前会将<code>j</code>的地址放入它的参数栈中。</p>
+<p> 关于引用的内存占用： <a href="http://stackoverflow.com/questions/1179937/how-does-a-c-reference-look-memory-wise" target="_blank" rel="external">http://stackoverflow.com/questions/1179937/how-does-a-c-reference-look-memory-wise</a></p>
+<h1 id="引用参数"><a href="#引用参数" class="headerlink" title="引用参数"></a>引用参数</h1><p>为了在函数中修改传入的参数，可以把函数参数声明为引用。一个经典的使用场景是<code>swap</code>，避免了繁琐的指针操作：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span>&amp; lhs, <span class="keyword">int</span>&amp; rhs)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> tmp = lhs;</span><br><span class="line">    lhs = rhs;</span><br><span class="line">    rhs = tmp;</span><br><span class="line">&#125;</span><br><span class="line">swap(a, b);</span><br></pre></td></tr></table></figure>
+<p>传引用还是传值，对于调用者来讲是没有区别的。这一点与传指针是不同的，如果要传递指针调用者需要先对参数变量取地址。</p>
+<h1 id="引用返回值"><a href="#引用返回值" class="headerlink" title="引用返回值"></a>引用返回值</h1><p>引用作为函数的返回值，一般是为了在函数外部修改内部变量。例如，对下标操作符的重载：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Array&#123;</span><br><span class="line">    <span class="keyword">int</span>[N] <span class="built_in">array</span>;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">int</span>&amp; <span class="keyword">operator</span>[](i)&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">array</span>[i];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">Array arr;</span><br><span class="line">arr[<span class="number">2</span>] = <span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果返回值为<code>int</code>而非<code>int&amp;</code>，则运行时会将<code>array[i]</code>拷贝一份作为返回值，此时赋值无效。</p>
+</blockquote>
+<h1 id="常量指针与指针常量"><a href="#常量指针与指针常量" class="headerlink" title="常量指针与指针常量"></a>常量指针与指针常量</h1><p>常量指针指向地方的内容不可改变，指针常量指向的地方不可改变。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义整数</span></span><br><span class="line"><span class="keyword">int</span> n = <span class="number">1</span>, m=<span class="number">2</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 常量指针</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> * p = &amp;n;</span><br><span class="line">*p = <span class="number">5</span>;   <span class="comment">// 编译错</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 指针常量</span></span><br><span class="line"><span class="keyword">int</span> * <span class="keyword">const</span> p = &amp;n;</span><br><span class="line">p = &amp;m;   <span class="comment">// 编译错</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 指针和指向的对象都是常量</span></span><br><span class="line"><span class="keyword">const</span> <span class="keyword">int</span> * <span class="keyword">const</span> p = &amp;n;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>通常来讲，编译器允许变量到常量的隐式转换，不允许常量到变量的转换。可以参考<code>const_cast</code>。</p>
+</blockquote>
+<h1 id="指针数组"><a href="#指针数组" class="headerlink" title="指针数组"></a>指针数组</h1><p>指针数组是有一系列指针构成的数组，例如：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span>* arr[<span class="number">8</span>];</span><br></pre></td></tr></table></figure>
+<p>数组的长度为8，数组的每一项都是类型为<code>int*</code>的指针。</p>
+<h1 id="数组指针"><a href="#数组指针" class="headerlink" title="数组指针"></a>数组指针</h1><p>数组指针是指向数组的指针，在C++中可以声明一个指向长度为8的数组的指针：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> (*arr)[<span class="number">8</span>];</span><br></pre></td></tr></table></figure>
+<h1 id="函数指针"><a href="#函数指针" class="headerlink" title="函数指针"></a>函数指针</h1><p>函数指针通常用来进行传参，借此实现动态的策略。传参时可以用函数名，也可以用函数指针。而函数指针需要用函数名来初始化。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">int sum(int a, int b)j&#123;</span><br><span class="line">    return a+b;</span><br><span class="line">&#125;</span><br><span class="line">void wrapper(int a, int b, int (*p)(int, int))&#123;</span><br><span class="line">    cout&lt;&lt;p(a, b)&lt;&lt;endl;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">    wrapper(2, 3, sum);</span><br><span class="line">    int (*p)(int, int) = sum;</span><br><span class="line">    wrapper(2, 3, p);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>类似地，函数指针也可以组成一个数组：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> (*p[])(<span class="keyword">int</span>, <span class="keyword">int</span>) = &#123;sum, sum&#125;;</span><br><span class="line">wrapper(<span class="number">2</span>, <span class="number">3</span>, p[<span class="number">0</span>]);</span><br><span class="line">wrapper(<span class="number">2</span>, <span class="number">3</span>, p[<span class="number">1</span>]);</span><br></pre></td></tr></table></figure>
+<p>除了函数指针，函数对象也常用来传递动态的策略。<br>它们有一致的调用方式，在类模板中具有相同的隐式接口，<br>因此多数STL算法模板都可以不加区分地使用函数对象或者函数指针，<br>详情见<a href="/2015/08/23/effective-cpp-41.html">Effective C++: Item 41</a>）。</p>
+<h1 id="智能指针"><a href="#智能指针" class="headerlink" title="智能指针"></a>智能指针</h1><p>在<a href="!--￼9--">Effective C++: Item 13</a>中详细介绍了智能指针的概念与使用方法。</p>
+<p>C++没有内置的垃圾回收机制，所以获取和回收资源需要程序员来设计。<br>使用new构造的对象，如果将删除它的责任给调用者，将很容易发生疏漏，尤其是控制流发生改变时。<br>我们可以想到让对象来管理资源，利用会被自动调用的析构函数来完成资源的回收。<br>STL中已经提供了这样一个类模板：<code>std::auto_ptr</code>。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">auto_ptr</span>&lt;Investment&gt; invest()&#123;</span><br><span class="line">    <span class="built_in">auto_ptr</span>&lt;Investment&gt; pInv(createInvestment());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：<code>auto_ptr</code>析构函数中使用的是<code>delete</code>而非<code>delete[]</code>，所以不适合管理数组资源。</p>
+</blockquote>
+<p>同时，<code>auto_ptr</code>重载了赋值运算符，保证了资源不会被多次析构。<br>这样，<code>auto_ptr</code>的赋值操作会转移资源，原指针将会变为<code>NULL</code>.<br>如果需要同时存在多个引用，可以使用<code>shared_ptr</code>，它会对引用进行计数。</p>
+<blockquote>
+<p><code>shared_ptr</code>的引用计数很像垃圾回收，然而它并不能解决环状引用的问题。</p>
+</blockquote>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/blog/2015/07/03/stl-function-objects-and-pointers.html" itemprop="url">
+                  C++手稿：STL中的函数对象与函数指针
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-07-03T00:00:00+08:00" content="2015-07-03">
+              2015-07-03
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/blog/2015/07/03/stl-function-objects-and-pointers.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/07/03/stl-function-objects-and-pointers.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/blog/2015/07/03/stl-function-objects-and-pointers.html" class="leancloud_visitors" data-flag-title="C++手稿：STL中的函数对象与函数指针">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>STL是C++的标准模板库（standard template library），自然其中定义的都是模板。<br>相比于类和函数声明的<strong>显式接口（explicit interface）</strong>，类模板和函数模板声明的接口属于<strong>隐式接口（implicit interface）</strong>。<br>因为模板参数应当满足的接口是由模板中表达式的合法性决定的，这一点给了模板很大的自由。<br>而<em>函数对象</em>和<em>函数指针</em>具有同样的调用语法，因此STL中这两者常常可以互换。</p>
+<blockquote>
+<p>更多关于隐式接口和显式接口的概念和区别，参见<a href="/2015/09/08/effective-cpp-41.html">Effective C++: Item 41</a>。</p>
+</blockquote>
+<p>先来感受一下C++中的函数对象和函数指针：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">printer</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b, T func)</span></span>&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;func(a, b)&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在STL中定义了很多像上面这样的模板，这里的T是一个可调用（实现了括号运算符）的东西。<br>这使得我们在使用模板时可以指定一个计算策略，它可以是函数对象，也可以是函数指针。</p>
+<blockquote>
+<p><code>Less&lt;int&gt;</code>便是一个常见的函数对象，常用来配置容器或算法。<code>&lt;functional&gt;</code>中定义了很多这样的函数对象。</p>
+</blockquote>
+<h1 id="函数指针"><a href="#函数指针" class="headerlink" title="函数指针"></a>函数指针</h1><p>函数指针通常用来将函数传参或存储。例如：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">sum</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> a+b;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    printer(<span class="number">2</span>, <span class="number">3</span>, sum);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上述的<code>printer</code>调用方式，编译器会生成对应的函数实例：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">void printer(int a, int b, int (*func)(int, int))&#123;</span><br><span class="line">    cout&lt;&lt;func(a, b)&lt;&lt;endl;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里<code>T</code>的类型是<code>int (*)(int, int)</code>。</p>
+<blockquote>
+<p>如果你是python或者javascript程序员的话，上述过程没有什么特别的。<br>唯一要注意的是<code>func</code>的声明方式，星号要和标识符括起来：<code>(*func)</code>。</p>
+</blockquote>
+<h1 id="函数对象"><a href="#函数对象" class="headerlink" title="函数对象"></a>函数对象</h1><p>函数对象是重载了括号运算符的类的实例，它也可以这样调用：<code>func(a, b)</code>。例如：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Sum&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">int</span> <span class="title">operator</span><span class="params">()</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> a+b;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    printer(<span class="number">2</span>, <span class="number">3</span>, Sum());</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>编译器会生成这样的函数实例：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">printer</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b, Sum s)</span></span>&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;s(a, b)&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>函数对象可以实现更加复杂的有状态的运算，因为对象可以有更多的属性和方法。</p>
+</blockquote>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/blog/2015/07/03/stl-function-objects-and-pointers.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/blog/2015/07/01/introduction-to-stl.html" itemprop="url">
+                  C++手稿：STL小记
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-07-01T00:00:00+08:00" content="2015-07-01">
+              2015-07-01
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/blog/2015/07/01/introduction-to-stl.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/07/01/introduction-to-stl.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/blog/2015/07/01/introduction-to-stl.html" class="leancloud_visitors" data-flag-title="C++手稿：STL小记">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>STL (Standard Template Library) 提供了一些常用的数据结构和算法的模板，1998年加入C++标准。<br>STL中有三个重要的概念：</p>
 <ol>
-<li>声明一个普通函数，作为类的友元。</li>
-<li>声明为类的成员方法。</li>
+<li>容器：容纳各种数据类型的数据结构，是一系列的类模板。</li>
+<li>迭代器：迭代器用来迭代地访问容器中的元素。</li>
+<li>算法：用来操作容器中的元素，是一系列的函数模板。</li>
 </ol>
-<blockquote>
-<p>事实上，运算符的本质是函数。每个运算符调用会转换为函数调用，运算符的操作数转换为函数参数。<br>运算符的重载本质上是方法的重载。</p>
-</blockquote>
-<p>这些运算符不允许重载：<code>.</code>，<code>.*</code>，<code>::</code>，<code>?:</code>，<code>sizeof</code>。</p>
-<h1 id="重载为普通函数"><a href="#重载为普通函数" class="headerlink" title="重载为普通函数"></a>重载为普通函数</h1><p>重载为普通函数时，参数的个数为运算符的目数：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">CPerson operator+(const CPerson&amp; male, const CPerson&amp; female)&#123;</span><br><span class="line">    return CPerson(male.name + female.name);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">CPerson male("Bob"), female("Alice");</span><br><span class="line">CPerson child1 = male + female;</span><br><span class="line">// 等价于</span><br><span class="line">CPerson child2 = operator+(male, female);</span><br></pre></td></tr></table></figure>
-<p>这些运算符必须重载为成员函数：<code>()</code>，<code>[]</code>，<code>-&gt;</code>，<code>=</code>。</p>
-<h1 id="重载为成员函数"><a href="#重载为成员函数" class="headerlink" title="重载为成员函数"></a>重载为成员函数</h1><p>重载为成员函数时，参数的个数为运算符的目数-1：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">class CPerson&#123;</span><br><span class="line">    string name;</span><br><span class="line">public:</span><br><span class="line">    CPerson(string name_):name(name_)&#123;&#125;</span><br><span class="line">    CPerson operator+(const CPerson&amp; female)&#123;</span><br><span class="line">        return CPerson(name + female.name);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">CPerson male("Bob"), female("Alice");</span><br><span class="line">CPerson child1 = male + female;</span><br><span class="line">// 等价于</span><br><span class="line">CPerson child2 = male.operator+(female);</span><br></pre></td></tr></table></figure>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/blog/2015/06/25/operator-overload.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/blog/2015/06/24/cpp-static-and-const-member.html" itemprop="url">
-                  C++手稿：类的静态和常量成员
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-06-24T00:00:00+08:00" content="2015-06-24">
-              2015-06-24
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/blog/2015/06/24/cpp-static-and-const-member.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/06/24/cpp-static-and-const-member.html" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/blog/2015/06/24/cpp-static-and-const-member.html" class="leancloud_visitors" data-flag-title="C++手稿：类的静态和常量成员">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>本文总结了静态成员的使用、单例的实现、常量对象与常量方法，以及如何将常量方法重载为普通方法。</p>
-<h1 id="静态成员"><a href="#静态成员" class="headerlink" title="静态成员"></a>静态成员</h1><p>对象成员的声明前加<code>static</code>即可定义为静态成员，静态成员必须在声明类的文件中进行声明（通常会初始化），否则链接错。<br>访问静态成员可以通过类名，也可以通过对象名。</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> CPerson&#123;</span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">int</span> count;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">int</span> CPerson::count = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">CPerson p1, &amp;p2 = p1, *p3 = <span class="keyword">new</span> CPerson();</span><br><span class="line"></span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;CPerson::count&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;p1.count&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;p2.count&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line"><span class="built_in">cout</span>&lt;&lt;p3-&gt;count&lt;&lt;<span class="built_in">endl</span>;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>只有静态常量整型才可以在类的声明中，直接初始化。</li>
-<li><code>sizeof</code>运算符不会计算静态常量。</li>
-<li>静态方法不可访问非静态成员、<code>this</code>指针。</li>
+<h1 id="STL-容器"><a href="#STL-容器" class="headerlink" title="STL 容器"></a>STL 容器</h1><p>STL中的容器定义在<code>std</code>命名空间下，需要引入头文件<br><code>&lt;vector&gt;</code>, <code>&lt;set&gt;</code>, <code>&lt;map&gt;</code>, <code>&lt;deque&gt;</code>, <code>&lt;list&gt;</code>, <code>&lt;stack&gt;</code><br>等。容器可以分为三大类：</p>
+<ol>
+<li>顺序容器<ul>
+<li><a href="http://www.cplusplus.com/reference/vector/vector">vector</a>：尾端插入元素有较高性能，动态数组实现；</li>
+<li><a href="http://www.cplusplus.com/reference/deque/deque/">deque</a>：收尾插入元素都有较高性能，动态数组实现；</li>
+<li><a href="http://www.cplusplus.com/reference/list/list/">list</a>：可以常数时间在任何地方插入元素，链表实现；</li>
 </ul>
-<h1 id="单例的实现"><a href="#单例的实现" class="headerlink" title="单例的实现"></a>单例的实现</h1><p>在C++中，借由静态成员变量，可以实现单例模式。首先需要将构造函数私有化，并提供获取单例的方法。<br>此后还需禁止复制构造函数、禁止赋值运算符。</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> CPerson&#123;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">    <span class="keyword">static</span> CPerson* p;</span><br><span class="line">    CPerson()&#123;&#125;;</span><br><span class="line">    CPerson(CPerson&amp;);</span><br><span class="line">    <span class="keyword">const</span> CPerson&amp; <span class="keyword">operator</span>= (<span class="keyword">const</span> CPerson&amp;);</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">static</span> Person* <span class="title">instance</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">return</span> p ? p : (p = <span class="keyword">new</span> P());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">CPerson* CPerson::p = <span class="literal">NULL</span>;</span><br></pre></td></tr></table></figure>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/blog/2015/06/24/cpp-static-and-const-member.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/blog/2015/06/22/cpp-object-lifecycle.html" itemprop="url">
-                  C++手稿：对象的生命周期，构造与析构
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-06-22T00:00:00+08:00" content="2015-06-22">
-              2015-06-22
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/blog/2015/06/22/cpp-object-lifecycle.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/06/22/cpp-object-lifecycle.html" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/blog/2015/06/22/cpp-object-lifecycle.html" class="leancloud_visitors" data-flag-title="C++手稿：对象的生命周期，构造与析构">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>本文总结了类的创建、复制和销毁过程中涉及到的成员函数：构造函数、析构函数、拷贝构造函数、赋值运算符等。<br>探讨了全局对象、静态对象、栈中的对象、堆中的对象的整个生命周期中，这些成员函数的调用时机。</p>
-<h1 id="类的声明"><a href="#类的声明" class="headerlink" title="类的声明"></a>类的声明</h1><p>C++引入类的概念来实现面向对象程序设计，先来看一个简单的类的声明：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> CPerson&#123;</span><br><span class="line">    <span class="keyword">public</span>: </span><br><span class="line">    <span class="comment">// 构造函数</span></span><br><span class="line">    CPerson()&#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">"constructor"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 构造函数（重载）</span></span><br><span class="line">    CPerson(<span class="keyword">int</span> age)&#123;</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">"constructor "</span>&lt;&lt;age&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 声明可以与实现分离</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Hello</span><span class="params">()</span></span>; </span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">CPerson::Hello()&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"hello"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>构造函数定义为私有，可以防止该类被直接实例化。一般用于Singleton实现。</li>
-<li>不允许签名为<code>CPerson(CPerson p){}</code>的构造函数（编译错）。不允许带参数的析构函数（编译错）。构造函数可以有参数，不允许有返回值。总之，<strong>析构函数和构造函数</strong>签名不正确都会编译错。</li>
+</li>
+<li>关联容器<ul>
+<li><a href="http://www.cplusplus.com/reference/set/set">set</a>：不同元素的集合，平衡二叉树实现，检索时间是 $O(log(N))$；</li>
+<li><a href="http://www.cplusplus.com/reference/set/multiset">multiset</a>：同上，但可以包含相同元数据；</li>
+<li><a href="http://www.cplusplus.com/reference/map/map">map</a>：同<code>set</code>，但存放的是键值对；</li>
+<li><a href="http://www.cplusplus.com/reference/map/multimap/">multimap</a>：同上，键可以重复；</li>
 </ul>
-<h1 id="对象实例化"><a href="#对象实例化" class="headerlink" title="对象实例化"></a>对象实例化</h1><p>可以直接定义对象变量，在栈中分配并初始化对象；也可以定义对象指针，从堆中分配空间并初始化对象。</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CPerson p1;</span><br><span class="line"><span class="function">CPerson <span class="title">p2</span><span class="params">(<span class="number">2</span>)</span></span>;</span><br><span class="line">CPerson* p3 = <span class="keyword">new</span> CPerson(<span class="number">3</span>);</span><br></pre></td></tr></table></figure>
-<p>输出：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">constructor</span><br><span class="line">constructor 2</span><br><span class="line">constructor 3</span><br></pre></td></tr></table></figure>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/blog/2015/06/22/cpp-object-lifecycle.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/blog/2015/06/17/css-alignment.html" itemprop="url">
-                  inline元素的对齐问题
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-06-17T00:00:00+08:00" content="2015-06-17">
-              2015-06-17
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/blog/2015/06/17/css-alignment.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/06/17/css-alignment.html" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/blog/2015/06/17/css-alignment.html" class="leancloud_visitors" data-flag-title="inline元素的对齐问题">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>元素对齐是CSS中最常见的问题之一，控制元素对齐的属性包括<code>text-align</code>, <code>verticle-align</code>, <code>margin</code>, <code>line-height</code>等。<br>本文便来探讨inline元素的对齐行为，以及<code>text-align</code>和<code>verticle-align</code>的使用方法，并给出实例。</p>
-<h1 id="text-align"><a href="#text-align" class="headerlink" title="text-align"></a>text-align</h1><p><a href="https://developer.mozilla.org/zh-CN/docs/CSS/text-align">text-align</a>指定了行内内容（例如文字）如何相对它的块父元素对齐。<strong>作用于当前元素的子元素，且子元素需是<code>inline</code>的</strong>。例如：</p>
-<p>常用的取值有：<code>left</code>, <code>right</code>, <code>center</code>。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span><br><span class="line"><span class="selector-class">.right</span>&#123;</span><br><span class="line">  <span class="attribute">text-align</span>: right;</span><br><span class="line">&#125;</span><br><span class="line"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"right"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">span</span>&gt;</span>Gesetz zur Änderung des Fernstra<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p><img src="/assets/img/blog/css/pull-right@2x.png" alt="css: pull right"></p>
-<h1 id="vertical-align"><a href="#vertical-align" class="headerlink" title="vertical-align"></a>vertical-align</h1><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/vertical-align">vertical-align</a>指定行内（inline）元素或表格单元格（table-cell）元素的垂直对齐方式。<br>与<code>text-align</code>不同，<strong><code>vertical-align</code>作用于当前元素</strong>。</p>
+</li>
+<li>容器适配器：<a href="http://www.cplusplus.com/reference/stack/stack">stack</a>，<a href="http://www.cplusplus.com/reference/queue/queue">queue</a>，<a href="http://www.cplusplus.com/reference/queue/priority_queue/">priority_queue</a>。</li>
+</ol>
+<p>这些容器有一些通用的方法：<code>empty</code>，<code>size</code>，<code>swap</code>，<code>max_size</code>。前两类容器支持迭代器，称为第一类容器。<br>顺序容器还有以下通用方法：<code>front</code>, <code>back</code>, <code>pop_back</code>, <code>push_back</code>。</p>
 <blockquote>
-<p>为什么要是行内元素呢？因为如果是块元素的话，它总是会占据整行，就无所谓谁和谁垂直对齐了。</p>
+<p>容器之间的比较取决于第一个不等的元素；如果长度相同且所有元素相等，两个容器相等；如果一个是另一个的子序列，则较短的容器小于较长的容器。</p>
 </blockquote>
-<p>常用的取值有：<code>top</code>, <code>bottom</code>, <code>middle</code>，默认值为<code>baseline</code>。</p>
+<p>存储键值对关联容器<code>map</code>和<code>multimap</code>的迭代器是一个<code>pair&lt;T1, T2&gt;</code>的指针。<br>插入时，可以使用<code>[]</code>运算符，也可以使用<code>insert</code>方法，它接受一个<code>pair&lt;T1, T2&gt;</code>对象：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">std</span>::<span class="built_in">map</span>&lt;<span class="keyword">char</span>,<span class="keyword">int</span>&gt; mymap;</span><br><span class="line">mymap.insert (mymap.begin(), <span class="built_in">std</span>::pair&lt;<span class="keyword">char</span>,<span class="keyword">int</span>&gt;(<span class="string">'c'</span>,<span class="number">400</span>));</span><br><span class="line">mymap.insert (mymap.begin(), <span class="built_in">std</span>::make_pair(<span class="string">'c'</span>,<span class="number">400</span>));</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>pair</code>模板类在<code>&lt;utility&gt;</code>中定义，在<code>&lt;map&gt;</code>中已经引入了。</p>
+</blockquote>
+<p>容器适配器是逻辑数据结构，需要用一种顺序容器来实现。例如，<code>stack</code>默认使用<code>deque</code>来实现，我们也可以指定它的实现方式。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">stack</span>&lt;<span class="built_in">string</span>&gt; strstk;         <span class="comment">// string 型栈，deque实现</span></span><br><span class="line"><span class="built_in">stack</span>&lt;<span class="keyword">int</span>, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; stk;  <span class="comment">// int 型栈，vector实现</span></span><br></pre></td></tr></table></figure>
+<h1 id="STL-迭代器"><a href="#STL-迭代器" class="headerlink" title="STL 迭代器"></a>STL 迭代器</h1><p>只有第一类容器支持迭代器（容器适配器不支持迭代器）。来个例子：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; v;</span><br><span class="line"><span class="keyword">for</span>(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;::reverse_iterator r = v.rbegin(); r &lt; v.rend(); r++)&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;*r;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>取决于不同的存储方式，不同容器支持的迭代器是不同的。这些迭代器按功能的强弱分为5类：</p>
+<ol>
+<li>Input Iterator：提供只读访问</li>
+<li>Output Iterator：提供只写访问</li>
+<li>Forward Iterator：支持逐个向后迭代访问</li>
+<li>Bidirectional Iterator：能够双向地逐个迭代访问</li>
+<li>Random Access Iterator：可随机访问每个元素</li>
+</ol>
+<p>例如，双向迭代器不支持<code>&lt;</code>，<code>&gt;</code>，<code>[]</code>运算符，只能判等：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">list</span>&lt;<span class="keyword">int</span>&gt; l;</span><br><span class="line"><span class="keyword">for</span>(<span class="built_in">list</span>&lt;<span class="keyword">int</span>&gt;::const_iterator i = l.begin(); i != l.end(); ++i)&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;*i;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>vector</code>和<code>deque</code>支持Random Access Iterator，<code>list</code>、<code>set/multiset</code>、<code>map/multimap</code>支持Bidirectional Iterator。</p>
           <div class="post-more-link text-center">
-            <a class="btn" href="/blog/2015/06/17/css-alignment.html#more" rel="contents">
+            <a class="btn" href="/blog/2015/07/01/introduction-to-stl.html#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -808,8 +893,8 @@
             
               
                 
-                <a class="post-title-link" href="/blog/2015/06/12/css-line-wrap.html" itemprop="url">
-                  CSS Line Box：块级元素与行内元素
+                <a class="post-title-link" href="/blog/2015/06/30/std-string.html" itemprop="url">
+                  C++手稿：std::string
                 </a>
               
             
@@ -822,19 +907,38 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-06-12T00:00:00+08:00" content="2015-06-12">
-              2015-06-12
+            <time itemprop="dateCreated" datetime="2015-06-30T00:00:00+08:00" content="2015-06-30">
+              2015-06-30
             </time>
           </span>
 
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/reading/" itemprop="url" rel="index">
+                    <span itemprop="name">reading</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
           
 
           
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/blog/2015/06/12/css-line-wrap.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/06/12/css-line-wrap.html" itemprop="commentsCount"></span>
+                <a href="/blog/2015/06/30/std-string.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/06/30/std-string.html" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -844,7 +948,7 @@
 
           
           
-             <span id="/blog/2015/06/12/css-line-wrap.html" class="leancloud_visitors" data-flag-title="CSS Line Box：块级元素与行内元素">
+             <span id="/blog/2015/06/30/std-string.html" class="leancloud_visitors" data-flag-title="C++手稿：std::string">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -867,640 +971,175 @@
 
       
         
-          <p>CSS 将 DOM 树转换为由矩形 Box 构成的树，并通过设置这些 Box 的属性来改变其位置和大小，描述每个元素或文本的布局。这些 Box 分为三个级别：</p>
+          <p>字符串在很多编程语言中已经成为基本数据类型，C语言中我们使用<code>char*</code>来手动维护字符串的内存，<br>在C++中，可以使用<code>std::string</code>来方便地创建和操作字符串。</p>
+<p><code>string</code>是一个模板类，它有<code>basic_string&lt;T&gt;</code>定义：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> basic_string&lt;<span class="keyword">char</span>&gt; <span class="built_in">string</span>;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>C++的<code>string</code>可以通过成员方法<code>c_str()</code>转换为C语言的<code>char*</code>。</p>
+</blockquote>
+<p>参考文档：<a href="http://www.cplusplus.com/reference/string/string/">cplusplus.com/string</a></p>
+<h1 id="初始化与赋值"><a href="#初始化与赋值" class="headerlink" title="初始化与赋值"></a>初始化与赋值</h1><p><code>string</code>有两个常用的构造函数：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 用一个C字符串构造</span></span><br><span class="line"><span class="function"><span class="built_in">string</span> <span class="title">str</span><span class="params">(<span class="string">"hello"</span>)</span></span>;</span><br><span class="line"><span class="comment">// 等价于</span></span><br><span class="line"><span class="built_in">string</span> str = <span class="string">"hello"</span>;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>也可以用N个同样的字符来构造字符串：<code>string str2(8, &#39;x&#39;)</code>。</p>
+</blockquote>
+<p>在C0x标准中，<code>std::to_string</code>可以将很多类型转换为一个<code>string</code>，可以代替<code>itoa</code>，例如：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">string</span> str = to_string(<span class="number">123</span>);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>string</code>构造函数不接受<code>char</code>和<code>int</code>类型。</p>
+</blockquote>
+<p>字符串可以直接互相赋值，内存会自动拷贝和销毁，我们大可不必管它。对于单个字符赋值可以使用下标运算符：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;str.length(); i++)&#123;</span><br><span class="line">    str[i] = <span class="string">'a'</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>与多数class类似，<code>string</code>也提供了<code>swap</code>：<code>str1.swap(s2)</code>将会交换二者的值。</p>
+</blockquote>
+<h1 id="运算符支持"><a href="#运算符支持" class="headerlink" title="运算符支持"></a>运算符支持</h1><p>有通用运算符支持的数据类型往往更容易理解和操作，其中最讨人喜欢的莫过于<code>+</code>运算符：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">str += str2;</span><br><span class="line">str = str + <span class="string">"hello"</span>;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>当然，你也可以直接调用<code>append</code>方法：<code>str.append(str2)</code>。</p>
+</blockquote>
+<p>除了<code>+</code>，<code>string</code>还支持一系列的比较运算符：<code>&lt;</code>, <code>==</code>, <code>&gt;</code>, <code>&lt;=</code>, <code>&gt;=</code>, <code>!=</code>。</p>
+<blockquote>
+<p>当然，你仍然可以直接调用<code>compare</code>方法：<code>str1.compare(str2)</code>，<code>str1</code>小则会返回<code>-1</code>。</p>
+</blockquote>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/blog/2015/06/30/std-string.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/blog/2015/06/29/cpp-encapsulation-and-inheritance.html" itemprop="url">
+                  C++手稿：封装与继承
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-06-29T00:00:00+08:00" content="2015-06-29">
+              2015-06-29
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/blog/2015/06/29/cpp-encapsulation-and-inheritance.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/06/29/cpp-encapsulation-and-inheritance.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/blog/2015/06/29/cpp-encapsulation-and-inheritance.html" class="leancloud_visitors" data-flag-title="C++手稿：封装与继承">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>本文总结了C++中类的继承相关的概念，包括可见性级别、继承的不同方式、构造与析构过程、封闭类、友元等。</p>
+<h1 id="可见性级别"><a href="#可见性级别" class="headerlink" title="可见性级别"></a>可见性级别</h1><p>C++类提供了数据结构和算法的封装，以及相应的3种可见级别。它们定义了不同的可见性：</p>
 <ul>
-<li><code>block-level</code> Box：<code>display</code>属性为<code>block</code>的Box，比如段落标签<code>&lt;p&gt;</code>；</li>
-<li><code>inline-level</code> Box：<code>display</code>属性为<code>inline-block</code>的Box，它们就像一行中的单词一样布局。它里面可以包含其他<code>inline-level</code>的Box，也可以包含<code>block-level</code>的Box；</li>
-<li>Line Box：一行单词就构成一个LineBox，这种Box是自动生成的，可以看做是<code>inline-level</code>Box的容器。</li>
+<li>Public：当前类以及子类的方法中可见，外部可见。</li>
+<li>Protected：当前类以及子类的方法中可见，外部不可见。</li>
+<li>Private：当前类的方法中可见，外部不可见。</li>
 </ul>
-<p>溢出、折行、断词是Line Box中常见的问题，设置这些行为的CSS属性包括<code>white-space</code>、<code>line-spacing</code>、<code>text-overflow</code>、<code>word-wrap</code>、<code>word-break</code>等。<br>下面几小节中详细介绍这些属性的取值与对应的行为、以及常见的使用方法。</p>
-<p>更多信息请参考：<a href="http://www.w3.org/TR/css3-box/">W3C 标准：CSS3-Box</a></p>
-<h1 id="line-Box"><a href="#line-Box" class="headerlink" title="line Box"></a>line Box</h1><p>下面的小节中介绍的CSS属性只适用于LineBox，那么什么是LineBox呢？请看下面的HTML片段：</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;<span class="name">li</span>&gt;</span>The first item in the list.</span><br><span class="line"> <span class="tag">&lt;<span class="name">li</span>&gt;</span>The second item.</span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p><code>ul</code>会生成一个<code>block-level</code>的 Box，然后为每个<code>li</code>元素生成一个<code>block-level</code>的 Box。<br>而每个<code>li</code>的 Box 中有一个Line Box，它包含了两个<code>inline-level</code>的 Box：<br>一个用来显示“ &middot; ”，一个用来显示文本。</p>
 <blockquote>
-<p>如果<code>li</code>产生了换行，将会变成多个<code>inline-level</code>Box，如果在<code>ul</code>中间产生了分页，那么<code>ul</code>会显示为两个<code>block-level</code>Box。</p>
+<p>在一个对象的成员函数中，可以调用其他同类对象的私有方法。</p>
 </blockquote>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/blog/2015/06/12/css-line-wrap.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/blog/2015/06/10/angular-route.html" itemprop="url">
-                  AngularJS 路由：ng-route 与 ui-router
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-06-10T00:00:00+08:00" content="2015-06-10">
-              2015-06-10
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/blog/2015/06/10/angular-route.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/06/10/angular-route.html" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/blog/2015/06/10/angular-route.html" class="leancloud_visitors" data-flag-title="AngularJS 路由：ng-route 与 ui-router">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><a href="https://docs.angularjs.org">AngularJS</a>的<a href="http://docs.angularjs.cn/api/ngRoute/service/$route">ng-route</a>模块为控制器和视图提供了[Deep-Linking]URL。<br>通俗来讲，<a href="http://docs.angularjs.cn/api/ngRoute/service/$route">ng-route</a>模块中的<code>$route</code>Service监测<code>$location.url()</code>的变化，并将它映射到预先定义的控制器。也就是在客户端进行URL的路由。<br>下面首先给出<code>$route</code>的使用示例，然后引入一个更加强大的客户端路由框架<a href="https://github.com/angular-ui/ui-router">ui-router</a>。</p>
-<h1 id="Angular-路由"><a href="#Angular-路由" class="headerlink" title="Angular 路由"></a>Angular 路由</h1><p>在APP中定义多个页面的控制器，并给出对应的模板。然后<code>$routeProvider</code>进行配置，即可将URL映射到这些控制器和视图。<br>首先定义一个基本的Angular APP，并引入<code>ngRoute</code>：</p>
-<blockquote>
-<p>Angular<code>$route</code>Service在<code>ngRoute</code>模块里。需要引入它对应的javascript文件，并在我们的APP里<code>ngRoute</code>添加为模块依赖（<a href="/web/angular-module.html">如何添加模块依赖？</a>）。</p>
-</blockquote>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> app = angular.module(<span class="string">'ngRouteExample'</span>, [<span class="string">'ngRoute'</span>])</span><br><span class="line">    .controller(<span class="string">'MainController'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">$scope</span>) </span>&#123;</span><br><span class="line">    &#125;)</span><br><span class="line">    .config(<span class="function"><span class="keyword">function</span>(<span class="params">$routeProvider, $locationProvider</span>) </span>&#123;</span><br><span class="line">      $routeProvider</span><br><span class="line">          .when(<span class="string">'/users'</span>, &#123;</span><br><span class="line">              templateUrl: <span class="string">'user-list.html'</span>,</span><br><span class="line">              controller: <span class="string">'UserListCtrl'</span></span><br><span class="line">          &#125;)</span><br><span class="line">          .when(<span class="string">'/users/:username'</span>, &#123;</span><br><span class="line">              templateUrl: <span class="string">'user.html'</span>,</span><br><span class="line">              controller: <span class="string">'UserCtrl'</span></span><br><span class="line">          &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// configure html5</span></span><br><span class="line">        $locationProvider.html5Mode(<span class="literal">true</span>);</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
-<p>上述代码中，<code>$routeProvider</code>定义了两个URL的映射：<code>/users</code>使用<code>user-list.html</code>作为模板，<code>UserListCtrl</code>作为控制器；<br><code>/users/:username</code>则会匹配类似<code>/users/alice</code>之类的URL，稍后你会看到如何获得<code>:username</code>匹配到的值。先看首页的模板：</p>
-<blockquote>
-<p><strong>HTML5Mode</strong>： 服务器端路由和客户端路由的URL以<code>#</code>分隔。例如<code>/foo/bar#/users/alice</code>，Angular通过操作锚点来进行路由。<br>然而<code>html5Mode(true)</code>将会去除<code>#</code>，URL变成<code>/foo/bar/users/alice</code>（这需要浏览器支持HTML5的，因为此时Angular通过<code>pushState</code>来进行路由）。<br>此时服务器对所有的客户端路由的URL都需要返回首页（<code>/foo/bar</code>）视图，再交给Angular路由到<code>/foo/bar/users/alice</code>对应的视图。</p>
-</blockquote>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-controller</span>=<span class="string">"MainController"</span>&gt;</span></span><br><span class="line">  Choose:</span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"users"</span>&gt;</span>user list<span class="tag">&lt;/<span class="name">a</span>&gt;</span> |</span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"users/alice"</span>&gt;</span>user: alice<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-view</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>注意到模板文件中有一个<code>div[ng-view]</code>，子页面将会载入到这里。</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/blog/2015/06/10/angular-route.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/blog/2015/06/07/angular-module.html" itemprop="url">
-                  AngularJS 模块化与依赖注入
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-06-07T00:00:00+08:00" content="2015-06-07">
-              2015-06-07
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/blog/2015/06/07/angular-module.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/06/07/angular-module.html" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/blog/2015/06/07/angular-module.html" class="leancloud_visitors" data-flag-title="AngularJS 模块化与依赖注入">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><a href="https://docs.angularjs.org">AngularJS</a>使用模块化的组织方式，和依赖注入的设计。这使得模块之间耦合度较低，模块更容易复用。同时支持声明式的编程风格。<br>在你创建Angular Module 或者 Service 之前，首先需要了解一下 Angular Module 和 Service 的工作方式。</p>
-<h1 id="模块概念"><a href="#模块概念" class="headerlink" title="模块概念"></a>模块概念</h1><p>在Angular中，一个Module通常对应一个js文件，其中可以包括Controller、Service、Filter、Directive等。<br>下面我们声明一个模块：<code>helloApp</code>，并在其中声明一个Controller：<code>worldCtrl</code>，一个Directive：<code>customer</code>，和一个Filter：<code>count</code>。</p>
-<p><img src="/assets/img/blog/angular/module-js@2x.png" alt=""></p>
-<p>接着在模板中，使用上面声明的<code>helloApp</code>模块作为Angular APP：</p>
-<p><img src="/assets/img/blog/angular/module-html@2x.png" alt=""></p>
+<p>多数现代的面向对象语言中，仅提供Private和Public两种可见性，C++的可见级别略显复杂。<br>然而三种继承方式以及多继承机制，让问题更加复杂。简单起见，此处只讨论Private和Public方式的单继承。</p>
 <ul>
-<li>Module依赖：在声明<code>helloApp</code>模块时，需要给出依赖模块的列表。同时这些模块对应的JS需要在HTML中加以引入。在<code>helloApp</code>中可以直接使用依赖模块中声明的Service、Directive、Filter。</li>
-<li>Service依赖：在声明Controller、Service、Directive、Filter的工厂方法中，把依赖的Service直接放到参数列表，Angular Injector会为你生成这些Service的实例。</li>
+<li>Public继承：子类中可访问基类<code>public</code>、<code>protected</code>成员，子类外部可见父类<code>public</code>成员。</li>
+<li>Private继承：子类中可访问基类<code>public</code>、<code>protected</code>成员，子类外部不可见父类成员。</li>
 </ul>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/blog/2015/06/07/angular-module.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/blog/2015/06/06/angular-data-binding-and-digest.html" itemprop="url">
-                  AngularJS 数据绑定与 $digest 循环
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-06-06T00:00:00+08:00" content="2015-06-06">
-              2015-06-06
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/blog/2015/06/06/angular-data-binding-and-digest.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/06/06/angular-data-binding-and-digest.html" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/blog/2015/06/06/angular-data-binding-and-digest.html" class="leancloud_visitors" data-flag-title="AngularJS 数据绑定与 $digest 循环">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>数据绑定可以说是<a href="https://docs.angularjs.org">AngularJS</a>最大的特色。在Angular中，视图和模型的数据不仅是双向绑定的，并而且是实时的。<br>使用Angular可以做到良好的甚至是神奇的用户体验，例如用户在输入表单的过程中实时地提示输入有误或者输入正确。</p>
-<h1 id="双向绑定"><a href="#双向绑定" class="headerlink" title="双向绑定"></a>双向绑定</h1><p>下图是模板引擎中常见的单向数据绑定：</p>
-<p><img src="/assets/img/blog/angular/One_Way_Data_Binding.png" alt=""></p>
-<p>通常在服务器端，将数据模型和模板结合，生成视图。当视图中的数据发生改变时，数据模型不会自动更新；模型发生改变时，视图也不会自动刷新。<br>因此开发者不得不写大量的代码来同步视图和模型。例如：</p>
-<ul>
-<li>视图-&gt;模型：绑定DOM事件来监听视图的改变，进而通过javascript函数来同步数据模型，更改javascript对象，或者发送HTTP请求到后台。</li>
-<li>模型-&gt;视图：模型改变时通过jQuery操作来更新DOM。如果数据模型在后台，可能还需要websocket之类的推送机制。</li>
+<h1 id="类的继承"><a href="#类的继承" class="headerlink" title="类的继承"></a>类的继承</h1><ul>
+<li><p>Public继承表示”is a”的关系（见<a href="!--￼6--">Effective C++: Item 32</a>），子类的对象同时也是一个基类的对象。<br>子类的行为应符合基类的行为，因此Public继承中通常不会覆盖基类成员。</p>
+</li>
+<li><p>Private继承表示“以…实现“的关系，子类是以基类来实现的<br>对于一个子类的对象，其外部不可见基类的行为。Private继承更像是对象组合。</p>
+</li>
 </ul>
-<p>而Angular提供了双向的数据绑定，我们可以在Angular Controller的<code>$scope</code>中声明数据模型，在模板中进行绑定。<br>Angular会自动添加DOM事件，并在<code>$scope</code>发生改变时自动进行DOM操作。下面是Angular双向绑定的MVT关系示意图：</p>
-<p><img src="/assets/img/blog/angular/Two_Way_Data_Binding.png" alt=""></p>
-<p>图片来源： <a href="https://docs.angularjs.org/guide/databinding">https://docs.angularjs.org/guide/databinding</a></p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/blog/2015/06/06/angular-data-binding-and-digest.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/blog/2015/06/05/angular-resource.html" itemprop="url">
-                  AngularJS Resource：与 RESTful API 交互
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-06-05T00:00:00+08:00" content="2015-06-05">
-              2015-06-05
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/blog/2015/06/05/angular-resource.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/06/05/angular-resource.html" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/blog/2015/06/05/angular-resource.html" class="leancloud_visitors" data-flag-title="AngularJS Resource：与 RESTful API 交互">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><a href="http://zh.wikipedia.org/zh-cn/REST">REST</a>（表征性状态传输，Representational State Transfer）是Roy Fielding博士在2000年他的博士论文中提出来的一种软件架构风格。RESTful风格的设计不仅具有更好的可读性（Human Readable），而且易于做缓存以及服务器扩展（scalability）。REST风格体现在URL设计上：</p>
-<ul>
-<li>每个URL对应一个资源</li>
-<li>对资源的不同操作对应于HTTP的不同方法</li>
-<li>资源表现形式（representation）通过<code>Accept</code>和<code>Content-Type</code>指定</li>
-</ul>
-<p><a href="https://docs.angularjs.org">AngularJS</a>提供了<code>$resource</code>Service来更方便地与RESTful服务器API进行交互，可以方便地定义一个REST资源，而不必手动所有的声明CRUD方法。</p>
-<p>参考文档： <a href="https://docs.angularjs.org/api/ngResource/service/$resource">https://docs.angularjs.org/api/ngResource/service/$resource</a></p>
-<h1 id="Resource-Factory"><a href="#Resource-Factory" class="headerlink" title="Resource Factory"></a>Resource Factory</h1><p><code>$resource</code>Service定义在<code>ngResource</code>Module中，需要在你的HTML中引入这个Module对应的JS，同时在你的APP中添加这样一个依赖：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> app = angular.module(<span class="string">'helloApp, ['</span>ngResource<span class="string">']);</span></span><br></pre></td></tr></table></figure>
-<p>然后为资源建立一个Factory：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">app.factory(<span class="string">'Notes'</span>, [<span class="string">'$resource'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">$resource</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> $resource(<span class="string">'/notes/:id'</span>);</span><br><span class="line">&#125;]);</span><br></pre></td></tr></table></figure>
 <blockquote>
-<p>当然，你也可以不把<code>$esource</code>的实例放到Factory里，直接在控制器中存起来：<code>var Notes = $resource(&#39;/notes/:id)</code>。</p>
+<p>对于Public继承，子类的指针、引用、变量可以直接赋值给基类的指针、引用、变量。</p>
 </blockquote>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> CBase&#123;&#125;;</span><br><span class="line"><span class="keyword">class</span> CDerived: <span class="keyword">public</span> CBase&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    CDerived(): CBase()&#123;&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
           <div class="post-more-link text-center">
-            <a class="btn" href="/blog/2015/06/05/angular-resource.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/blog/2015/06/05/angular-http.html" itemprop="url">
-                  AngularJS $http Service
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-06-05T00:00:00+08:00" content="2015-06-05">
-              2015-06-05
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/blog/2015/06/05/angular-http.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/06/05/angular-http.html" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/blog/2015/06/05/angular-http.html" class="leancloud_visitors" data-flag-title="AngularJS $http Service">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p><code>$http</code>是<a href="https://docs.angularjs.org">AngularJS</a>提供的一个核心Service，通过浏览器的<code>XMLHttpRequest</code>或JSONP与服务器进行交互。<br>这是一个非常常用的Service，类似于jQuery提供的AJAX。与jQuery类似，<code>$http</code>也采用了deferred/promise模式，不同的是Angular的deferred/promise模式是由Angular的<code>$q</code>Service来提供的。</p>
-<blockquote>
-<p>在Angular应用中尽量使用<code>$http</code>而不是jQuery函数来进行AJAX请求，因为<code>$http</code>会在响应到达时触发Angular更新视图（<code>$digest</code>循环）。<br>与此同时，<code>$http</code>还可以通过<code>$httpBackend</code>来Mock和单元测试。</p>
-</blockquote>
-<p><code>$http</code>文档参见： <a href="https://docs.angularjs.org/api/ng/service/$http">https://docs.angularjs.org/api/ng/service/$http</a></p>
-<h1 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h1><p>如果你熟悉了jQuery的AJAX操作，那么使用<code>$http</code>只是重新记住几个方法名而已。把<code>done</code>, <code>fail</code>, <code>always</code>换成<code>success</code>, <code>error</code>, <code>finally</code>：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$http.get(<span class="string">'/someUrl'</span>)</span><br><span class="line">    .success(<span class="function"><span class="keyword">function</span>(<span class="params">data, status, headers, config</span>)</span>&#123;</span><br><span class="line">    <span class="comment">// GET成功时被回调</span></span><br><span class="line">    &#125;)</span><br><span class="line">    .error(<span class="function"><span class="keyword">function</span>(<span class="params">data, status, headers, config</span>)</span>&#123;</span><br><span class="line">    <span class="comment">// GET失败时被回调</span></span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
-<p><code>$http</code>方法返回的是一个由<code>$q</code>Service提供的Promise对象，事实上Promise对象有三个通用方法：<code>then</code>, <code>catch</code>, <code>finally</code>。<br>上述的<code>success</code>和<code>error</code>是<code>$http</code>提供的两个额外的方法。Promise的三个方法参数如下：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">then(successCallback, errorCallback, notifyCallback);</span><br><span class="line"><span class="keyword">catch</span>(errorCallback);</span><br><span class="line"><span class="keyword">finally</span>(callback, notifyCallback);</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>Promise方法是可以链式调用的。</p>
-</blockquote>
-<h1 id="配置-httpProvider"><a href="#配置-httpProvider" class="headerlink" title="配置$httpProvider"></a>配置<code>$httpProvider</code></h1><p><code>$http</code> Service定义在<code>ng</code> Module里，由<code>$httpProvider</code>提供。于是我们可以通过设置<code>$httpProvider</code>来配置<code>$http</code>的行为。比如，给HTTP请求插入一个拦截器：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">someModule.config([<span class="string">'$httpProvider'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">$httpProvider</span>)</span>&#123;</span><br><span class="line">    $httpProvider.interceptors.push(<span class="function"><span class="keyword">function</span>(<span class="params">$q, dependency1, dependency2</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            request: <span class="function"><span class="keyword">function</span>(<span class="params">config</span>)</span>&#123;</span><br><span class="line">                <span class="comment">// 这里可以调整HTTP请求的配置</span></span><br><span class="line">                <span class="keyword">return</span> config;</span><br><span class="line">            &#125;,</span><br><span class="line">            response: <span class="function"><span class="keyword">function</span>(<span class="params">response</span>)</span>&#123;</span><br><span class="line">                <span class="comment">// 这里能拿到响应对象，当然也可以更改它</span></span><br><span class="line">                <span class="keyword">return</span> response;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;]);</span><br></pre></td></tr></table></figure>
-<p>还可以通过设置<code>$httpProvider</code>的<code>defaults</code>属性来进行请求/响应的转换（<code>transformRequest</code>, <code>transformResponse</code>）、设置请求的HTTP头字段（<code>headers</code>）。</p>
-<p>更多信息，请参考<code>$httpProvider</code>文档： <a href="https://docs.angularjs.org/api/ng/provider/$httpProvider">https://docs.angularjs.org/api/ng/provider/$httpProvider</a></p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/blog/2015/06/05/angular-http.html#more" rel="contents">
+            <a class="btn" href="/blog/2015/06/29/cpp-encapsulation-and-inheritance.html#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1534,7 +1173,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
