@@ -1,6 +1,0 @@
-个人blog站点。  
-搭建采用[Hexo](http://hexo.io/) + [NexT.Mist](https://github.com/iissnan/hexo-theme-next)主题  
-网站托管在godaddy和github  
-静态资源使用七牛云存储加速  
-
-
