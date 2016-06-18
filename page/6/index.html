@@ -318,6 +318,133 @@
             
               
                 
+                <a class="post-title-link" href="/blog/2015/06/05/angular-http.html" itemprop="url">
+                  AngularJS $http Service
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-06-05T00:00:00+08:00" content="2015-06-05">
+              2015-06-05
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/blog/2015/06/05/angular-http.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/06/05/angular-http.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/blog/2015/06/05/angular-http.html" class="leancloud_visitors" data-flag-title="AngularJS $http Service">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p><code>$http</code>是<a href="https://docs.angularjs.org">AngularJS</a>提供的一个核心Service，通过浏览器的<code>XMLHttpRequest</code>或JSONP与服务器进行交互。<br>这是一个非常常用的Service，类似于jQuery提供的AJAX。与jQuery类似，<code>$http</code>也采用了deferred/promise模式，不同的是Angular的deferred/promise模式是由Angular的<code>$q</code>Service来提供的。</p>
+<blockquote>
+<p>在Angular应用中尽量使用<code>$http</code>而不是jQuery函数来进行AJAX请求，因为<code>$http</code>会在响应到达时触发Angular更新视图（<code>$digest</code>循环）。<br>与此同时，<code>$http</code>还可以通过<code>$httpBackend</code>来Mock和单元测试。</p>
+</blockquote>
+<p><code>$http</code>文档参见： <a href="https://docs.angularjs.org/api/ng/service/$http">https://docs.angularjs.org/api/ng/service/$http</a></p>
+<h1 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h1><p>如果你熟悉了jQuery的AJAX操作，那么使用<code>$http</code>只是重新记住几个方法名而已。把<code>done</code>, <code>fail</code>, <code>always</code>换成<code>success</code>, <code>error</code>, <code>finally</code>：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$http.get(<span class="string">'/someUrl'</span>)</span><br><span class="line">    .success(<span class="function"><span class="keyword">function</span>(<span class="params">data, status, headers, config</span>)</span>&#123;</span><br><span class="line">    <span class="comment">// GET成功时被回调</span></span><br><span class="line">    &#125;)</span><br><span class="line">    .error(<span class="function"><span class="keyword">function</span>(<span class="params">data, status, headers, config</span>)</span>&#123;</span><br><span class="line">    <span class="comment">// GET失败时被回调</span></span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+<p><code>$http</code>方法返回的是一个由<code>$q</code>Service提供的Promise对象，事实上Promise对象有三个通用方法：<code>then</code>, <code>catch</code>, <code>finally</code>。<br>上述的<code>success</code>和<code>error</code>是<code>$http</code>提供的两个额外的方法。Promise的三个方法参数如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">then(successCallback, errorCallback, notifyCallback);</span><br><span class="line"><span class="keyword">catch</span>(errorCallback);</span><br><span class="line"><span class="keyword">finally</span>(callback, notifyCallback);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Promise方法是可以链式调用的。</p>
+</blockquote>
+<h1 id="配置-httpProvider"><a href="#配置-httpProvider" class="headerlink" title="配置$httpProvider"></a>配置<code>$httpProvider</code></h1><p><code>$http</code> Service定义在<code>ng</code> Module里，由<code>$httpProvider</code>提供。于是我们可以通过设置<code>$httpProvider</code>来配置<code>$http</code>的行为。比如，给HTTP请求插入一个拦截器：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">someModule.config([<span class="string">'$httpProvider'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">$httpProvider</span>)</span>&#123;</span><br><span class="line">    $httpProvider.interceptors.push(<span class="function"><span class="keyword">function</span>(<span class="params">$q, dependency1, dependency2</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            request: <span class="function"><span class="keyword">function</span>(<span class="params">config</span>)</span>&#123;</span><br><span class="line">                <span class="comment">// 这里可以调整HTTP请求的配置</span></span><br><span class="line">                <span class="keyword">return</span> config;</span><br><span class="line">            &#125;,</span><br><span class="line">            response: <span class="function"><span class="keyword">function</span>(<span class="params">response</span>)</span>&#123;</span><br><span class="line">                <span class="comment">// 这里能拿到响应对象，当然也可以更改它</span></span><br><span class="line">                <span class="keyword">return</span> response;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;]);</span><br></pre></td></tr></table></figure>
+<p>还可以通过设置<code>$httpProvider</code>的<code>defaults</code>属性来进行请求/响应的转换（<code>transformRequest</code>, <code>transformResponse</code>）、设置请求的HTTP头字段（<code>headers</code>）。</p>
+<p>更多信息，请参考<code>$httpProvider</code>文档： <a href="https://docs.angularjs.org/api/ng/provider/$httpProvider">https://docs.angularjs.org/api/ng/provider/$httpProvider</a></p>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/blog/2015/06/05/angular-http.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/blog/2015/06/04/angular-form.html" itemprop="url">
                   AngularJS 表单（ng-form）验证
                 </a>
@@ -983,7 +1110,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">35</span>
+              <span class="site-state-item-count">36</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -991,7 +1118,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1000,7 +1127,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">34</span>
+                <span class="site-state-item-count">35</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

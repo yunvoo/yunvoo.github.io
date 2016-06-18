@@ -318,6 +318,137 @@
             
               
                 
+                <a class="post-title-link" href="/blog/2015/07/16/css-priority.html" itemprop="url">
+                  各种CSS选择器的优先级
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-07-16T00:00:00+08:00" content="2015-07-16">
+              2015-07-16
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/blog/2015/07/16/css-priority.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/07/16/css-priority.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/blog/2015/07/16/css-priority.html" class="leancloud_visitors" data-flag-title="各种CSS选择器的优先级">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <p>CSS规则之间可以互相覆盖，这一点我们应该已经习以为常了。然而正是由于规则之间可以互相覆盖、子元素继承父元素的默认行为，导致了CSS冲突的问题。<br>碰到CSS冲突时，通常我们会加入一些更加详细的规则来明确如何显示，以此解决冲突。通常越详细的规则优先级会越高，但优先级究竟是如何定义的呢？</p>
+<p>首先根据CSS定义位置来区别，优先级从低到高如下：</p>
+<ul>
+<li>浏览器默认样式（Browser Default Style）</li>
+<li>外部样式表</li>
+<li>内部样式表</li>
+<li>行内样式 (e.g., style=”font-weight:bold”)</li>
+</ul>
+<p>同样定义位置的规则，根据不同类型选择器的个数来确定。选择器的优先级从低到高如下规则：</p>
+<ul>
+<li>F: Universal selectors (e.g., *)</li>
+<li>E: Type selectors (e.g., h1)</li>
+<li>D: Class selectors (e.g., .example)</li>
+<li>C: Attributes selectors (e.g., [type=”radio”])</li>
+<li>B: Pseudo-classes (e.g., :hover)</li>
+<li>A: ID selectors (e.g., #example)</li>
+</ul>
+<blockquote>
+<p>即 ID &gt; 伪类 &gt; 属性 &gt; 类 &gt; 元素 &gt; 通配符，首先我们数规则中ID的个数，ID个数越多的规则优先级越高。如果相同，再数伪类，以此类推。</p>
+</blockquote>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/blog/2015/07/16/css-priority.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/blog/2015/07/07/cpp-functions-and-arguments.html" itemprop="url">
                   C++手稿：函数与参数
                 </a>
@@ -1033,142 +1164,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/blog/2015/06/29/cpp-encapsulation-and-inheritance.html" itemprop="url">
-                  C++手稿：封装与继承
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-06-29T00:00:00+08:00" content="2015-06-29">
-              2015-06-29
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/blog/2015/06/29/cpp-encapsulation-and-inheritance.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/06/29/cpp-encapsulation-and-inheritance.html" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/blog/2015/06/29/cpp-encapsulation-and-inheritance.html" class="leancloud_visitors" data-flag-title="C++手稿：封装与继承">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>本文总结了C++中类的继承相关的概念，包括可见性级别、继承的不同方式、构造与析构过程、封闭类、友元等。</p>
-<h1 id="可见性级别"><a href="#可见性级别" class="headerlink" title="可见性级别"></a>可见性级别</h1><p>C++类提供了数据结构和算法的封装，以及相应的3种可见级别。它们定义了不同的可见性：</p>
-<ul>
-<li>Public：当前类以及子类的方法中可见，外部可见。</li>
-<li>Protected：当前类以及子类的方法中可见，外部不可见。</li>
-<li>Private：当前类的方法中可见，外部不可见。</li>
-</ul>
-<blockquote>
-<p>在一个对象的成员函数中，可以调用其他同类对象的私有方法。</p>
-</blockquote>
-<p>多数现代的面向对象语言中，仅提供Private和Public两种可见性，C++的可见级别略显复杂。<br>然而三种继承方式以及多继承机制，让问题更加复杂。简单起见，此处只讨论Private和Public方式的单继承。</p>
-<ul>
-<li>Public继承：子类中可访问基类<code>public</code>、<code>protected</code>成员，子类外部可见父类<code>public</code>成员。</li>
-<li>Private继承：子类中可访问基类<code>public</code>、<code>protected</code>成员，子类外部不可见父类成员。</li>
-</ul>
-<h1 id="类的继承"><a href="#类的继承" class="headerlink" title="类的继承"></a>类的继承</h1><ul>
-<li><p>Public继承表示”is a”的关系（见<a href="!--￼6--">Effective C++: Item 32</a>），子类的对象同时也是一个基类的对象。<br>子类的行为应符合基类的行为，因此Public继承中通常不会覆盖基类成员。</p>
-</li>
-<li><p>Private继承表示“以…实现“的关系，子类是以基类来实现的<br>对于一个子类的对象，其外部不可见基类的行为。Private继承更像是对象组合。</p>
-</li>
-</ul>
-<blockquote>
-<p>对于Public继承，子类的指针、引用、变量可以直接赋值给基类的指针、引用、变量。</p>
-</blockquote>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> CBase&#123;&#125;;</span><br><span class="line"><span class="keyword">class</span> CDerived: <span class="keyword">public</span> CBase&#123;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    CDerived(): CBase()&#123;&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/blog/2015/06/29/cpp-encapsulation-and-inheritance.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1214,7 +1209,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">35</span>
+              <span class="site-state-item-count">36</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1222,7 +1217,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1231,7 +1226,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">34</span>
+                <span class="site-state-item-count">35</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

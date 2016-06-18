@@ -86,7 +86,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="C++ 栈空间 堆空间 内存 常量 编译 进程 字节序 全局变量 动态内存 操作系统 虚拟内存 静态变量," />
+  <meta name="keywords" content="科技," />
 
 
 
@@ -104,21 +104,16 @@
 
 
 
-<meta name="description" content="现代操作系统对每个进程都分配了完整的虚拟内存地址空间。进程会把整个地址空间分成多个区间来使用。程序员最为熟悉的两个区间莫过于堆和栈。然而还有其他的内存区间来存储代码、静态、全局变量等等。本文来总结一下这些内存区间到底存的是哪些东西。先看图：
-图片来源：  SWAT Blog">
+<meta name="description" content="The best way to prediet the future is to create it">
 <meta property="og:type" content="article">
-<meta property="og:title" content="进程的地址空间：TEXT，DATA，BSS，HEAP，STACK">
-<meta property="og:url" content="http://yunvoo.com/blog/2015/07/22/memory-segment.html">
+<meta property="og:title" content="testyunvooli">
+<meta property="og:url" content="http://yunvoo.com/blog/2016/06/18/testyunvooli.html">
 <meta property="og:site_name" content="Yunvoo Blog">
-<meta property="og:description" content="现代操作系统对每个进程都分配了完整的虚拟内存地址空间。进程会把整个地址空间分成多个区间来使用。程序员最为熟悉的两个区间莫过于堆和栈。然而还有其他的内存区间来存储代码、静态、全局变量等等。本文来总结一下这些内存区间到底存的是哪些东西。先看图：
-图片来源：  SWAT Blog">
-<meta property="og:image" content="http://yunvoo.com/assets/img/blog/memory.png">
-<meta property="og:updated_time" content="2016-06-18T04:06:03.398Z">
+<meta property="og:description" content="The best way to prediet the future is to create it">
+<meta property="og:updated_time" content="2016-06-18T05:28:35.196Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="进程的地址空间：TEXT，DATA，BSS，HEAP，STACK">
-<meta name="twitter:description" content="现代操作系统对每个进程都分配了完整的虚拟内存地址空间。进程会把整个地址空间分成多个区间来使用。程序员最为熟悉的两个区间莫过于堆和栈。然而还有其他的内存区间来存储代码、静态、全局变量等等。本文来总结一下这些内存区间到底存的是哪些东西。先看图：
-图片来源：  SWAT Blog">
-<meta name="twitter:image" content="http://yunvoo.com/assets/img/blog/memory.png">
+<meta name="twitter:title" content="testyunvooli">
+<meta name="twitter:description" content="The best way to prediet the future is to create it">
 
 
 
@@ -139,9 +134,9 @@
 
 
 
-  <link rel="canonical" href="http://yunvoo.com/blog/2015/07/22/memory-segment.html"/>
+  <link rel="canonical" href="http://yunvoo.com/blog/2016/06/18/testyunvooli.html"/>
 
-  <title> 进程的地址空间：TEXT，DATA，BSS，HEAP，STACK | Yunvoo Blog </title>
+  <title> testyunvooli | Yunvoo Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -321,7 +316,7 @@
             
             
               
-                进程的地址空间：TEXT，DATA，BSS，HEAP，STACK
+                testyunvooli
               
             
           </h1>
@@ -333,19 +328,38 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-07-22T00:00:00+08:00" content="2015-07-22">
-              2015-07-22
+            <time itemprop="dateCreated" datetime="2016-06-18T13:27:38+08:00" content="2016-06-18">
+              2016-06-18
             </time>
           </span>
 
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/科技/" itemprop="url" rel="index">
+                    <span itemprop="name">科技</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
           
 
           
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/blog/2015/07/22/memory-segment.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/07/22/memory-segment.html" itemprop="commentsCount"></span>
+                <a href="/blog/2016/06/18/testyunvooli.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2016/06/18/testyunvooli.html" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -355,7 +369,7 @@
 
           
           
-             <span id="/blog/2015/07/22/memory-segment.html" class="leancloud_visitors" data-flag-title="进程的地址空间：TEXT，DATA，BSS，HEAP，STACK">
+             <span id="/blog/2016/06/18/testyunvooli.html" class="leancloud_visitors" data-flag-title="testyunvooli">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -377,31 +391,7 @@
       
 
       
-        <p>现代操作系统对每个进程都分配了完整的虚拟内存地址空间。进程会把整个地址空间分成多个区间来使用。<br>程序员最为熟悉的两个区间莫过于<strong>堆</strong>和<strong>栈</strong>。然而还有其他的内存区间来存储代码、静态、全局变量等等。<br>本文来总结一下这些内存区间到底存的是哪些东西。先看图：</p>
-<div class="float: left; max-width: 350px;"><br><br><img src="/assets/img/blog/memory.png" alt="@2x"><br><br><small>图片来源：<br>  <a href="http://www.sw-at.com/blog/2011/03/23/where-does-code-execute-process-address-space-code-gvar-bss-heap-stack/" target="_blank" rel="external">SWAT Blog</a><br></small><br><br></div>
-
-<a id="more"></a>
-<p>虚拟内存技术使得每个进程都可以独占整个内存空间，地址从零开始，直到内存上限。<br>每个进程都将这部分空间（从低地址到高地址）分为六个部分：</p>
-<ol>
-<li>TEXT段：整个程序的代码，以及所有的常量。这部分内存是是固定大小的，只读的。</li>
-<li>DATA段，又称GVAR：初始化为非零值的全局变量。</li>
-<li>BSS段：初始化为0或未初始化的全局变量和静态变量。</li>
-<li>HEAP（堆空间）：动态内存区域，使用<code>malloc</code>或<code>new</code>申请的内存。</li>
-<li>未使用的内存。</li>
-<li>STACK（栈空间）：局部变量、参数、返回值都存在这里，函数调用开始会参数入栈、局部变量入栈；调用结束依次出栈。</li>
-</ol>
-<p>其中堆空间和栈空间的大小是可变的，堆空间从下往上生长，栈空间从上往下生长。</p>
-<p>由于常量存储在TEXT段中，所有对常量的赋值都将产生<code>segment fault</code>异常。</p>
-<p>可以认为BSS段中的所有字节都是0。因为未初始化的全局变量、静态变量都在BSS段中，<br>所以它们都会被初始化为0，同时类的成员变量也会被初始化为0，但编译器不保证局部变量的初始化。</p>
-<p>上面说栈（STACK）是从上到下（高地址到低地址）分配的，而且我们知道，<br>函数的局部变量的空间是在进入函数体后才分配的，在栈空间里。来个例子来看看吧！</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">char</span> a=<span class="number">0</span>, b=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> *p = (<span class="keyword">int</span>*)&amp;b;</span><br><span class="line">    *p = <span class="number">258</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">"%d %d"</span>, a, b);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>输出是</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> <span class="number">2</span></span><br></pre></td></tr></table></figure>
-<p><code>a</code>, <code>b</code>属于局部变量，存储在栈空间中，先分配<code>a</code>的地址，再分配<code>b</code>的地址。因为栈是从上往下生长的，所以<code>b</code>的地址比<code>a</code>低一个字节。<br>然后对<code>b</code>的地址进行赋值258（<code>int</code>是4字节，十六进制表示是<code>0x00 00 01 02</code>）。最后1字节<code>0x02</code>赋值给了<code>b</code>，接下来1字节<code>0x01</code>赋值给了<code>a</code>。</p>
-<blockquote>
-<p>上述结果和CPU端模式也有关系！我的CPU是小端字节序的~ 低位存的是低字节。</p>
-</blockquote>
-
+        
       
     </div>
 
@@ -422,7 +412,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/C-栈空间-堆空间-内存-常量-编译-进程-字节序-全局变量-动态内存-操作系统-虚拟内存-静态变量/" rel="tag">#C++ 栈空间 堆空间 内存 常量 编译 进程 字节序 全局变量 动态内存 操作系统 虚拟内存 静态变量</a>
+            <a href="/tags/科技/" rel="tag">#科技</a>
           
         </div>
       
@@ -431,17 +421,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/blog/2015/07/22/effective-cpp-4.html" rel="next" title="Item 4：确保变量的初始化">
-                <i class="fa fa-chevron-left"></i> Item 4：确保变量的初始化
+              <a href="/blog/2016/06/17/hello-world.html" rel="next" title="Hello World">
+                <i class="fa fa-chevron-left"></i> Hello World
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/blog/2015/07/23/effective-cpp-5.html" rel="prev" title="Item 5：那些被C++默默地声明和调用的函数">
-                Item 5：那些被C++默默地声明和调用的函数 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -456,10 +442,10 @@
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="/blog/2015/07/22/memory-segment.html"
-     data-title="进程的地址空间：TEXT，DATA，BSS，HEAP，STACK"
+        <div class="ds-share flat" data-thread-key="/blog/2016/06/18/testyunvooli.html"
+     data-title="testyunvooli"
      data-content=""
-     data-url="http://yunvoo.com/blog/2015/07/22/memory-segment.html">
+     data-url="http://yunvoo.com/blog/2016/06/18/testyunvooli.html">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -489,8 +475,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="/blog/2015/07/22/memory-segment.html"
-           data-title="进程的地址空间：TEXT，DATA，BSS，HEAP，STACK" data-url="http://yunvoo.com/blog/2015/07/22/memory-segment.html">
+      <div class="ds-thread" data-thread-key="/blog/2016/06/18/testyunvooli.html"
+           data-title="testyunvooli" data-url="http://yunvoo.com/blog/2016/06/18/testyunvooli.html">
       </div>
     
   </div>

@@ -318,6 +318,134 @@
             
               
                 
+                <a class="post-title-link" href="/blog/2016/06/18/testyunvooli.html" itemprop="url">
+                  testyunvooli
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-06-18T13:27:38+08:00" content="2016-06-18">
+              2016-06-18
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/科技/" itemprop="url" rel="index">
+                    <span itemprop="name">科技</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/blog/2016/06/18/testyunvooli.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2016/06/18/testyunvooli.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/blog/2016/06/18/testyunvooli.html" class="leancloud_visitors" data-flag-title="testyunvooli">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/blog/2016/06/17/hello-world.html" itemprop="url">
                   Hello World
                 </a>
@@ -897,135 +1025,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/blog/2015/07/22/effective-cpp-4.html" itemprop="url">
-                  Item 4：确保变量的初始化
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-07-22T00:00:00+08:00" content="2015-07-22">
-              2015-07-22
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/blog/2015/07/22/effective-cpp-4.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/07/22/effective-cpp-4.html" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-             <span id="/blog/2015/07/22/effective-cpp-4.html" class="leancloud_visitors" data-flag-title="Item 4：确保变量的初始化">
-               &nbsp; | &nbsp;
-               <span class="post-meta-item-icon">
-                 <i class="fa fa-eye"></i>
-               </span>
-               <span class="post-meta-item-text">阅读次数 </span>
-               <span class="leancloud-visitors-count"></span>
-              </span>
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <blockquote>
-<p>Item 4: Make sure that objects are initialized before they’re used.</p>
-</blockquote>
-<p>出于效率原因，C++不保证<strong>内置类型数据成员</strong>的初始化。对于成员变量的内置类型，<br>会在构造函数进入之前进行初始化。例如：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> C&#123;</span><br><span class="line">    <span class="keyword">int</span> a;</span><br><span class="line">    B b;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>其中数据成员<code>a</code>是基本数据类型，<code>b</code>是成员对象。有些情况下C++会初始化<code>a</code>，有些情况下则不会。<br>对象类型的<code>b</code>却是总会被初始化的，它的无参数的构造函数将被调用。</p>
-<blockquote>
-<p>有成员对象的类称为封闭类（<code>C</code>就是一个），如果<code>B</code>没有不带参数的构造函数，则必须在<code>C</code>的构造函数中进行<code>b</code>的初始化。</p>
-</blockquote>
-<p>C++中变量的初始化规则较为复杂，大致的规则是这样的：</p>
-<ul>
-<li>对于C风格的C++：如果初始化会产生额外的负担，则不会初始化。</li>
-<li>对于面向对象风格的C++：类的构造函数中一般都会进行所有成员的初始化（所以你也应该这样做！）。</li>
-<li>全局/静态变量会自动初始化，自动变量（栈里面的）不会自动初始化。</li>
-</ul>
-<blockquote>
-<p>完整的讨论可以参考：<a href="!--￼5--">C++手稿：那些变量会自动初始化？</a>。</p>
-</blockquote>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/blog/2015/07/22/effective-cpp-4.html#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1071,7 +1070,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">35</span>
+              <span class="site-state-item-count">36</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1079,7 +1078,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -1088,7 +1087,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">34</span>
+                <span class="site-state-item-count">35</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
