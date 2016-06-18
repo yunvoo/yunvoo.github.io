@@ -397,8 +397,14 @@
       
         
           
-            
           
+          
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/blog/2016/06/18/testyunvooli.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -506,17 +512,14 @@
       
         
           
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+          Welcome to Hexo! This is your very first post. Check documentation for more info
+          ...
 
-          
+          <div class="post-more-link text-center">
+            <a class="btn" href="/blog/2016/06/17/hello-world.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -745,21 +748,15 @@
       
         
           
-            <blockquote>
-<p>Item 6: Explicitly disallow the use of compiler-generated functions you do not want.</p>
-</blockquote>
-<p>在C++中，编译器会自动生成一些你没有显式定义的函数，它们包括：构造函数、析构函数、复制构造函数、<code>=</code>运算符。<br>关于这些函数是的调用时机可以参考：<a href="/2015/07/23/effective-cpp-5">那些被C++默默地声明和调用的函数</a>。</p>
-<p>这些默认生成的函数给我们的类提供了缺省的功能，比如赋值、复制、构造、析构等；<br>同时也给我我们重载这些函数的机会，借此实现更加复杂的对象行为。</p>
-<p>然而有时候我们希望禁用掉这些函数。比如对于一个单例而言，我们不希望它能够被直接构造，或者拷贝。<br>我们通过把自动生成的函数设为<code>private</code>来禁用它，<br><a href="/2015/07/22/effective-cpp-4.html">Effective C++笔记：确保变量的初始化</a><br>提到的单例是一个例子。这里我们来实现一个不可拷贝的类<code>Uncopyable</code>，<br>需要声明其复制构造函数与<code>=</code>运算符为<code>private</code>：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Uncopyable&#123;</span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	Uncopyable(<span class="keyword">const</span> Uncopyable&amp;);</span><br><span class="line">	Uncopyable&amp; <span class="keyword">operator</span>=(<span class="keyword">const</span> Uncopyable&amp;);</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    Uncopyable()&#123;&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>值得一提的是，<code>Uncopyable</code>的不可拷贝特性是可以继承的。例如：</p>
-<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> Homeforsale: <span class="keyword">private</span> Uncopyable&#123;</span><br><span class="line">    ...</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>这里改为<code>public</code>继承仍然可行，但语义上不正确，<code>Uncopyable</code>更像是一种实现方式或者接口，而不是一个基类。</p>
-</blockquote>
-<p>在编译器默认生成的拷贝构造函数和赋值运算符中，会调用父类的相应函数。<br>然而这些调用将会被拒绝，因为对父类这些函数的访问将被拒绝。</p>
-
           
+Item 6: Explicitly disallow the use of compiler-generated functions you do not 
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/blog/2015/07/23/effective-cpp-6.html#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
         
       
     </div>
