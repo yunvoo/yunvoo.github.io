@@ -1,0 +1,985 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="C++ STL 栈 容器 排序 数组 模板 算法 链表 集合 二叉树 运算符 迭代器 平衡二叉树," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Yunvoo Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="STL (Standard Template Library) 提供了一些常用的数据结构和算法的模板，1998年加入C++标准。STL中有三个重要的概念：
+
+容器：容纳各种数据类型的数据结构，是一系列的类模板。
+迭代器：迭代器用来迭代地访问容器中的元素。
+算法：用来操作容器中的元素，是一系列的函数模板。
+
+STL 容器STL中的容器定义在std命名空间下，需要引入头文件&amp;lt;vector&amp;gt;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++手稿：STL小记">
+<meta property="og:url" content="http://yunvoo.com/blog/2015/07/01/introduction-to-stl.html">
+<meta property="og:site_name" content="Yunvoo Blog">
+<meta property="og:description" content="STL (Standard Template Library) 提供了一些常用的数据结构和算法的模板，1998年加入C++标准。STL中有三个重要的概念：
+
+容器：容纳各种数据类型的数据结构，是一系列的类模板。
+迭代器：迭代器用来迭代地访问容器中的元素。
+算法：用来操作容器中的元素，是一系列的函数模板。
+
+STL 容器STL中的容器定义在std命名空间下，需要引入头文件&amp;lt;vector&amp;gt;">
+<meta property="og:updated_time" content="2016-06-18T04:06:03.164Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C++手稿：STL小记">
+<meta name="twitter:description" content="STL (Standard Template Library) 提供了一些常用的数据结构和算法的模板，1998年加入C++标准。STL中有三个重要的概念：
+
+容器：容纳各种数据类型的数据结构，是一系列的类模板。
+迭代器：迭代器用来迭代地访问容器中的元素。
+算法：用来操作容器中的元素，是一系列的函数模板。
+
+STL 容器STL中的容器定义在std命名空间下，需要引入头文件&amp;lt;vector&amp;gt;">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yunvoo.com/blog/2015/07/01/introduction-to-stl.html"/>
+
+  <title> C++手稿：STL小记 | Yunvoo Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?6eba031d3986244aaaa7d59a8c373fdb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Yunvoo Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">人生如路-->须在荒凉中走出繁华的风景</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'jV21XzyjE_bi5yc21gs_','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                C++手稿：STL小记
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-07-01T00:00:00+08:00" content="2015-07-01">
+              2015-07-01
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/blog/2015/07/01/introduction-to-stl.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/07/01/introduction-to-stl.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/blog/2015/07/01/introduction-to-stl.html" class="leancloud_visitors" data-flag-title="C++手稿：STL小记">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>STL (Standard Template Library) 提供了一些常用的数据结构和算法的模板，1998年加入C++标准。<br>STL中有三个重要的概念：</p>
+<ol>
+<li>容器：容纳各种数据类型的数据结构，是一系列的类模板。</li>
+<li>迭代器：迭代器用来迭代地访问容器中的元素。</li>
+<li>算法：用来操作容器中的元素，是一系列的函数模板。</li>
+</ol>
+<h1 id="STL-容器"><a href="#STL-容器" class="headerlink" title="STL 容器"></a>STL 容器</h1><p>STL中的容器定义在<code>std</code>命名空间下，需要引入头文件<br><code>&lt;vector&gt;</code>, <code>&lt;set&gt;</code>, <code>&lt;map&gt;</code>, <code>&lt;deque&gt;</code>, <code>&lt;list&gt;</code>, <code>&lt;stack&gt;</code><br>等。容器可以分为三大类：</p>
+<ol>
+<li>顺序容器<ul>
+<li><a href="http://www.cplusplus.com/reference/vector/vector" target="_blank" rel="external">vector</a>：尾端插入元素有较高性能，动态数组实现；</li>
+<li><a href="http://www.cplusplus.com/reference/deque/deque/" target="_blank" rel="external">deque</a>：收尾插入元素都有较高性能，动态数组实现；</li>
+<li><a href="http://www.cplusplus.com/reference/list/list/" target="_blank" rel="external">list</a>：可以常数时间在任何地方插入元素，链表实现；</li>
+</ul>
+</li>
+<li>关联容器<ul>
+<li><a href="http://www.cplusplus.com/reference/set/set" target="_blank" rel="external">set</a>：不同元素的集合，平衡二叉树实现，检索时间是 $O(log(N))$；</li>
+<li><a href="http://www.cplusplus.com/reference/set/multiset" target="_blank" rel="external">multiset</a>：同上，但可以包含相同元数据；</li>
+<li><a href="http://www.cplusplus.com/reference/map/map" target="_blank" rel="external">map</a>：同<code>set</code>，但存放的是键值对；</li>
+<li><a href="http://www.cplusplus.com/reference/map/multimap/" target="_blank" rel="external">multimap</a>：同上，键可以重复；</li>
+</ul>
+</li>
+<li>容器适配器：<a href="http://www.cplusplus.com/reference/stack/stack" target="_blank" rel="external">stack</a>，<a href="http://www.cplusplus.com/reference/queue/queue" target="_blank" rel="external">queue</a>，<a href="http://www.cplusplus.com/reference/queue/priority_queue/" target="_blank" rel="external">priority_queue</a>。</li>
+</ol>
+<p>这些容器有一些通用的方法：<code>empty</code>，<code>size</code>，<code>swap</code>，<code>max_size</code>。前两类容器支持迭代器，称为第一类容器。<br>顺序容器还有以下通用方法：<code>front</code>, <code>back</code>, <code>pop_back</code>, <code>push_back</code>。</p>
+<blockquote>
+<p>容器之间的比较取决于第一个不等的元素；如果长度相同且所有元素相等，两个容器相等；如果一个是另一个的子序列，则较短的容器小于较长的容器。</p>
+</blockquote>
+<p>存储键值对关联容器<code>map</code>和<code>multimap</code>的迭代器是一个<code>pair&lt;T1, T2&gt;</code>的指针。<br>插入时，可以使用<code>[]</code>运算符，也可以使用<code>insert</code>方法，它接受一个<code>pair&lt;T1, T2&gt;</code>对象：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">std</span>::<span class="built_in">map</span>&lt;<span class="keyword">char</span>,<span class="keyword">int</span>&gt; mymap;</span><br><span class="line">mymap.insert (mymap.begin(), <span class="built_in">std</span>::pair&lt;<span class="keyword">char</span>,<span class="keyword">int</span>&gt;(<span class="string">'c'</span>,<span class="number">400</span>));</span><br><span class="line">mymap.insert (mymap.begin(), <span class="built_in">std</span>::make_pair(<span class="string">'c'</span>,<span class="number">400</span>));</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>pair</code>模板类在<code>&lt;utility&gt;</code>中定义，在<code>&lt;map&gt;</code>中已经引入了。</p>
+</blockquote>
+<p>容器适配器是逻辑数据结构，需要用一种顺序容器来实现。例如，<code>stack</code>默认使用<code>deque</code>来实现，我们也可以指定它的实现方式。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">stack</span>&lt;<span class="built_in">string</span>&gt; strstk;         <span class="comment">// string 型栈，deque实现</span></span><br><span class="line"><span class="built_in">stack</span>&lt;<span class="keyword">int</span>, <span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;&gt; stk;  <span class="comment">// int 型栈，vector实现</span></span><br></pre></td></tr></table></figure>
+<h1 id="STL-迭代器"><a href="#STL-迭代器" class="headerlink" title="STL 迭代器"></a>STL 迭代器</h1><p>只有第一类容器支持迭代器（容器适配器不支持迭代器）。来个例子：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; v;</span><br><span class="line"><span class="keyword">for</span>(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;::reverse_iterator r = v.rbegin(); r &lt; v.rend(); r++)&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;*r;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>取决于不同的存储方式，不同容器支持的迭代器是不同的。这些迭代器按功能的强弱分为5类：</p>
+<ol>
+<li>Input Iterator：提供只读访问</li>
+<li>Output Iterator：提供只写访问</li>
+<li>Forward Iterator：支持逐个向后迭代访问</li>
+<li>Bidirectional Iterator：能够双向地逐个迭代访问</li>
+<li>Random Access Iterator：可随机访问每个元素</li>
+</ol>
+<p>例如，双向迭代器不支持<code>&lt;</code>，<code>&gt;</code>，<code>[]</code>运算符，只能判等：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">list</span>&lt;<span class="keyword">int</span>&gt; l;</span><br><span class="line"><span class="keyword">for</span>(<span class="built_in">list</span>&lt;<span class="keyword">int</span>&gt;::const_iterator i = l.begin(); i != l.end(); ++i)&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;*i;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>vector</code>和<code>deque</code>支持Random Access Iterator，<code>list</code>、<code>set/multiset</code>、<code>map/multimap</code>支持Bidirectional Iterator。</p>
+<a id="more"></a>
+<h1 id="STL-算法"><a href="#STL-算法" class="headerlink" title="STL 算法"></a>STL 算法</h1><p>STL通过函数模板提供了很多作用于容器的通用算法，例如查找、插入、删除、排序等，需要引入头文件<code>&lt;algorithm&gt;</code>。</p>
+<p>变化序列的：<code>copy</code>, <code>remove</code>, <code>reverse</code>, <code>fill</code>, <code>replace</code>, <code>swap</code>, …；不变化序列的：<code>find</code>, <code>count</code>, <code>for_each</code>, <code>equal</code>, …</p>
+<blockquote>
+<p>这些算法的实现较为通用，也可以作用于C语言的数组。</p>
+</blockquote>
+<p>例如，<code>find</code>用值来搜索一个元素的迭代器：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; v;</span><br><span class="line">v.push_back(<span class="number">1</span>);</span><br><span class="line">v.push_back(<span class="number">2</span>);</span><br><span class="line">v.push_back(<span class="number">3</span>);</span><br><span class="line"><span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt;::iterator p = find(v.begin(), v.end(), <span class="number">3</span>);</span><br><span class="line"><span class="keyword">if</span>(p != v.end()) <span class="built_in">cout</span>&lt;&lt;*p;</span><br><span class="line"><span class="comment">// 3</span></span><br></pre></td></tr></table></figure>
+<p>例如，<code>copy</code>用来做容器之间的拷贝：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ostream_iterator&lt;<span class="keyword">int</span>&gt; output(<span class="built_in">cout</span>, <span class="string">" "</span>);</span><br><span class="line">copy(v.begin(), v.end(), output);</span><br><span class="line"><span class="comment">// 1 2 3</span></span><br></pre></td></tr></table></figure>
+<p>例如，<code>erase</code>用来删除一个区间的元素：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">v.erase(v.begin(), v.end());</span><br><span class="line"><span class="comment">// 等效于</span></span><br><span class="line">v.clear();</span><br></pre></td></tr></table></figure>
+<p>例如，<code>lower_bound(FwdIt f, FwdIt l, const T&amp; val)</code>用来给出小于<code>val</code>的坐标上限（前闭后开）。<br><code>upper_bound(FwdIt f, FwdIt l, const T&amp; val)</code>用来给出大于<code>val</code>的坐标下限（前闭后开）：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">std</span>::<span class="built_in">map</span>&lt;<span class="keyword">char</span>,<span class="keyword">int</span>&gt; mymap;</span><br><span class="line"><span class="built_in">std</span>::<span class="built_in">map</span>&lt;<span class="keyword">char</span>,<span class="keyword">int</span>&gt;::iterator itlow,itup;</span><br><span class="line"></span><br><span class="line">mymap[<span class="string">'a'</span>]=<span class="number">20</span>;</span><br><span class="line">mymap[<span class="string">'b'</span>]=<span class="number">40</span>;</span><br><span class="line">mymap[<span class="string">'c'</span>]=<span class="number">60</span>;</span><br><span class="line">mymap[<span class="string">'d'</span>]=<span class="number">80</span>;</span><br><span class="line">mymap[<span class="string">'e'</span>]=<span class="number">100</span>;</span><br><span class="line"></span><br><span class="line">itlow=mymap.lower_bound (<span class="string">'b'</span>);  <span class="comment">// itlow points to b</span></span><br><span class="line">itup=mymap.upper_bound (<span class="string">'d'</span>);   <span class="comment">// itup points to e (not d!)</span></span><br></pre></td></tr></table></figure>
+<p>参见： <a href="http://www.cplusplus.com/reference/map/map/upper_bound/" target="_blank" rel="external">http://www.cplusplus.com/reference/map/map/upper_bound/</a></p>
+<h1 id="实现一个Iterator"><a href="#实现一个Iterator" class="headerlink" title="实现一个Iterator"></a>实现一个Iterator</h1><p>为了实现上述<code>ostream_iterator</code>，需要了解<code>copy</code>的实现方式：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">class</span> _II, <span class="keyword">class</span> _OI&gt;</span><br><span class="line"><span class="keyword">inline</span> _<span class="function">OI <span class="title">copy</span><span class="params">(_II _F, _II _L, _OI _X)</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(;_F != _L; ++_X, ++_F)</span><br><span class="line">        *_X = *_F;</span><br><span class="line">    <span class="keyword">return</span> (_X);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>因此<code>ostream_iterator</code>需要重载<code>++</code>, <code>*</code>和<code>=</code>：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="keyword">class</span> T&gt;</span><br><span class="line"><span class="keyword">class</span> ostream_iterator&#123;</span><br><span class="line">    <span class="built_in">string</span> sep;</span><br><span class="line">    ostream&amp; o;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    ostream_iterator(ostream&amp; _o, <span class="built_in">string</span> _s):o(_o), sep(_s)&#123;&#125;</span><br><span class="line">    ostream_iterator&amp; <span class="keyword">operator</span>=(<span class="keyword">const</span> T&amp; v)&#123;</span><br><span class="line">        o&lt;&lt;v&lt;&lt;sep; <span class="keyword">return</span> *<span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    ostream_iterator&amp; <span class="keyword">operator</span>*()&#123; <span class="keyword">return</span> *<span class="keyword">this</span>; &#125;</span><br><span class="line">    ostream_iterator&amp; <span class="keyword">operator</span>++()&#123; <span class="keyword">return</span> *<span class="keyword">this</span>; &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/C-STL-栈-容器-排序-数组-模板-算法-链表-集合-二叉树-运算符-迭代器-平衡二叉树/" rel="tag">#C++ STL 栈 容器 排序 数组 模板 算法 链表 集合 二叉树 运算符 迭代器 平衡二叉树</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2015/06/30/std-string.html" rel="next" title="C++手稿：std::string">
+                <i class="fa fa-chevron-left"></i> C++手稿：std::string
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/2015/07/03/stl-function-objects-and-pointers.html" rel="prev" title="C++手稿：STL中的函数对象与函数指针">
+                C++手稿：STL中的函数对象与函数指针 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="/blog/2015/07/01/introduction-to-stl.html"
+     data-title="C++手稿：STL小记"
+     data-content=""
+     data-url="http://yunvoo.com/blog/2015/07/01/introduction-to-stl.html">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="/blog/2015/07/01/introduction-to-stl.html"
+           data-title="C++手稿：STL小记" data-url="http://yunvoo.com/blog/2015/07/01/introduction-to-stl.html">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="yunvoo" />
+          <p class="site-author-name" itemprop="name">yunvoo</p>
+          <p class="site-description motion-element" itemprop="description">The best way to prediet the future is to create it</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">36</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://www.yunvoo.com" target="_blank" title="博客">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  博客
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://facebook.com/yunvooli" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/yunvooli" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://plus.google.com/107492061888791876239/posts" target="_blank" title="Google+">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Google+
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yunvoo" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://7xrzzi.com1.z0.glb.clouddn.com/4.png" target="_blank" title="微信">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微信
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#STL-容器"><span class="nav-number">1.</span> <span class="nav-text">STL 容器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#STL-迭代器"><span class="nav-number">2.</span> <span class="nav-text">STL 迭代器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#STL-算法"><span class="nav-number">3.</span> <span class="nav-text">STL 算法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实现一个Iterator"><span class="nav-number">4.</span> <span class="nav-text">实现一个Iterator</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yunvoo</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"yunvooli"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+
+  
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("da8KweghFc2VzU2Y8iGjEgCi-gzGzoHsz", "gT6O2WdFMqMyDkuIXUm7HnjF");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

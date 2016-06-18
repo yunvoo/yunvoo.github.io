@@ -1,0 +1,979 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Bash C++ Github NERDCommenter Unix Vim Vundle YCM 快捷键," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Yunvoo Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="我是坚定的Vim党，因为和命令行的集成如此之好，Vim可以解决任何问题。然而在这个世界上，即便是最好用的工具也是需要配置的。由于最近在写C++，经过一番配置后，小编写C++已经感到非常爽了，于是决定用一篇文章来记录如何打造一个适合写C++的Vim编辑器！包括C++的自动补全、括号引号匹配、格式化、注释、编译运行快捷键等。
+
+小编之前在Vim初级：配置和使用中介绍了Vim的基本配置与使用，感受Vim">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在VIM下写C++能有多爽？">
+<meta property="og:url" content="http://yunvoo.com/blog/2015/07/18/vim-cpp.html">
+<meta property="og:site_name" content="Yunvoo Blog">
+<meta property="og:description" content="我是坚定的Vim党，因为和命令行的集成如此之好，Vim可以解决任何问题。然而在这个世界上，即便是最好用的工具也是需要配置的。由于最近在写C++，经过一番配置后，小编写C++已经感到非常爽了，于是决定用一篇文章来记录如何打造一个适合写C++的Vim编辑器！包括C++的自动补全、括号引号匹配、格式化、注释、编译运行快捷键等。
+
+小编之前在Vim初级：配置和使用中介绍了Vim的基本配置与使用，感受Vim">
+<meta property="og:image" content="http://yunvoo.com/assets/img/blog/youcompleteme.gif">
+<meta property="og:image" content="http://yunvoo.com/assets/img/blog/vim-format@2x.png">
+<meta property="og:updated_time" content="2016-06-18T04:06:03.133Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="在VIM下写C++能有多爽？">
+<meta name="twitter:description" content="我是坚定的Vim党，因为和命令行的集成如此之好，Vim可以解决任何问题。然而在这个世界上，即便是最好用的工具也是需要配置的。由于最近在写C++，经过一番配置后，小编写C++已经感到非常爽了，于是决定用一篇文章来记录如何打造一个适合写C++的Vim编辑器！包括C++的自动补全、括号引号匹配、格式化、注释、编译运行快捷键等。
+
+小编之前在Vim初级：配置和使用中介绍了Vim的基本配置与使用，感受Vim">
+<meta name="twitter:image" content="http://yunvoo.com/assets/img/blog/youcompleteme.gif">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yunvoo.com/blog/2015/07/18/vim-cpp.html"/>
+
+  <title> 在VIM下写C++能有多爽？ | Yunvoo Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?6eba031d3986244aaaa7d59a8c373fdb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Yunvoo Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">人生如路-->须在荒凉中走出繁华的风景</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'jV21XzyjE_bi5yc21gs_','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                在VIM下写C++能有多爽？
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-07-18T00:00:00+08:00" content="2015-07-18">
+              2015-07-18
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/blog/2015/07/18/vim-cpp.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/07/18/vim-cpp.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/blog/2015/07/18/vim-cpp.html" class="leancloud_visitors" data-flag-title="在VIM下写C++能有多爽？">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>我是坚定的Vim党，因为和命令行的集成如此之好，Vim可以解决任何问题。然而在这个世界上，即便是最好用的工具也是需要配置的。<br>由于最近在写C++，经过一番配置后，小编写C++已经感到非常爽了，于是决定用一篇文章来记录如何打造一个适合写C++的Vim编辑器！<br>包括C++的自动补全、括号引号匹配、格式化、注释、编译运行快捷键等。</p>
+<blockquote>
+<p>小编之前在<a href="!--￼6--">Vim初级：配置和使用</a>中介绍了Vim的基本配置与使用，<a href="!--￼7--">感受Vim的强大：进阶技巧</a>中介绍了更加方便的高级使用技巧。</p>
+</blockquote>
+<h1 id="基础设置"><a href="#基础设置" class="headerlink" title="基础设置"></a>基础设置</h1><p>稍微熟悉Vim的小伙伴都会知道这个文件<code>~/.vimrc</code>，如同绝大多数的Unix软件，Vim也是用基于文本的配置文件。<br>当前用户的Vim配置便存储在这个文件当中，该文件的每一行便是一个配置项（<code>function</code>除外）。</p>
+<p>配置文件中的所有语句都会在打开Vim时，在Ex模式下执行。例如，我们在Vim中打开行号：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:<span class="keyword">set</span> <span class="keyword">number</span></span><br></pre></td></tr></table></figure>
+<p>我们便可以在配置文件中加入：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">" ~/.vim</span></span><br><span class="line"><span class="keyword">set</span> <span class="keyword">number</span></span><br></pre></td></tr></table></figure>
+<p>同样重要的配置还有：</p>
+<ul>
+<li>打开语法高亮：<code>syntax on</code></li>
+<li>Tab大小：<code>set tabstop=4</code></li>
+<li>缩进大小：<code>set shiftwidth=4</code></li>
+</ul>
+<blockquote>
+<p>Vim是一个典型的Unix程序，上述命令都有缩写啦：number(nu), tabstop(ts), shiftwidth(sw), etc.</p>
+</blockquote>
+<p>更多关于基础配置项的信息，请参考我的另一篇博客： <a href="/2013/11/08/vim-config/">vim 的配置与使用</a></p>
+<h1 id="自动补全"><a href="#自动补全" class="headerlink" title="自动补全"></a>自动补全</h1><p>自动补全恐怕是代码编辑器最重要的特性了，我们暂且不提它毁了多少人的面试之路。</p>
+<p>由于Vim插件的风格、使用方式太过多样化，多语言的自动补全一直存在各种冲突，需要大量精力才能调通。<br>然而Github的出现给Vim插件带来了新的活力，现在我们通过基于Github的Vundle来安装插件，而不需要手动去vim.org上找插件了。</p>
+<p>废话少说，我推荐的插件叫做<a href="https://github.com/Valloric/YouCompleteMe" target="_blank" rel="external">YouCompleteMe</a>，看图！</p>
+<p><img src="/assets/img/blog/youcompleteme.gif" alt="you complete me"></p>
+<p>YouCompleteMe功能很全：</p>
+<ul>
+<li>自动补全，在你写一个名称的过程中，会出现提示列表，同时给出每一项的函数签名（函数形参列表）。</li>
+<li>语法错误、警告的提示。比如变量未使用、函数未定义等等，很多编译warning都会直接提示出来，特别神奇。</li>
+</ul>
+<p>配置很容易，但需要先安装<a href="https://github.com/gmarik/vundle#about" target="_blank" rel="external">Vundle</a>（如果你没有的话）。注意<code>vim +PluginInstall</code>后还需要去<code>~/.vim/bundle/YouCompleteMe</code>中<code>./install.sh</code>一下。</p>
+<blockquote>
+<p>如果你是MacOS用户，确保你的Vim升级到了7.4. 如何使用HomeBrew本文就不唠叨了。</p>
+</blockquote>
+<a id="more"></a>
+<h1 id="括号-引号匹配"><a href="#括号-引号匹配" class="headerlink" title="括号/引号匹配"></a>括号/引号匹配</h1><p>括号和引号的自动补全和智能匹配。例如：</p>
+<ul>
+<li>输入前大括号补全后大括号</li>
+<li>在一对括号之间回车，自动分为3行并调整缩进</li>
+<li>输入前引号自动补全后引号</li>
+</ul>
+<p>凡此种种。。。我觉的第二条是最实用的功能，尤其是写函数和类的时候。</p>
+<p>上述的各种括号、引号匹配都可以用delimitMate来解决，官网：</p>
+<p><a href="https://github.com/Raimondi/delimitMate" target="_blank" rel="external">https://github.com/Raimondi/delimitMate</a></p>
+<p>delimitMate可以通过Vundle的形式安装。在<code>~/.vimrc</code>添加<code>Plugin &#39;Raimondi/delimitMate&#39;</code>并<code>PluginInstall</code>，重新打开Vim后括号就可以自动补全啦！</p>
+<h1 id="Formatter"><a href="#Formatter" class="headerlink" title="Formatter"></a>Formatter</h1><p>格式化程序对于我们懒人和强迫症用户来讲是非常需要的。Vim的默认配置中提供了格式化功能，<br>但显然我们要的更多！比如我希望：</p>
+<ul>
+<li>前大括号不换行，而后大括号换行</li>
+<li>所有运算符两边都有空格</li>
+<li>一键格式化当前文件</li>
+<li>保存时自动格式化</li>
+<li>…</li>
+</ul>
+<p>这里推荐的插件叫做<a href="https://github.com/Chiel92/vim-autoformat" target="_blank" rel="external">vim-autoformat</a>，上述的需求都能完美地解决。参照文档安装就好了。</p>
+<p>需要注意的是，vim-autoformat只是格式化程序框架，它依赖于代码风格检查工具来进行格式化。<br>我们需要单独安装这些工具：astyle、js-beautify等。这里有完整的列表：<a href="https://github.com/Chiel92/vim-autoformat#default-formatprograms" target="_blank" rel="external">https://github.com/Chiel92/vim-autoformat#default-formatprograms</a>。</p>
+<p>如果你希望自定义代码风格，可以在<code>.vimrc</code>中添加个性化的formatter：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">g:formatdef_harttle</span> = <span class="string">'"astyle --style=attach --pad-oper"'</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">g:formatters_cpp</span> = [<span class="string">'harttle'</span>]</span><br><span class="line"><span class="keyword">let</span> <span class="variable">g:formatters_java</span> = [<span class="string">'harttle'</span>]</span><br></pre></td></tr></table></figure>
+<p>比如我安装了astyle，这里定义一个formatter叫做harttle。然后，把它设置成cpp和java的formatter。<br>至于<code>astyle --style=attach --pad-oper</code>为什么这样写，这是一个Bash命令，这些参数你可以去查看<a href="http://astyle.sourceforge.net/astyle.html" target="_blank" rel="external">Astyle 的文档</a>。<br>来一个快捷键F3格式化当前文件：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">" file: ~/.vimrc</span></span><br><span class="line"><span class="keyword">noremap</span> <span class="symbol">&lt;F3&gt;</span> :Autoformat<span class="symbol">&lt;CR&gt;</span></span><br></pre></td></tr></table></figure>
+<p>看图！</p>
+<p><img src="/assets/img/blog/vim-format@2x.png" alt="vim format"></p>
+<h1 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h1><p>注释、反注释是代码编辑器的常用操作，我们也可以方便地在Vim中设置快捷键。<br>然而因为不同语言的注释风格不同，我们可能需要在<code>ftplugin</code>下写多个配置文件，总之很烦人。<br>可以引入一个称为NERD Commenter的插件：</p>
+<p><a href="https://github.com/scrooloose/nerdcommenter" target="_blank" rel="external">https://github.com/scrooloose/nerdcommenter</a></p>
+<p>这是一个在社区很火的插件，O(∩_∩)O~。下载后直接复制到<code>~/.vim</code>下面即可。<br>如果你希望看到它的文档，只需要更新VIM DOC：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:<span class="keyword">helptags</span> ~/.<span class="keyword">vim</span>/doc</span><br></pre></td></tr></table></figure>
+<p>此后，按下<code>\cc</code>即可注释，<code>\cu</code>反注释。前面可以加一个行数~</p>
+<h1 id="编译-运行"><a href="#编译-运行" class="headerlink" title="编译/运行"></a>编译/运行</h1><p>如果你已经能熟练地定义Vim快捷键，就不必往下看了。</p>
+<p>下面三行分别设置了运行、编译、调试的快捷键，<code>n</code>表示该快捷键在normal模式下起作用；<br><code>nore</code>表示该定义不会递归地传递；<code>&lt;CR&gt;</code>是回车（carriage return），<code>!</code>表示执行Shell命令。</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">nnoremap</span> <span class="symbol">&lt;F5&gt;</span>   <span class="symbol">&lt;Esc&gt;</span>:<span class="keyword">w</span><span class="symbol">&lt;CR&gt;</span>:!g++ -std=<span class="keyword">c</span>++<span class="number">11</span> % -<span class="keyword">o</span> /tmp/<span class="keyword">a</span>.out &amp;&amp; /tmp/<span class="keyword">a</span>.out<span class="symbol">&lt;CR&gt;</span></span><br><span class="line"><span class="keyword">nnoremap</span> <span class="symbol">&lt;F7&gt;</span>   <span class="symbol">&lt;Esc&gt;</span>:<span class="keyword">w</span><span class="symbol">&lt;CR&gt;</span>:!g++ -std=<span class="keyword">c</span>++<span class="number">11</span> %<span class="symbol">&lt;CR&gt;</span></span><br><span class="line"><span class="keyword">nnoremap</span> <span class="symbol">&lt;C-F5&gt;</span> <span class="symbol">&lt;Esc&gt;</span>:<span class="keyword">w</span><span class="symbol">&lt;CR&gt;</span>:!g++ -std=<span class="keyword">c</span>++<span class="number">11</span> -g % -<span class="keyword">o</span> /tmp/<span class="keyword">a</span>.out &amp;&amp; gdb /tmp/<span class="keyword">a</span>.out<span class="symbol">&lt;CR&gt;</span></span><br></pre></td></tr></table></figure>
+<p>当然，如果你把上述代码直接添加到<code>~/.vimrc</code>中，所有类型的文件都会拥有上述三个快捷键。<br>这可能是我们不希望的结果，我们希望每种文件类型的<code>&lt;F5&gt;</code>执行自己的运行命令。</p>
+<p>这需要进行文件类型识别和定义文件类型插件，请参考我的另一篇文章：<a href="/2015/07/17/vim-advanced.html">感受Vim的强大：进阶技巧</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Bash-C-Github-NERDCommenter-Unix-Vim-Vundle-YCM-快捷键/" rel="tag">#Bash C++ Github NERDCommenter Unix Vim Vundle YCM 快捷键</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2015/07/17/vim-advanced.html" rel="next" title="感受Vim的强大：进阶技巧">
+                <i class="fa fa-chevron-left"></i> 感受Vim的强大：进阶技巧
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/2015/07/19/effective-cpp-1.html" rel="prev" title="Item 1：将C++视作一系列的语言">
+                Item 1：将C++视作一系列的语言 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="/blog/2015/07/18/vim-cpp.html"
+     data-title="在VIM下写C++能有多爽？"
+     data-content=""
+     data-url="http://yunvoo.com/blog/2015/07/18/vim-cpp.html">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="/blog/2015/07/18/vim-cpp.html"
+           data-title="在VIM下写C++能有多爽？" data-url="http://yunvoo.com/blog/2015/07/18/vim-cpp.html">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="yunvoo" />
+          <p class="site-author-name" itemprop="name">yunvoo</p>
+          <p class="site-description motion-element" itemprop="description">The best way to prediet the future is to create it</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">36</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://www.yunvoo.com" target="_blank" title="博客">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  博客
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://facebook.com/yunvooli" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/yunvooli" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://plus.google.com/107492061888791876239/posts" target="_blank" title="Google+">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Google+
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yunvoo" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://7xrzzi.com1.z0.glb.clouddn.com/4.png" target="_blank" title="微信">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微信
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#基础设置"><span class="nav-number">1.</span> <span class="nav-text">基础设置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#自动补全"><span class="nav-number">2.</span> <span class="nav-text">自动补全</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#括号-引号匹配"><span class="nav-number">3.</span> <span class="nav-text">括号/引号匹配</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Formatter"><span class="nav-number">4.</span> <span class="nav-text">Formatter</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#注释"><span class="nav-number">5.</span> <span class="nav-text">注释</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#编译-运行"><span class="nav-number">6.</span> <span class="nav-text">编译/运行</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yunvoo</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"yunvooli"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+
+  
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("da8KweghFc2VzU2Y8iGjEgCi-gzGzoHsz", "gT6O2WdFMqMyDkuIXUm7HnjF");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

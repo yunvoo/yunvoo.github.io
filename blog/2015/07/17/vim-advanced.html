@@ -1,0 +1,1105 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Bash Markdown Unix Vim 宏 寄存器 快捷键," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Yunvoo Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="Vim是从vi发展出来的一个文本编辑器。代码补全、编译及错误跳转等方便编程的功能特别丰富，在程序员中被广泛使用。和Emacs并列成为类Unix系统用户最喜欢的编辑器。如果你还没有使用过Vim，建议你先去看这个：Vim初级：配置和使用。本文介绍一些Vim的高级特性。包括块编辑、宏录制、语法高亮、键盘映射、函数定义、文件类型识别与对应插件加载等。
+
+英文文档：http://vimdoc.sourcef">
+<meta property="og:type" content="article">
+<meta property="og:title" content="感受Vim的强大：进阶技巧">
+<meta property="og:url" content="http://yunvoo.com/blog/2015/07/17/vim-advanced.html">
+<meta property="og:site_name" content="Yunvoo Blog">
+<meta property="og:description" content="Vim是从vi发展出来的一个文本编辑器。代码补全、编译及错误跳转等方便编程的功能特别丰富，在程序员中被广泛使用。和Emacs并列成为类Unix系统用户最喜欢的编辑器。如果你还没有使用过Vim，建议你先去看这个：Vim初级：配置和使用。本文介绍一些Vim的高级特性。包括块编辑、宏录制、语法高亮、键盘映射、函数定义、文件类型识别与对应插件加载等。
+
+英文文档：http://vimdoc.sourcef">
+<meta property="og:updated_time" content="2016-06-18T04:06:03.140Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="感受Vim的强大：进阶技巧">
+<meta name="twitter:description" content="Vim是从vi发展出来的一个文本编辑器。代码补全、编译及错误跳转等方便编程的功能特别丰富，在程序员中被广泛使用。和Emacs并列成为类Unix系统用户最喜欢的编辑器。如果你还没有使用过Vim，建议你先去看这个：Vim初级：配置和使用。本文介绍一些Vim的高级特性。包括块编辑、宏录制、语法高亮、键盘映射、函数定义、文件类型识别与对应插件加载等。
+
+英文文档：http://vimdoc.sourcef">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yunvoo.com/blog/2015/07/17/vim-advanced.html"/>
+
+  <title> 感受Vim的强大：进阶技巧 | Yunvoo Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?6eba031d3986244aaaa7d59a8c373fdb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Yunvoo Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">人生如路-->须在荒凉中走出繁华的风景</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'jV21XzyjE_bi5yc21gs_','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                感受Vim的强大：进阶技巧
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-07-17T00:00:00+08:00" content="2015-07-17">
+              2015-07-17
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/blog/2015/07/17/vim-advanced.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/07/17/vim-advanced.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/blog/2015/07/17/vim-advanced.html" class="leancloud_visitors" data-flag-title="感受Vim的强大：进阶技巧">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Vim是从vi发展出来的一个文本编辑器。代码补全、编译及错误跳转等方便编程的功能特别丰富，在程序员中被广泛使用。和Emacs并列成为类Unix系统用户最喜欢的编辑器。<br>如果你还没有使用过Vim，建议你先去看这个：<a href="!--￼4--">Vim初级：配置和使用</a>。本文介绍一些Vim的高级特性。包括块编辑、宏录制、语法高亮、键盘映射、函数定义、文件类型识别与对应插件加载等。</p>
+<blockquote>
+<p>英文文档：<a href="http://vimdoc.sourceforge.net/htmldoc/，中文文档：http://vimcdoc.sourceforge.net/doc/" target="_blank" rel="external">http://vimdoc.sourceforge.net/htmldoc/，中文文档：http://vimcdoc.sourceforge.net/doc/</a></p>
+</blockquote>
+<h1 id="块编辑"><a href="#块编辑" class="headerlink" title="块编辑"></a>块编辑</h1><ul>
+<li><p><strong>可视</strong> 模式：<code>v</code> 可进入visual模式，使用标准快捷键移动光标可选择文本块，之后可输入标准编辑命令。</p>
+</li>
+<li><p><strong>列编辑</strong> 模式：<code>&lt;Ctrl&gt;v</code> 进入列编辑模式，移动光标将按列进行选中。例如：</p>
+<blockquote>
+<p>删除块注释：<code>&lt;Ctrl&gt;v</code> 进入列编辑模式，<code>ikjl</code> 选中注释列，<code>&lt;N&gt;x</code> 删除N个字符；</p>
+<p>添加块注释：<code>&lt;Ctrl&gt;v</code> 进入列编辑模式，<code>ikjl</code> 选中要注释的行，<code>I</code> 进入插入模式，输入几个注释字符，<code>&lt;Esc&gt;</code> 推出列编辑。</p>
+</blockquote>
+</li>
+</ul>
+<p>vim所有的模式（即工作状态）如下：</p>
+<ol>
+<li>(o) 普通模式: 输入命令时。</li>
+<li>(x) 可视模式: 可视区域高亮并输入命令时。</li>
+<li>(s) 选择模式: 类似于可视模式，但键入的字符对选择区进行替换。</li>
+<li>(o) 操作符等待模式: 操作符等待中 (“d”，”y”，”c” 等等之后)。</li>
+<li>(i) 插入模式: 也用于替换模式。</li>
+<li>(c) 命令行模式: 输入 “:” 或 “/“ 命令时。</li>
+</ol>
+<blockquote>
+<p><strong>行尾块</strong> ：因行尾参差不齐，块编辑一般用于行首、行间；行尾编辑要有一些技巧：<code>gg</code>到文件头，<code>&lt;Ctrl-v&gt;</code>进入块编辑模式，<code>G</code>选择所有内容；<code>$A</code>到行尾并进入插入模式，输入要插入的字符，<code>&lt;Esc&gt;</code>完成。</p>
+</blockquote>
+<a id="more"></a>
+<h1 id="文件类型识别与对应插件加载"><a href="#文件类型识别与对应插件加载" class="headerlink" title="文件类型识别与对应插件加载"></a>文件类型识别与对应插件加载</h1><p>Vim可针对特定的文件，加载指定插件。以此来实现文件类型的特殊配置以及语法高亮。</p>
+<blockquote>
+<p>参见：<a href="http://vimcdoc.sourceforge.net/doc/filetype.html#filetype-plugins" target="_blank" rel="external">http://vimcdoc.sourceforge.net/doc/filetype.html#filetype-plugins</a></p>
+</blockquote>
+<p><code>filetype on</code> 将开启文件识别，Vim 会在载入时做如下工作：</p>
+<ol>
+<li>执行<code>$RUNTIMEPATH/filetype.vim</code>，根据文件名判断类型</li>
+<li>如果需要的话，执行 <code>$RUNTIMEPATH/scripts.vim</code>，进一步判断文件类型</li>
+<li>设置 Vim 的 <code>filetype</code> 变量</li>
+</ol>
+<blockquote>
+<p>我们也可以通过诸如 <code>:set filetype=c</code> 的命令来手动设置文件类型<br>如果不使用文件识别，我们可以运行 <code>au BufNewFile,BufRead *.plt  source ~/.vim/after/ftplugin/plt.vim</code> 来使用 <code>plt.vim</code> 初始化 <code>*.plt</code> 文件。</p>
+<p>更多关于<code>RUNTIMEPATH</code> ：<a href="http://vimcdoc.sourceforge.net/doc/options.html#&#39;runtimepath" target="_blank" rel="external">http://vimcdoc.sourceforge.net/doc/options.html#&#39;runtimepath</a>‘</p>
+</blockquote>
+<p><code>filetype plugin on</code> 允许Vim加载文件类型的插件，Vim会在载入时寻找并加载 <code>$RUNTIMEPATH/ftplugin.vim</code>，该脚本会寻找并加载 <code>$RUNTIMEPATH/ftplugin/&lt;filetype&gt;.vim</code>。</p>
+<p>例如：<code>~/.vim/ftplugin/cpp.vim</code> 将在 cpp 文件类型被识别后自动载入。</p>
+<blockquote>
+<p>同样，<code>~/.vim/after/ftplugin/cpp.vim</code> 会在最后被调用，进而覆盖之前的配置。<br>另外，<code>filetype indent on</code> 允许Vim加载该文件类型的缩进设置。即执行<code>RUNTIMEPATH/indent.vim</code>。</p>
+</blockquote>
+<h1 id="语法高亮"><a href="#语法高亮" class="headerlink" title="语法高亮"></a>语法高亮</h1><p><code>syntax on</code> 允许 Vim 加载文件类型的语法高亮配置，Vim会在载入时寻找并加载 <code>RUNTIMEPATH/syntax/&lt;filetype&gt;.vim</code>。</p>
+<p>例如：<code>~/.vim/syntax/markdown.vim</code> 将会对文件类型<code>markdown</code> 进行语法高亮。</p>
+<h1 id="键盘映射"><a href="#键盘映射" class="headerlink" title="键盘映射"></a>键盘映射</h1><p>Vim支持定义键盘映射来完成快捷键的功能，也就是将特定的按键映射为一系列按键与函数的序列。</p>
+<p>例如将 <code>F7</code> 映射为编译当前java文件：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">map</span> <span class="symbol">&lt;F7&gt;</span> <span class="symbol">&lt;Esc&gt;</span>:!javac %&lt;<span class="symbol">&lt;CR&gt;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>:</code> 为进入Ex模式，<code>!</code> 指定下面的命令在vim外执行，<code>%</code> 为当前文件名，<code>%&lt;</code> 为不带扩展名的当前文件名，<code>&lt;CR&gt;</code> 为回车。</p>
+</blockquote>
+<p><code>map</code> 命令有多种工作模式，如下表。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">map模式</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">n</td>
+<td>普通</td>
+</tr>
+<tr>
+<td style="text-align:center">v</td>
+<td>可视和选择</td>
+</tr>
+<tr>
+<td style="text-align:center">s</td>
+<td>选择</td>
+</tr>
+<tr>
+<td style="text-align:center">x</td>
+<td>可视</td>
+</tr>
+<tr>
+<td style="text-align:center">o</td>
+<td>操作符等待</td>
+</tr>
+<tr>
+<td style="text-align:center">!</td>
+<td>插入和命令行</td>
+</tr>
+<tr>
+<td style="text-align:center">i</td>
+<td>插入</td>
+</tr>
+<tr>
+<td style="text-align:center">l</td>
+<td>插入、命令行和 Lang-Arg 模式的 “:lmap” 映射</td>
+</tr>
+<tr>
+<td style="text-align:center">c</td>
+<td>命令行</td>
+</tr>
+</tbody>
+</table>
+<p>其中，<code>map</code>模式可作为<code>map</code>命令的前缀以指定其工作模式：</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>左边</th>
+<th>右边</th>
+<th>模式      </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>:map</td>
+<td>{lhs}</td>
+<td>{rhs}</td>
+<td>mapmode-nvo   </td>
+</tr>
+<tr>
+<td>:nm[ap]</td>
+<td>{lhs}</td>
+<td>{rhs}</td>
+<td>mapmode-n       </td>
+</tr>
+<tr>
+<td>:vm[ap]</td>
+<td>{lhs}</td>
+<td>{rhs}</td>
+<td>mapmode-v       </td>
+</tr>
+<tr>
+<td>:xm[ap]</td>
+<td>{lhs}</td>
+<td>{rhs}</td>
+<td>mapmode-x       </td>
+</tr>
+<tr>
+<td>:smap</td>
+<td>{lhs}</td>
+<td>{rhs}</td>
+<td>mapmode-s      </td>
+</tr>
+<tr>
+<td>:om[ap]</td>
+<td>{lhs}</td>
+<td>{rhs}</td>
+<td>mapmode-o      </td>
+</tr>
+<tr>
+<td>:map!</td>
+<td>{lhs}</td>
+<td>{rhs}</td>
+<td>mapmode-ic     </td>
+</tr>
+<tr>
+<td>:im[ap]</td>
+<td>{lhs}</td>
+<td>{rhs}</td>
+<td>mapmode-i     </td>
+</tr>
+<tr>
+<td>:lm[ap]</td>
+<td>{lhs}</td>
+<td>{rhs}</td>
+<td>mapmode-l     </td>
+</tr>
+<tr>
+<td>:cm[ap]</td>
+<td>{lhs}</td>
+<td>{rhs}</td>
+<td>mapmode-c     </td>
+</tr>
+</tbody>
+</table>
+<p>另外，可添加<code>nore</code>指定非递归方式（取消传递性）。如<code>inoremap</code>为插入模式下工作的<code>map</code>，并且没有递归。</p>
+<h1 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h1><p>现在我们可以自定义快捷键了，如果希望在键盘映射中执行更复杂的功能，我们需要定义Vim函数。</p>
+<ul>
+<li>函数名必须以大写字母开始</li>
+<li>函数可以有返回值：<code>return something</code></li>
+<li>函数可以有范围前缀。定义：<code>function s:Save()</code>，调用：<code>call s:Save()</code></li>
+</ul>
+<p>下面是函数调用的例子，按键F8时，进入拷贝模式（取消行号，鼠标进入visual模式）。</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">" key mapping</span></span><br><span class="line"><span class="keyword">map</span> <span class="symbol">&lt;F8&gt;</span> <span class="symbol">&lt;Esc&gt;</span>:<span class="keyword">call</span> ToggleCopy()<span class="symbol">&lt;CR&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">" global variable</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">g:copymode</span>=<span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">" function</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ToggleCopy</span><span class="params">()</span></span></span><br><span class="line">    <span class="keyword">if</span> <span class="variable">g:copymode</span></span><br><span class="line">        <span class="keyword">set</span> <span class="keyword">number</span></span><br><span class="line">        <span class="keyword">set</span> mouse=<span class="keyword">a</span></span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        <span class="keyword">set</span> nonumber</span><br><span class="line">        <span class="keyword">set</span> mouse=v</span><br><span class="line">    <span class="keyword">endif</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">g:copymode</span>=!<span class="variable">g:copymode</span></span><br><span class="line"><span class="keyword">endfunction</span></span><br></pre></td></tr></table></figure>
+<h1 id="录制宏"><a href="#录制宏" class="headerlink" title="录制宏"></a>录制宏</h1><p>用户录制的宏保存在寄存器中，我们先来看看什么是寄存器。vim的寄存器分为数字寄存器和字母寄存器。</p>
+<ul>
+<li>数字寄存器为<code>0-9</code>，<code>0</code>保存着上次复制的内容，<code>1-9</code>按照最近的顺序保存着最近删除的内容。</li>
+<li>字母寄存器为<code>a-z</code>，拷贝3行到寄存器<code>c</code>：<code>c3yy</code>.</li>
+</ul>
+<p>现在开始录制宏。假如有如下的文件，我们希望将第二列的类型用<code>` </code>分隔起来。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1 | BOOL  | Boolean</span><br><span class="line">2 | SINT  | Short integer</span><br><span class="line">3 | INT   | Integer </span><br><span class="line">4 | DINT  | Double integer </span><br><span class="line">5 | LINT  | Long integer </span><br><span class="line">6 | USINT | Unsigned short integer </span><br><span class="line">7 | UINT  | Unsigned integer</span><br></pre></td></tr></table></figure>
+<ol>
+<li>首先按几次<code>&lt;Esc&gt;</code>进入normal模式，光标移到第一行，开始录制并存入m寄存器<code>qm</code>。</li>
+<li>光标到行首<code>^</code>，到第二列词首<code>ww</code>，进入插入模式<code>i</code>，插入分隔符<code>` </code>，退出到normal模式<code>&lt;Esc&gt;</code>，到词尾<code>e</code>，进入插入模式<code>i</code>，插入分隔符<code>` </code>，退出到normal模式<code>&lt;Esc&gt;</code>，光标到下一行<code>j</code>。</li>
+<li>结束录制<code>q</code>。</li>
+<li>光标到第二行，在normal模式执行100次寄存器m中的宏<code>100@m</code>。</li>
+</ol>
+<p>宏会在<code>j</code>执行错误后自动结束，得到如下文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">1 | `BOOL`  | Boolean</span><br><span class="line">2 | `SINT`  | Short integer</span><br><span class="line">3 | `INT`   | Integer </span><br><span class="line">4 | `DINT`  | Double integer </span><br><span class="line">5 | `LINT`  | Long integer </span><br><span class="line">6 | `USINT` | Unsigned short integer </span><br><span class="line">7 | `UINT`  | Unsigned integer</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Bash-Markdown-Unix-Vim-宏-寄存器-快捷键/" rel="tag">#Bash Markdown Unix Vim 宏 寄存器 快捷键</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2015/07/16/css-priority.html" rel="next" title="各种CSS选择器的优先级">
+                <i class="fa fa-chevron-left"></i> 各种CSS选择器的优先级
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/2015/07/18/vim-cpp.html" rel="prev" title="在VIM下写C++能有多爽？">
+                在VIM下写C++能有多爽？ <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="/blog/2015/07/17/vim-advanced.html"
+     data-title="感受Vim的强大：进阶技巧"
+     data-content=""
+     data-url="http://yunvoo.com/blog/2015/07/17/vim-advanced.html">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="/blog/2015/07/17/vim-advanced.html"
+           data-title="感受Vim的强大：进阶技巧" data-url="http://yunvoo.com/blog/2015/07/17/vim-advanced.html">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="yunvoo" />
+          <p class="site-author-name" itemprop="name">yunvoo</p>
+          <p class="site-description motion-element" itemprop="description">The best way to prediet the future is to create it</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">36</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">35</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://www.yunvoo.com" target="_blank" title="博客">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  博客
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://facebook.com/yunvooli" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/yunvooli" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://plus.google.com/107492061888791876239/posts" target="_blank" title="Google+">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Google+
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yunvoo" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://7xrzzi.com1.z0.glb.clouddn.com/4.png" target="_blank" title="微信">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微信
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#块编辑"><span class="nav-number">1.</span> <span class="nav-text">块编辑</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文件类型识别与对应插件加载"><span class="nav-number">2.</span> <span class="nav-text">文件类型识别与对应插件加载</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#语法高亮"><span class="nav-number">3.</span> <span class="nav-text">语法高亮</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#键盘映射"><span class="nav-number">4.</span> <span class="nav-text">键盘映射</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#函数"><span class="nav-number">5.</span> <span class="nav-text">函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#录制宏"><span class="nav-number">6.</span> <span class="nav-text">录制宏</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yunvoo</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"yunvooli"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+
+  
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("da8KweghFc2VzU2Y8iGjEgCi-gzGzoHsz", "gT6O2WdFMqMyDkuIXUm7HnjF");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>
