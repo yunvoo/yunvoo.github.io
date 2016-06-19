@@ -1,0 +1,1040 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="文件描述符," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Yunvoo Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="概要文件描述符在形式上是一个非负整数。实际上它是一个索引值，指向内核为每一个进程所维护的该进程打开文件的记录表。当程序打开一个现有文件或者创建一个新文件时，内核向进程返回一个文件描述符。在程序设计中，一些涉及底层的编写往往会围绕着文件描述符来展开进行。一般情况下文件描述符的概念只适用于Unxi Linux这样的操作系统。
+在linux系统中一切可以看成是文件，文件又可以分为：普通文件、目录文件、链">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux系统编程基础文件描述符">
+<meta property="og:url" content="http://yunvoo.com/blog/2014/11/02/linux系统编程基础文件描述符.html">
+<meta property="og:site_name" content="Yunvoo Blog">
+<meta property="og:description" content="概要文件描述符在形式上是一个非负整数。实际上它是一个索引值，指向内核为每一个进程所维护的该进程打开文件的记录表。当程序打开一个现有文件或者创建一个新文件时，内核向进程返回一个文件描述符。在程序设计中，一些涉及底层的编写往往会围绕着文件描述符来展开进行。一般情况下文件描述符的概念只适用于Unxi Linux这样的操作系统。
+在linux系统中一切可以看成是文件，文件又可以分为：普通文件、目录文件、链">
+<meta property="og:image" content="http://7xrzzi.com1.z0.glb.clouddn.com/node.png">
+<meta property="og:updated_time" content="2016-06-19T10:08:03.983Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="linux系统编程基础文件描述符">
+<meta name="twitter:description" content="概要文件描述符在形式上是一个非负整数。实际上它是一个索引值，指向内核为每一个进程所维护的该进程打开文件的记录表。当程序打开一个现有文件或者创建一个新文件时，内核向进程返回一个文件描述符。在程序设计中，一些涉及底层的编写往往会围绕着文件描述符来展开进行。一般情况下文件描述符的概念只适用于Unxi Linux这样的操作系统。
+在linux系统中一切可以看成是文件，文件又可以分为：普通文件、目录文件、链">
+<meta name="twitter:image" content="http://7xrzzi.com1.z0.glb.clouddn.com/node.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yunvoo.com/blog/2014/11/02/linux系统编程基础文件描述符.html"/>
+
+  <title> linux系统编程基础文件描述符 | Yunvoo Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?6eba031d3986244aaaa7d59a8c373fdb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Yunvoo Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">人生如路-->须在荒凉中走出繁华的风景</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'jV21XzyjE_bi5yc21gs_','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                linux系统编程基础文件描述符
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-11-02T00:00:00+08:00" content="2014-11-02">
+              2014-11-02
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/blog/2014/11/02/linux系统编程基础文件描述符.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2014/11/02/linux系统编程基础文件描述符.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/blog/2014/11/02/linux系统编程基础文件描述符.html" class="leancloud_visitors" data-flag-title="linux系统编程基础文件描述符">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h2><p>文件描述符在形式上是一个非负整数。实际上它是一个索引值，指向<em>内核</em>为每一个<em>进程</em>所维护的该进程打开文件的记录表。当程序打开一个现有文件或者创建一个新文件时，内核向进程返回一个文件描述符。在程序设计中，一些涉及底层的编写往往会围绕着文件描述符来展开进行。一般情况下文件描述符的概念只适用于<code>Unxi Linux</code>这样的操作系统。</p>
+<p>在linux系统中一切可以看成是文件，文件又可以分为：普通文件、目录文件、链接文件、设备文件。文件描述符（filedescriptor）是IO操作的系统调用都通过文件描述符进行的。<strong>在程序刚刚启动的时候,0是标准输入，1是标准输出、2是标准错误。如果此时又打开了一个新的文件，它的文件描述符是3.</strong></p>
+<p>标准文件描述符图如下:</p>
+<table>
+<thead>
+<tr>
+<th>文件描述符</th>
+<th>用途</th>
+<th>POSIX名称</th>
+<th>stdio流</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>标准输入</td>
+<td>STDIN_FILENO</td>
+<td>stdin</td>
+</tr>
+<tr>
+<td>1</td>
+<td>标准输出</td>
+<td>STDOUT_FILENO</td>
+<td>stdout</td>
+</tr>
+<tr>
+<td>2</td>
+<td>标准错误</td>
+<td>STDERR_FILENO</td>
+<td>stderr</td>
+</tr>
+</tbody>
+</table>
+<h2 id="文件描述符的限制"><a href="#文件描述符的限制" class="headerlink" title="文件描述符的限制"></a>文件描述符的限制</h2><p>在编写文件操作的或者网络通讯软件时，初学者可能会遇到”Too many open files”的问题。这主要是因为文件是有限制，不能打开太多的文件描述符，一般最大打开文件数会是系统内存的%10（以KB来计算）（称之为系统级限制）**可以通过<code>sysctl -a | grep fs.file-max</code>命令查看，与此同时，内核为了不让某一个进程消耗掉所有的文件资源，其也会对单个进程最大打开文件数做默认值处理（称之为用户级限制），默认值一般是1024，使用<code>ulimit -n</code>命令可以查看。<br>每个进程都可以通过一个特殊的设备文件/dev/tty(字符设备c) 访问它的控制终端。事实上每个终端设备都对应一个不同的设备文件,/dev/tty 提供了一个通用的接口,一个进程要访问它的控制终端既可以通过/dev/tty 也可以通过该终端设备所对应的设备文件来访问。<code>ttyname</code>函数可以由文件描述符查出对应的文件名,该文件描述符必须指向一个终端设备而不 能是任意文件。不同的终端所对应的设备文件名可以是<code>/dev/pts/?, /dev/tty?</code>等</p>
+<blockquote>
+<p>[geek@yunvoo ~]$ ls -l /dev/tty<br>crw-rw-rw-. 1 root tty 5, 0 6月  19 17:07 /dev/tty<br>由open返回的文件描述符一定是该进程尚未使用的最小描述符。由于程序启动时自动打开文件描述符0、1、2,因此第一次调用open打开文件通常会返回描述符3,再调用open 就会返回4。可以利用 这一点在标准输入、标准输出或标准错误输出上打开一个新文件,实现重定向的功能。例如,首先 调用close 关闭文件描述符1,然后调用open 打开一个常规文件,则一定会返回文件描述符1,这时候标准输出就不再是终端,而是一个常规文件了,再调用printf就不会打印到屏幕上,而是写到这 个文件中了。</p>
+</blockquote>
+<h2 id="文件描述符和打开文件之间的关系"><a href="#文件描述符和打开文件之间的关系" class="headerlink" title="文件描述符和打开文件之间的关系"></a>文件描述符和打开文件之间的关系</h2><p>每一个文件描述符会与一个打开文件相对应，同时，不同的文件描述符也会指向同一个文件。相同的文件可以被不同的进程打开也可以在同一个进程中被多次打开。系统为每一个进程维护了一个文件描述符表，该表的值都是从0开始的，所以在不同的进程中你会看到相同的文件描述符，这种情况下相同文件描述符有可能指向同一个文件，也有可能指向不同的文件。具体情况要具体分析，要理解具体其概况如何，需要查看由内核维护的3个数据结构。</p>
+<ol>
+<li>进程级的文件描述符表</li>
+<li>系统级的打开文件描述符表</li>
+<li>文件系统的i-node表</li>
+</ol>
+<p>下图展示了文件描述符、打开的文件句柄以及<code>inode</code>之间的关系，图中，两个进程拥有诸多打开的文件描述符。</p>
+<p>文件描述符、打开文件句柄和i-node之间的关系:<br><img src="http://7xrzzi.com1.z0.glb.clouddn.com/node.png" alt=""></p>
+<p>在进程A中，文件描述符1和30都指向了同一个打开的文件句柄（标号23）。这可能是通过调用dup()、dup2()、fcntl()或者对同一个文件多次调用了open()函数而形成的。<br>    进程A的文件描述符2和进程B的文件描述符2都指向了同一个打开的文件句柄（标号73）。这种情形可能是在调用fork()后出现的（即，进程A、B是父子进程关系），或者当某进程通过UNIX域套接字将一个打开的文件描述符传递给另一个进程时，也会发生。再者是不同的进程独自去调用open函数打开了同一个文件，此时进程内部的描述符正好分配到与其他进程打开该文件的描述符一样。</p>
+<h2 id="优点（以下来自维基百科中"><a href="#优点（以下来自维基百科中" class="headerlink" title="优点（以下来自维基百科中)"></a>优点（以下来自维基百科中)</h2><blockquote>
+<p>文件描述符的有点有两个：</p>
+</blockquote>
+<ul>
+<li>基于文件描述符I/O操作兼容<code>POSIX</code>标准</li>
+<li>在`Unix Linux的系统调用中，大量的系统调用都是依赖于文件描述</li>
+</ul>
+<p>例如，下面的代码就示范了如何基于文件描述符来读取当前目录下的一个指定文件，并把文件内容打印至Console中。<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/types.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/stat.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;fcntl.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span> <span class="params">(<span class="keyword">void</span>)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> fd;</span><br><span class="line">    <span class="keyword">int</span> numbytes;</span><br><span class="line">    <span class="keyword">char</span> path[] = <span class="string">"file"</span>;</span><br><span class="line">    <span class="keyword">char</span> buf[<span class="number">256</span>];</span><br><span class="line"></span><br><span class="line">    <span class="comment">/*</span><br><span class="line">     * O_CREAT:如果文件不存在则创建</span><br><span class="line">     * O_RDONLY:以只读模式打开文件</span><br><span class="line">     */</span></span><br><span class="line">    fd = open(path, O_CREAT | O_RDONLY, <span class="number">0644</span>);</span><br><span class="line">    <span class="keyword">if</span>(fd &lt; <span class="number">0</span>)&#123;</span><br><span class="line">        perror(<span class="string">"open()"</span>);</span><br><span class="line">        <span class="built_in">exit</span>(EXIT_FAILURE);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">memset</span>(buf, <span class="number">0x00</span>, <span class="number">256</span>);</span><br><span class="line">    <span class="keyword">while</span>((numbytes = read(fd, buf, <span class="number">255</span>)) &gt; <span class="number">0</span>)&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"%d bytes read: %s"</span>, numbytes, buf);</span><br><span class="line">        <span class="built_in">memset</span>(buf, <span class="number">0x00</span>, <span class="number">256</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    close (fd);</span><br><span class="line">    <span class="built_in">exit</span>(EXIT_SUCCESS);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="与文件描述符相关的操作"><a href="#与文件描述符相关的操作" class="headerlink" title="与文件描述符相关的操作"></a>与文件描述符相关的操作</h2><ul>
+<li>1.文件描述符的生成</li>
+</ul>
+<ul>
+<li>open(),open64(),creat(),creat64()</li>
+<li>socket()</li>
+<li>socketpair()</li>
+<li>pipe()</li>
+</ul>
+<ul>
+<li>2.与单一文件描述符相关的操作</li>
+</ul>
+<ul>
+<li>read(),write()</li>
+<li>recv(),send()</li>
+<li>recvmsg(),sendmsg()</li>
+<li>sendfile()</li>
+</ul>
+<ul>
+<li>3.与复数文件描述符相关的操作</li>
+</ul>
+<ul>
+<li>selcet(),pselect()</li>
+<li>poll(),epoll()</li>
+</ul>
+<ul>
+<li>4.与文件描述符表相关的操作</li>
+</ul>
+<ul>
+<li>close()</li>
+<li>dup() dup2()</li>
+<li>fcntl(F_DUPFD),fcntl(F_GETFD and F_SETFD)</li>
+</ul>
+<ul>
+<li>5.改变进程状态的操作</li>
+</ul>
+<ul>
+<li>fchdir()</li>
+<li>mmap()</li>
+</ul>
+<ul>
+<li>6.与文件加锁的操作</li>
+</ul>
+<ul>
+<li>flock()</li>
+<li>fcntl(F_GETLK,F_SETLK and F_SETLKW)</li>
+<li>lockf()</li>
+</ul>
+<ul>
+<li>7.与套接子相关的操作</li>
+</ul>
+<ul>
+<li>connect()</li>
+<li>bind()</li>
+<li>listen()</li>
+<li>accept()</li>
+<li>getsockname() getpeername() </li>
+<li>getsockopt() setsockopt()</li>
+<li>shutdown()</li>
+</ul>
+<p><strong> 以上是我对linux 文件描述符的大概理解 查了很多的资料 很多地方理解的不够透，希望以后继续努力！！</strong></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/文件描述符/" rel="tag">#文件描述符</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2014/10/21/ip.html" rel="next" title="读 IP 协议 RFC-791">
+                <i class="fa fa-chevron-left"></i> 读 IP 协议 RFC-791
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/2015/01/03/告诉你一个秘密：努力的方法.html" rel="prev" title="告诉你一个秘密：努力的方法">
+                告诉你一个秘密：努力的方法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="/blog/2014/11/02/linux系统编程基础文件描述符.html"
+     data-title="linux系统编程基础文件描述符"
+     data-content=""
+     data-url="http://yunvoo.com/blog/2014/11/02/linux系统编程基础文件描述符.html">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="/blog/2014/11/02/linux系统编程基础文件描述符.html"
+           data-title="linux系统编程基础文件描述符" data-url="http://yunvoo.com/blog/2014/11/02/linux系统编程基础文件描述符.html">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="yunvoo" />
+          <p class="site-author-name" itemprop="name">yunvoo</p>
+          <p class="site-description motion-element" itemprop="description">The best way to prediet the future is to create it</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://www.yunvoo.com" target="_blank" title="博客">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  博客
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://facebook.com/yunvooli" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/yunvooli" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://plus.google.com/107492061888791876239/posts" target="_blank" title="Google+">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Google+
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yunvoo" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://7xrzzi.com1.z0.glb.clouddn.com/4.png" target="_blank" title="微信">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微信
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#概要"><span class="nav-number">1.</span> <span class="nav-text">概要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件描述符的限制"><span class="nav-number">2.</span> <span class="nav-text">文件描述符的限制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件描述符和打开文件之间的关系"><span class="nav-number">3.</span> <span class="nav-text">文件描述符和打开文件之间的关系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优点（以下来自维基百科中"><span class="nav-number">4.</span> <span class="nav-text">优点（以下来自维基百科中)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#与文件描述符相关的操作"><span class="nav-number">5.</span> <span class="nav-text">与文件描述符相关的操作</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yunvoo</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动 
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"yunvooli"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+
+  
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("da8KweghFc2VzU2Y8iGjEgCi-gzGzoHsz", "gT6O2WdFMqMyDkuIXUm7HnjF");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1067 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="linux 多进程," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Yunvoo Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="wait()的阻塞问题父进程为了获取子进程的’SIGSTOP、SIGTERM’等信号时，由于调用了’wait()’函数而导致主进程一直在阻塞中，在使劲的开发中，应该特别注意，主进程在等待子进程的状态变化是还会有其他的事情进行处理,所以需要一种异步回调机制，让主进程可以在执行其它任务的时候，又可以监听到子进程的进程状态变化时及时处理。
+signal()函数讲解signal()函数原型如下:123#i">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux多进程处理函数">
+<meta property="og:url" content="http://yunvoo.com/blog/2015/10/03/linux多进程处理函数.html">
+<meta property="og:site_name" content="Yunvoo Blog">
+<meta property="og:description" content="wait()的阻塞问题父进程为了获取子进程的’SIGSTOP、SIGTERM’等信号时，由于调用了’wait()’函数而导致主进程一直在阻塞中，在使劲的开发中，应该特别注意，主进程在等待子进程的状态变化是还会有其他的事情进行处理,所以需要一种异步回调机制，让主进程可以在执行其它任务的时候，又可以监听到子进程的进程状态变化时及时处理。
+signal()函数讲解signal()函数原型如下:123#i">
+<meta property="og:updated_time" content="2016-06-19T06:41:39.076Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="linux多进程处理函数">
+<meta name="twitter:description" content="wait()的阻塞问题父进程为了获取子进程的’SIGSTOP、SIGTERM’等信号时，由于调用了’wait()’函数而导致主进程一直在阻塞中，在使劲的开发中，应该特别注意，主进程在等待子进程的状态变化是还会有其他的事情进行处理,所以需要一种异步回调机制，让主进程可以在执行其它任务的时候，又可以监听到子进程的进程状态变化时及时处理。
+signal()函数讲解signal()函数原型如下:123#i">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yunvoo.com/blog/2015/10/03/linux多进程处理函数.html"/>
+
+  <title> linux多进程处理函数 | Yunvoo Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?6eba031d3986244aaaa7d59a8c373fdb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Yunvoo Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">人生如路-->须在荒凉中走出繁华的风景</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'jV21XzyjE_bi5yc21gs_','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                linux多进程处理函数
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-10-03T00:00:00+08:00" content="2015-10-03">
+              2015-10-03
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/blog/2015/10/03/linux多进程处理函数.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/10/03/linux多进程处理函数.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/blog/2015/10/03/linux多进程处理函数.html" class="leancloud_visitors" data-flag-title="linux多进程处理函数">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="wait-的阻塞问题"><a href="#wait-的阻塞问题" class="headerlink" title="wait()的阻塞问题"></a>wait()的阻塞问题</h2><p>父进程为了获取子进程的’SIGSTOP、SIGTERM’等信号时，由于调用了’wait()’函数而导致主进程一直在阻塞中，在使劲的开发中，应该特别注意，主进程在等待子进程的状态变化是还会有其他的事情进行处理,所以需要一种异步回调机制，让主进程可以在执行其它任务的时候，又可以监听到子进程的进程状态变化时及时处理。</p>
+<h2 id="signal-函数讲解"><a href="#signal-函数讲解" class="headerlink" title="signal()函数讲解"></a>signal()函数讲解</h2><p><code>signal()</code>函数原型如下:<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;signal.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">typedef</span> <span class="title">void</span><span class="params">(*<span class="keyword">sighandler_t</span>)</span><span class="params">(<span class="keyword">int</span>)</span></span>;</span><br><span class="line"><span class="keyword">sighandler_t</span> signal(<span class="keyword">int</span> signum,<span class="keyword">sighandler_t</span> handler);</span><br></pre></td></tr></table></figure></p>
+<p><code>typedef</code>定义了一类函数名叫<code>sighandler_t</code>是指要监听的进程状态的变量信号，所有可以监听的信号的定义可以同<code>sys/signal.h</code>头文件中查阅到。本文的demeo中要处理的信号量有：</p>
+<ol>
+<li>SIGSTOP:发送给父进程的，表示子进程被外部命令暂停，命令可以是<code>kill</code>,也开始是<code>top</code>中操作。</li>
+<li>SIGCHLD：发送给父进程的，表示子进程被外部命令暂停或已经执行完毕退出了。这是需要父进程执行<code>wait</code>函数让子进程从<code>僵尸进程</code>状态彻底被系统回收.</li>
+<li>SIGWINCH:程序窗口大小发生变换，在中断命令下执行运行可执行文件时用鼠标拖动一下窗口即可获取此信号。</li>
+</ol>
+<p><code>signal</code>函数第二个参数是指定<code>signum</code>的处理函数，该函数的唯一参数将会被赋值为被指定的 信号量。在此函数中可以调用<code>wait</code>或者其他处理逻辑，也可以赋值为系统的<code>SIG_IGN或者SIG_DFL</code>函数，分别表示忽略和默认处理方式，但是信号量<code>SIGKILL及SIGSTOP</code>的处理方式是不能被忽略处理的。<br>当自定义了信号量处理函数后，所监听的信号被捕获，则该信号会被设置为阻塞<code>blocked</code>，然后再执行处理函数中的逻辑，处理函数执行完毕后，信号量恢复为未阻塞状态<code>unblock</code>。<br><code>signal()</code>函数正常执行，返回值为<code>signum</code>的原有处理函数；否则出错返回<code>SIG_ER</code>,并且可以处理通过<code>ERRNO</code>来查看错误原因<br><code>signal()</code>函数在不同的Unxi或Linux版本之间存在较大的差异，所以一般崔村<code>sigaction()</code>函数来替换。本文不涉及<code>sigaction</code>的内容。</p>
+<h2 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h2><pre><code>接下来演示`signal()`函数的使用，代码示例总依然用到了对标准输出流的重定向**`freeopen`**。
+</code></pre><p><code>signal.c</code></p>
+<pre><code class="cpp"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span>
+<span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;signal.h&gt;</span></span>
+<span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span>
+<span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/wait.h&gt;</span></span>
+<span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span>
+<span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;errno.h&gt;</span></span>
+<span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;time.h&gt;</span></span>
+<span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span>
+<span class="meta">#<span class="meta-keyword">ifndef</span> getSigName</span>
+<span class="meta">#<span class="meta-keyword">define</span> getSigName(sig) (((sig) == SIGCHLD)?<span class="string">"SIGCHLD"</span>:(((sig) == SIGCONT)?<span class="string">"SIGCONT"</span>:(((sig) == SIGTERM)?<span class="string">"SIGTERM"</span>:(((sig) == SIGWINCH)?<span class="string">"SIGWINCH"</span>:<span class="string">""</span>))))</span>
+<span class="meta">#<span class="meta-keyword">endif</span></span>
+<span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">printTime</span><span class="params">()</span> </span>{
+    <span class="keyword">time_t</span> calendar_time = time(<span class="literal">NULL</span>);
+    <span class="keyword">struct</span> tm * tm_local = localtime(&amp;calendar_time);
+    <span class="keyword">char</span> <span class="keyword">str_f_t</span> [<span class="number">50</span>];
+    strftime(<span class="keyword">str_f_t</span>, <span class="keyword">sizeof</span>(<span class="keyword">str_f_t</span>), <span class="string">"%G-%m-%d %H:%M:%S"</span>, tm_local);
+    <span class="built_in">printf</span>(<span class="string">"%s "</span>, <span class="keyword">str_f_t</span>);
+}
+<span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">handleSignal</span><span class="params">(<span class="keyword">int</span> sig)</span> </span>{
+    printTime();
+    <span class="built_in">printf</span>(<span class="string">"PID=%d handleSignal %s=%d\n"</span>, getpid(), getSigName(sig), sig);
+    <span class="keyword">if</span> (sig == SIGCHLD || sig == SIGTERM) {
+        <span class="comment">// 子进程被暂停或退出了(包括按逻辑执行结束及被kill)</span>
+        <span class="keyword">int</span> status = <span class="number">0</span>;
+        <span class="keyword">int</span> childPid = waitpid(<span class="number">-1</span>, &amp;status, WUNTRACED|WCONTINUED);
+        <span class="keyword">if</span> (childPid == <span class="number">-1</span>) {
+            printTime();
+            <span class="built_in">printf</span>(<span class="string">"Parent w=-1, error=%s \n"</span>, strerror(errno));
+        } <span class="keyword">else</span> {
+            <span class="keyword">int</span> ifExited, ifSignaled, ifStopped, ifContinued;
+
+            ifExited = WIFEXITED(status);
+            ifSignaled = WIFSIGNALED(status);
+            ifStopped = WIFSTOPPED(status);
+            ifContinued = WIFCONTINUED(status);
+
+            printTime();
+            <span class="built_in">printf</span>(<span class="string">"pid=%ld child=%d exitCode=%d status=%d ifExited=%d ifSignaled=%d ifStopped=%d ifContinued=%d \n"</span>,
+                   (<span class="keyword">long</span>)getpid(), childPid, status, _WSTATUS(childPid), ifExited, ifSignaled, ifStopped, ifContinued);
+
+            printTime();
+            <span class="keyword">if</span> (ifExited) {
+                <span class="built_in">printf</span>(<span class="string">"PID=%ld exited, status=%d\n"</span>, (<span class="keyword">long</span>)childPid, WEXITSTATUS(status));
+            } <span class="keyword">else</span> <span class="keyword">if</span> (ifSignaled) {
+                <span class="built_in">printf</span>(<span class="string">"PID=%ld killed by signal %d\n"</span>, (<span class="keyword">long</span>)childPid, WTERMSIG(status));
+            } <span class="keyword">else</span> <span class="keyword">if</span> (ifStopped) {
+                <span class="built_in">printf</span>(<span class="string">"PID=%ld stopped by signal %d\n"</span>, (<span class="keyword">long</span>)childPid, WSTOPSIG(status));
+            } <span class="keyword">else</span> <span class="keyword">if</span> (ifContinued) {
+                <span class="built_in">printf</span>(<span class="string">"PID=%ld continued\n"</span>, (<span class="keyword">long</span>)childPid);
+            }
+        }
+    } <span class="keyword">else</span> <span class="keyword">if</span> (sig == SIGCONT) {
+        <span class="comment">// sigcont在本人的mac上调用wait是无效的</span>
+        <span class="comment">// do nothing</span>
+    } <span class="keyword">else</span> <span class="keyword">if</span> (sig == SIGWINCH) {
+        <span class="comment">// do nothing</span>
+    } <span class="keyword">else</span> {
+        printTime();
+        <span class="built_in">printf</span>(<span class="string">"sig=%d is not valid.\n"</span>, sig);
+    }
+}
+<span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">mainProcessDoSomething</span><span class="params">(FILE* f)</span> </span>{
+    <span class="keyword">int</span> count = <span class="number">0</span>;
+    <span class="keyword">while</span>(<span class="number">1</span>) {
+        sleep(<span class="number">3</span>);
+        <span class="keyword">if</span> (f != <span class="literal">NULL</span>){
+            fflush(f);
+        }
+        <span class="keyword">if</span> (count ++ &gt; <span class="number">50</span>) {
+            <span class="keyword">break</span>;
+        }
+    }
+}
+<span class="keyword">int</span> main<span class="comment">/*11*/</span> (<span class="keyword">int</span> argc, <span class="keyword">char</span> ** argv) {
+
+    <span class="comment">// SIGWINCH：应用程序窗口发生变化</span>
+    signal(SIGWINCH, &amp;handleSignal);
+
+    <span class="comment">// 子进程被暂停运行</span>
+    signal(SIGSTOP, &amp;handleSignal);
+    <span class="comment">// 子进程被恢复运行(Mac上无效..)</span>
+    signal(SIGCONT, &amp;handleSignal);
+    <span class="comment">// SIGCHLD：子进程被暂停或退出了(包括按逻辑执行结束及被kill)</span>
+    signal(SIGCHLD, &amp;handleSignal);
+    <span class="comment">// 不建议对SIGTERM进行设置</span>
+    <span class="comment">// signal(SIGTERM, &amp;handleSignal);</span>
+
+    <span class="keyword">pid_t</span> pId = fork();
+    <span class="keyword">if</span> (pId == <span class="number">-1</span>) {
+        perror(<span class="string">"fork error"</span>);
+        <span class="built_in">exit</span>(EXIT_FAILURE);
+    } <span class="keyword">else</span> <span class="keyword">if</span> (pId == <span class="number">0</span>) {
+        FILE* fChild = freopen(<span class="string">"/Users/sodino/workspace/xcode/Define/Define/child_signal.txt"</span>, <span class="string">"w"</span>, <span class="built_in">stdout</span>);
+        <span class="keyword">int</span> myPid = getpid();
+        <span class="keyword">int</span> parentPid = getppid();
+
+        printTime();
+        <span class="built_in">printf</span>(<span class="string">"Child:SelfID=%d ParentID=%d \n"</span>, myPid, parentPid);
+        <span class="keyword">int</span> count = <span class="number">0</span>;
+        <span class="keyword">do</span>{
+            count ++;
+            sleep(<span class="number">5</span>);
+            printTime();
+            <span class="built_in">printf</span>(<span class="string">"Child:count=%d \n"</span>, count);
+            fflush(fChild);
+            <span class="keyword">if</span> (count &gt;= <span class="number">20</span>) {
+                <span class="keyword">break</span>;
+            }
+        }<span class="keyword">while</span> (<span class="number">1</span>);
+        printTime();
+        <span class="built_in">printf</span>(<span class="string">"Child:SelfID=%d exit success.\n"</span>, myPid);
+        fflush(fChild);
+        fclose(fChild);
+        <span class="keyword">return</span> EXIT_SUCCESS;
+    } <span class="keyword">else</span> {
+        FILE * fMain = freopen(<span class="string">"/Users/sodino/workspace/xcode/Define/Define/main_signal.txt"</span>, <span class="string">"w"</span>, <span class="built_in">stdout</span>);
+        printTime();
+        <span class="built_in">printf</span>(<span class="string">"Parent:SelfID=%d MyChildPID=%d \n"</span>, getpid(), pId);
+        fflush(fMain);
+
+        <span class="comment">// 继续往下执行其它任务，而不像原逻辑 会被wait()所阻塞</span>
+        mainProcessDoSomething(fMain);
+
+        printTime();
+        <span class="built_in">printf</span>(<span class="string">"Parent:SelfID=%d exit success.\n"</span>, getpid());
+
+        fflush(fMain);
+        fclose(fMain);
+        <span class="keyword">return</span> EXIT_SUCCESS;
+    }
+}
+</code></pre>
+<p>以上代码中，在<code>main()</code>函数一开始，就对<code>SIGWINCH、SIGCHLD</code>进行监听，统一注册其处理函数为<code>handleSignal(int)</code>。然后执行<code>fork()</code>生成子进程。<br>handleSignal(int)函数中会对监听到的信号量做出打印及输出，如果是SIGSTOP、SIGCHLD的话则会执行wait以获取子进程状态。<br>在主进程中，以mainProcessDoSomething()函数来表示父进程的其它工作任务，不被wait所阻塞。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/linux-多进程/" rel="tag">#linux 多进程</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2015/01/03/告诉你一个秘密：努力的方法.html" rel="next" title="告诉你一个秘密：努力的方法">
+                <i class="fa fa-chevron-left"></i> 告诉你一个秘密：努力的方法
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/2015/10/25/IPFS 一个新的对等网络媒体协议.html" rel="prev" title="IPFS 一个新的对等网络媒体协议">
+                IPFS 一个新的对等网络媒体协议 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="/blog/2015/10/03/linux多进程处理函数.html"
+     data-title="linux多进程处理函数"
+     data-content=""
+     data-url="http://yunvoo.com/blog/2015/10/03/linux多进程处理函数.html">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="/blog/2015/10/03/linux多进程处理函数.html"
+           data-title="linux多进程处理函数" data-url="http://yunvoo.com/blog/2015/10/03/linux多进程处理函数.html">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="yunvoo" />
+          <p class="site-author-name" itemprop="name">yunvoo</p>
+          <p class="site-description motion-element" itemprop="description">The best way to prediet the future is to create it</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://www.yunvoo.com" target="_blank" title="博客">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  博客
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://facebook.com/yunvooli" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/yunvooli" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://plus.google.com/107492061888791876239/posts" target="_blank" title="Google+">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Google+
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yunvoo" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://7xrzzi.com1.z0.glb.clouddn.com/4.png" target="_blank" title="微信">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微信
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#wait-的阻塞问题"><span class="nav-number">1.</span> <span class="nav-text">wait()的阻塞问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#signal-函数讲解"><span class="nav-number">2.</span> <span class="nav-text">signal()函数讲解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#示例代码"><span class="nav-number">3.</span> <span class="nav-text">示例代码</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yunvoo</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动 
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"yunvooli"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+
+  
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("da8KweghFc2VzU2Y8iGjEgCi-gzGzoHsz", "gT6O2WdFMqMyDkuIXUm7HnjF");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

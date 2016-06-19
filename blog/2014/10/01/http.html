@@ -1,0 +1,1079 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="HTML,HTTP,协议," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Yunvoo Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="超文本传输协议（英文：HyperText Transfer Protocol，缩写：HTTP） 是互联网上应用最为广泛的一种网络协议。设计HTTP最初的目的是为了提供一种发布和接收HTML页面的方法。通过HTTP或者HTTPS协议请求的资源由 统一资源标识符（Uniform Resource Identifiers，URI） 来标识。
+HTTP协议标准是由万维网协会（World Wide Web">
+<meta property="og:type" content="article">
+<meta property="og:title" content="读 HTTP 协议 RFC-2616">
+<meta property="og:url" content="http://yunvoo.com/blog/2014/10/01/http.html">
+<meta property="og:site_name" content="Yunvoo Blog">
+<meta property="og:description" content="超文本传输协议（英文：HyperText Transfer Protocol，缩写：HTTP） 是互联网上应用最为广泛的一种网络协议。设计HTTP最初的目的是为了提供一种发布和接收HTML页面的方法。通过HTTP或者HTTPS协议请求的资源由 统一资源标识符（Uniform Resource Identifiers，URI） 来标识。
+HTTP协议标准是由万维网协会（World Wide Web">
+<meta property="og:image" content="http://7xrzzi.com1.z0.glb.clouddn.com/yunvooliyunvooli_meitu_1.jpg">
+<meta property="og:updated_time" content="2016-06-18T23:51:20.232Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="读 HTTP 协议 RFC-2616">
+<meta name="twitter:description" content="超文本传输协议（英文：HyperText Transfer Protocol，缩写：HTTP） 是互联网上应用最为广泛的一种网络协议。设计HTTP最初的目的是为了提供一种发布和接收HTML页面的方法。通过HTTP或者HTTPS协议请求的资源由 统一资源标识符（Uniform Resource Identifiers，URI） 来标识。
+HTTP协议标准是由万维网协会（World Wide Web">
+<meta name="twitter:image" content="http://7xrzzi.com1.z0.glb.clouddn.com/yunvooliyunvooli_meitu_1.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yunvoo.com/blog/2014/10/01/http.html"/>
+
+  <title> 读 HTTP 协议 RFC-2616 | Yunvoo Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?6eba031d3986244aaaa7d59a8c373fdb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Yunvoo Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">人生如路-->须在荒凉中走出繁华的风景</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'jV21XzyjE_bi5yc21gs_','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                读 HTTP 协议 RFC-2616
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-10-01T00:00:00+08:00" content="2014-10-01">
+              2014-10-01
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/blog/2014/10/01/http.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2014/10/01/http.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/blog/2014/10/01/http.html" class="leancloud_visitors" data-flag-title="读 HTTP 协议 RFC-2616">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong>超文本传输协议（英文：HyperText Transfer Protocol，缩写：HTTP）</strong> 是互联网上应用最为广泛的一种网络协议。设计HTTP最初的目的是为了提供一种发布和接收HTML页面的方法。通过HTTP或者HTTPS协议请求的资源由 <strong>统一资源标识符（Uniform Resource Identifiers，URI）</strong> 来标识。</p>
+<p>HTTP协议标准是由万维网协会（World Wide Web Consortium，W3C）和互联网工程任务组（Internet Engineering Task Force，IETF）制定的，其中最著名的是RFC-2616，定义了HTTP协议中现今广泛使用的一个版本—HTTP 1.1。</p>
+<blockquote>
+<p>第一个版本的HTTP（HTTP/0.9）用于Internet上的传输原始数据；HTTP/1.0加入了MIME支持、元数据、请求/应答限定符。</p>
+</blockquote>
+<p>对web开发者而言HTTP协议的用法已耳熟能详，本文只记录与web开发相关的HTTP重要细节。</p>
+<p>HTTP是一种通用的、无状态的应用层协议，适用于分布式、协同的、超媒体信息系统。通过一些扩展（如请求方法、错误码、头信息），HTTP可用于超文本外的其他用途，例如命名服务器、分布式对象管理。HTTP的特点在于数据表示的类型与协商，允许建立系统时不必考虑数据是如何传输的。</p>
+<font size="5" color="#FF2D2D">操作</font> 
+
+<p>多数HTTP通信由用户代理发起请求，服务器响应该请求。更复杂的情况则可能包括代理、网关和隧道。 <strong>代理</strong> 是指转发代理，它接受URI请求，重写部分消息，然后把重写过的消息转发至URI标识的服务器。 <strong>网关</strong> 是指接收代理，它运行在其他服务器之上，需要时可以为背后的服务器翻译请求。 <strong>隧道</strong> 相当于两个连接的中转站，但不会改变消息。当通信需要通过一个中介时可以使用隧道，即使该中介不理解消息内容。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">   request chain --------------------------------------&gt;</span><br><span class="line">UA -----v----- A -----v----- B -----v----- C -----v----- O</span><br><span class="line">   &lt;------------------------------------- response chain</span><br></pre></td></tr></table></figure>
+<p>除隧道外的通信方都可能会采用内部缓存和处理消息，缓存可以缩短请求/应答链。但并不是所有消息都可以被缓存，缓存行为也在RFC-2616中加以定义。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">   request chain ----------&gt;</span><br><span class="line">UA -----v----- A -----v----- B - - - - - - C - - - - - - O</span><br><span class="line">   &lt;--------- response chain</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>HTTP通常发生在TCP/IP连接上，默认的TCP端口为80，当然也可以使用别的端口。这不会影响到HTTP实现，HTTP只假设有一个可靠的传输协议。</p>
+</blockquote>
+<p>HTTP/1.1连接应该是持久连接。这不仅能够减小TCP连接的内存、CPU开销，减小了TCP包的数量，同时提供了更短的延迟和及时的错误反馈。此时，请求与应答可以形成管道而不必等上一个连接的关闭。</p>
+<font size="5" color="#FF2D2D">URI</font> 
+
+<p>在HTTP中，URI 是用来标识资源的字符串。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http_URL = &quot;http:&quot; &quot;//&quot; host [ &quot;:&quot; port ] [ abs_path [ &quot;?&quot; query ]]</span><br></pre></td></tr></table></figure>
+<p>HTTP URI 是大小写敏感的，相同的URI应该每个字节都完全相同。除非：</p>
+<ol>
+<li>端口空。此时相当于默认端口。</li>
+<li>主机名必须大小写无关。</li>
+<li>模式名必须大小写无关。</li>
+<li>绝对路径为空。此时相当于<code>/</code>。</li>
+</ol>
+<font size="5" color="#FF2D2D">HTTP方法</font> 
+
+<ul>
+<li><code>GET</code>：获取URI制定的信息。</li>
+<li><code>HEAD</code>：同<code>GET</code>，但服务器不返回消息体。</li>
+<li><code>POST</code>：请求服务器接受请求中包装的实体，将其作为URI标识的资源的附属信息。</li>
+<li><code>PUT</code>：让服务器将请求中包装的实体存储为URI标识位置。</li>
+<li><code>DELETE</code>：让服务器将URI标识的资源删除。</li>
+<li><code>TRACE</code>：调用远程的应用层环回。最终服务器应将收到的消息包装为实体并返回状态码为200的应答。</li>
+<li><code>CONNECT</code>：保留，用作代理。</li>
+</ul>
+<blockquote>
+<p>其中<code>HEAD</code>和<code>GET</code>被称为安全方法，即服务器只是返回所需的信息，不应该产生其他的副作用。</p>
+</blockquote>
+<font size="5" color="#FF2D2D">HTTP 头字段简介</font> 
+
+<p>HTTP 头字段包括通用头字段（general-header），请求头字段（request-header），响应头字段（response-header）和实体头字段（entity-header）。</p>
+<p>每个头字段包括字段名与字段只，以冒号<code>:</code>分隔。其中字段名大小写不敏感。</p>
+<font size="5" color="#FF2D2D">通用头字段</font> 
+
+<p>通用头字段对于HTTP请求和响应均可用，用来描述HTTP消息（HTTP message）本身，<br>不可用来描述被传输的实体（HTTP entity）。共9个：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">general-header = Cache-Control           ; Section 14.9</span><br><span class="line">              | Connection               ; Section 14.10</span><br><span class="line">              | Date                     ; Section 14.18</span><br><span class="line">              | Pragma                   ; Section 14.32</span><br><span class="line">              | Trailer                  ; Section 14.40</span><br><span class="line">              | Transfer-Encoding        ; Section 14.41</span><br><span class="line">              | Upgrade                  ; Section 14.42</span><br><span class="line">              | Via                      ; Section 14.45</span><br><span class="line">              | Warning                  ; Section 14.46</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>Cache-Control</code>：指定整个请求链中必须遵循的缓存指令，是单向的。其值包括<code>max-age</code>，<code>no-cache</code>等。</li>
+<li><code>Connection</code>：发送者用来指定连接选项，属于hop by hop头字段，不可被代理传递。例如Websocket建立连接时的Handshake HTTP Request，包含<code>Connection: upgrade</code>与<code>Upgrade: Websocket</code>头字段。</li>
+<li><code>Date</code>：请求或响应的时间和日期。</li>
+<li><code>Pragma</code>：用来指定实现相关（implementation-specific）的指令，例如：<code>Pragma: no-cache</code>。</li>
+<li><code>Transfer-Encoding</code>：为了使消息安全到达，HTTP消息经过了何种转换，例如<code>Transfer-Encoding: chunked</code>。</li>
+<li><code>Via</code>：HTTP消息传送期间经过了何种协议或代理，网关和代理必须实现该字段。如<code>Via: 1.0 fred, 1.1 nowhere.com (Apache/1.1)</code>。</li>
+</ul>
+<font size="5" color="#FF2D2D">请求头字段</font> 
+
+<p>request头部字段如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">request-header = Accept                   ; Section 14.1</span><br><span class="line">              | Accept-Charset           ; Section 14.2</span><br><span class="line">              | Accept-Encoding          ; Section 14.3</span><br><span class="line">              | Accept-Language          ; Section 14.4</span><br><span class="line">              | Authorization            ; Section 14.8</span><br><span class="line">              | Expect                   ; Section 14.20</span><br><span class="line">              | From                     ; Section 14.22</span><br><span class="line">              | Host                     ; Section 14.23</span><br><span class="line">              | If-Match                 ; Section 14.24</span><br><span class="line">              | If-Modified-Since        ; Section 14.25</span><br><span class="line">              | If-None-Match            ; Section 14.26</span><br><span class="line">              | If-Range                 ; Section 14.27</span><br><span class="line">              | If-Unmodified-Since      ; Section 14.28</span><br><span class="line">              | Max-Forwards             ; Section 14.31</span><br><span class="line">              | Proxy-Authorization      ; Section 14.34</span><br><span class="line">              | Range                    ; Section 14.35</span><br><span class="line">              | Referer                  ; Section 14.36</span><br><span class="line">              | TE                       ; Section 14.39</span><br><span class="line">              | User-Agent               ; Section 14.43</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p><code>Accept</code>：可接受的应答的媒体类型，可使用通配符<code>*</code>。</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Accept: autio/*; q=0.2, autio/basic</span><br><span class="line"><span class="comment"># 最好是basic音频，如果没有的话任何音频都可以接受（这时我认为质量打了80%的折扣）请求头字段</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>Accept-Charset</code>：可接受的应答的字符集。</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Accept-Charset: iso-8859-5, unicode-1-1;q=0.8</span><br><span class="line"># 最好是iso-8859-5，不过unicode-1-1也还好（80%的质量）请求头字段</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>Accept-Encoding</code>：可接受的应答的内容编码。</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Accept-Encoding: gzip;q=1.0, identity; q=0.5, *;q=0</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>Accept-Language</code>：可接受的应答的自然语言集合。</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Accept-Language: da, en-gb;q=0.8, en;q=0.7</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>Authorization</code>：用户想要让服务器给自己授权，通常在接受到<code>401</code>之后发生。</p>
+</li>
+<li><p><code>Expect</code>：客户需要的服务器行为。</p>
+<blockquote>
+<p>该字段是逐跳发生的，即代理如不能满足该期望应返回<code>417</code>；但请求头是端到端的，该请求仍然必须被转发。</p>
+</blockquote>
+</li>
+<li><p><code>From</code>：该字段应为控制发送请求的HTTP代理（agent）的用户电子邮箱名。</p>
+</li>
+<li><code>Host</code>：目标主机名与端口，来自URI。</li>
+<li><code>If-Match</code>：与HTTP方法一起用，使得条件性执行该方法。条件为该实体匹配该列表，即没有发生用户所不知道的变化。</li>
+</ul>
+<blockquote>
+<p>在HTTP中，质量值<code>qvalue</code>作为协商参数的限定符，表示客户端认为该参数的重要性（权重）。如果一个参数<code>qvalue</code>为0，表示该参数对客户端来讲是不可接受的。参数之间用<code>,</code>分隔，参数值与质量值之间用<code>;</code>分隔。</p>
+</blockquote>
+<font size="5" color="#FF2D2D">响应头字段</font> 
+
+<p>response头部字段如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">response-header = Accept-Ranges           ; Section 14.5</span><br><span class="line">                | Age                     ; Section 14.6</span><br><span class="line">                | ETag                    ; Section 14.19</span><br><span class="line">                | Location                ; Section 14.30</span><br><span class="line">                | Proxy-Authenticate      ; Section 14.33</span><br><span class="line">                | Retry-After             ; Section 14.37</span><br><span class="line">                | Server                  ; Section 14.38</span><br><span class="line">                | Vary                    ; Section 14.44</span><br><span class="line">                | WWW-Authenticate        ; Section 14.47</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p><code>Accept-Ranges</code>：</p>
+<blockquote>
+<p>在HTTP/1.1中，客户端可以请求部分的应答（<code>range</code>），服务器将根据指定的单位和Request的<code>Range</code>将实体划分为<code>subrange</code>返回给客户端。</p>
+</blockquote>
+<p>  该字段允许服务器指定接受怎样的<code>range</code>请求。例如<code>Accept-Ranges: bytes</code>表示接受以byte为单位的<code>Range</code>。</p>
+</li>
+<li><p><code>Age</code>：生成该response以来，服务器估计已经过去了多少时间。该字段用于缓存机制。</p>
+</li>
+<li><code>ETag</code>：指定请求变量的当前实体Tag。该字段用来比较来自同一资源的变化的实体。与<code>If-Match/If-None-Match</code>成对使用来实现缓存。</li>
+<li><code>Location</code>：为完成请求或标识新的资源，服务器用该字段将接收者重定向。此处应指定绝对路径。</li>
+<li><code>Proxy-Authenticate</code>：<code>407</code>（Proxy Authentication Required）响应必须填写该字段。该字段应指出授权模式和该URI代理的参数。收到该响应后代理应寻找自己的授权证书。该字段只用于当前连接（点到点），不应传到下游的客户端。</li>
+<li><code>Retry-After</code>：用于<code>503</code>（Service Unavailable）响应。指示客户端服务预期多久不可用。可以是绝对时间，也可以是代表时间间隔的整数（单位为秒）。</li>
+<li><code>Server</code>：原始服务器处理该请求的软件信息。</li>
+<li><code>Vary</code>：指示不可缓存的请求头列表（大小写不敏感）。</li>
+<li><code>WWW-Authenticate</code>：<code>401</code>（Unauthorized）响应必须填写该字段。同<code>Proxy-Authenticate</code>，只不过该字段作用于用户代理（User Agent）。</li>
+</ul>
+<font size="5" color="#FF2D2D">实体头字段</font> 
+
+<p>实体头字段（entity ）用来表示HTTP实体（entity body）的元信息。<br>如果实体（HTTP body）不存在，则表示HTTP请求所标识的资源的元信息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">entity-header  = Allow                    ; Section 14.7</span><br><span class="line">              | Content-Encoding         ; Section 14.11</span><br><span class="line">              | Content-Language         ; Section 14.12</span><br><span class="line">              | Content-Length           ; Section 14.13</span><br><span class="line">              | Content-Location         ; Section 14.14</span><br><span class="line">              | Content-MD5              ; Section 14.15</span><br><span class="line">              | Content-Range            ; Section 14.16</span><br><span class="line">              | Content-Type             ; Section 14.17</span><br><span class="line">              | Expires                  ; Section 14.21</span><br><span class="line">              | Last-Modified            ; Section 14.29</span><br></pre></td></tr></table></figure>
+<ul>
+<li><code>Allow</code>：实体允许哪些方法，例如：<code>Allow: GET, HEAD, PUT</code></li>
+<li><code>Content-Encoding</code>：内容编码，这是对<code>Content-Type</code>的进一步修饰，例如<code>Content-Encoding: gzip</code>。</li>
+<li><code>Content-Location</code>的值是绝对或相对URI，表示请求体的资源处于何处。</li>
+<li><code>Content-Type</code>：资源的媒体类型，例如<code>Content-Type: text/html; charset=ISO-8859-4</code>。</li>
+<li><code>Expires</code>：过期时间，例如<code>Expires: Thu, 01 Dec 1994 16:00:00 GMT</code>。</li>
+<li><code>Last-Modified</code>：服务器认为该资源上次修改的时间，格式同上。与<code>Not-Modified-Since</code>成对使用可实现缓存。</li>
+</ul>
+<font size="5" color="#FF2D2D">缓存</font> 
+
+<p>HTTP常用语信息系统，此时应答缓存可以提高性能。缓存应该保证是正确的，如果一个应答的缓存既非一手的，又不够新，则必须在应答中添加警告。</p>
+<blockquote>
+<p>HTTP/1.1的基本缓存机制只有隐式的缓存指示，在有些系统中需要给出明确的缓存指示。此时要用到缓存控制（Cache-Control）头。</p>
+</blockquote>
+<p>最好的缓存应完全避免从原始服务器发送请求，主要的机制是服务器明确给定应答的过期时间。相反地，服务其可以将过期时间设为过去的时间，<br>以此强制得到最新的请求。过期时间的计算有两种方法：</p>
+<ol>
+<li><code>now - Age Header</code>，其中<code>Age Header</code>是生成应答时服务器会设置的字段。</li>
+<li><code>age_value</code>，等于该应答在所有缓存中驻留的时间和，加上所有路径上传输所用的时间。</li>
+</ol>
+<blockquote>
+<p>当然，缓存服务器之间需要通过类似<code>NTP</code>的协议来同步他们的时钟。</p>
+</blockquote>
+<p>在Web应用中，缓存通常通过<a href="https://zh.wikipedia.org/wiki/HTTP_ETag" target="_blank" rel="external">Etag</a>和<code>Expires</code>响应头来实现。<code>Etag</code>表示资源的ID，<code>Expires</code>表示资源的过期时间。<br>User-Agent（比如浏览器）可以通过这两个字段来恰当地缓存这些HTTP响应。</p>
+<font size="5" color="#FF2D2D">状态码</font> 
+
+<p>HTTP状态码（HTTP Status Code）是用以表示Web服务器HTTP响应状态的3位数字代码，分为5大类。<br>以下给出状态码说明，其描述参见wikipedia：<a href="http://zh.wikipedia.org/wiki/HTTP%E7%8A%B6%E6%80%81%E7%A0%81" target="_blank" rel="external">HTTP状态码</a></p>
+<ul>
+<li>1xx：表示请求已被接受，但需要后续处理。</li>
+<li>2xx：请求已成功被服务器接收、理解、并接受。</li>
+<li>3xx：这类状态码代表需要客户端采取进一步的操作才能完成请求。通常，这些状态码用来重定向，<br>重定向目标在本次响应的<code>Location</code>头字段中指明。</li>
+<li>4xx：这类的状态码代表了客户端看起来可能发生了错误，妨碍了服务器的处理。<br>除非响应的是一个HEAD请求，否则服务器就应该返回一个解释当前错误状况的实体。</li>
+<li>5xx：这类状态码代表了服务器在处理请求的过程中有错误或者异常状态发生，也有可能是服务器意识到以当前的软硬件资源无法完成对请求的处理。<br>并且响应消息体中应当给出理由，除非是HEAD请求。</li>
+</ul>
+<p>常见的响应状态码在<a href="!--￼11--">如何理解HTTP响应的状态码？</a>一文有详细介绍。</p>
+<font size="5" color="#FF2D2D">参考连接</font> 
+
+<p>RTF 2616: <a href="http://tools.ietf.org/html/rfc2616" target="_blank" rel="external">http://tools.ietf.org/html/rfc2616</a></p>
+<center><br>    <p><img src="http://7xrzzi.com1.z0.glb.clouddn.com/yunvooliyunvooli_meitu_1.jpg" align="center"></p><br></center>
+
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/HTML-HTTP-协议/" rel="tag">#HTML,HTTP,协议</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2014/09/27/tcp.html" rel="next" title="读 TCP 协议 RFC-793">
+                <i class="fa fa-chevron-left"></i> 读 TCP 协议 RFC-793
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/2014/10/02/dhcp.html" rel="prev" title="DHCP 服务器架设">
+                DHCP 服务器架设 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="/blog/2014/10/01/http.html"
+     data-title="读 HTTP 协议 RFC-2616"
+     data-content=""
+     data-url="http://yunvoo.com/blog/2014/10/01/http.html">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="/blog/2014/10/01/http.html"
+           data-title="读 HTTP 协议 RFC-2616" data-url="http://yunvoo.com/blog/2014/10/01/http.html">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="yunvoo" />
+          <p class="site-author-name" itemprop="name">yunvoo</p>
+          <p class="site-description motion-element" itemprop="description">The best way to prediet the future is to create it</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">8</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://www.yunvoo.com" target="_blank" title="博客">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  博客
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://facebook.com/yunvooli" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/yunvooli" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://plus.google.com/107492061888791876239/posts" target="_blank" title="Google+">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Google+
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yunvoo" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://7xrzzi.com1.z0.glb.clouddn.com/4.png" target="_blank" title="微信">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微信
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yunvoo</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动 
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"yunvooli"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+
+  
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("da8KweghFc2VzU2Y8iGjEgCi-gzGzoHsz", "gT6O2WdFMqMyDkuIXUm7HnjF");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>
