@@ -86,7 +86,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="IPFS，协议," />
+  <meta name="keywords" content="C++," />
 
 
 
@@ -104,38 +104,25 @@
 
 
 
-<meta name="description" content="IPFS简介    
-    
-　　　IPFS(The InterPlanetary File System)是一种新的超媒体分发协议，按内容和身份解决。 IPFS能够完全的分布式应用程序的创建。它的目的是使网络更快，更安全，更开放。IPFS是由IPFS社区和许多贡献者来自开源社区开发的一个开源项目IPFS是怎样运行的　    
-    　　　IPFS旨在所有的计算设备与相同的文件系统连接一个对等">
+<meta name="description" content="继承概念面向对象程序设计有4个主要的特点：抽象、封装、继承和多态性。了解了面向对象程序设计的两个重要特征数据抽象与封装,已经能够设计出基于对象的程序，这是面向对象程序设计的基础。要较好地进行面向对象程序设计，还必须了解面向对象程序设计的另外两个重要的特性，*继承和多态性.
+继承的相关概念
+继承是类之间定义的一种重要关系
+一个B类继承A类，或称为从类A派生类B，类A称为基类（父类），类B称为派生类(">
 <meta property="og:type" content="article">
-<meta property="og:title" content="IPFS 一个新的对等网络媒体协议">
-<meta property="og:url" content="http://yunvoo.com/blog/2015/10/25/IPFS 一个新的对等网络媒体协议.html">
+<meta property="og:title" content="C++中的继承学习基础">
+<meta property="og:url" content="http://yunvoo.com/blog/2015/01/05/C++中的继承学习基础.html">
 <meta property="og:site_name" content="Yunvoo Blog">
-<meta property="og:description" content="IPFS简介    
-    
-　　　IPFS(The InterPlanetary File System)是一种新的超媒体分发协议，按内容和身份解决。 IPFS能够完全的分布式应用程序的创建。它的目的是使网络更快，更安全，更开放。IPFS是由IPFS社区和许多贡献者来自开源社区开发的一个开源项目IPFS是怎样运行的　    
-    　　　IPFS旨在所有的计算设备与相同的文件系统连接一个对等">
-<meta property="og:image" content="http://7xrzzi.com1.z0.glb.clouddn.com/ipfsIPFS.png">
-<meta property="og:image" content="http://7xrzzi.com1.z0.glb.clouddn.com/ipfs10.png">
-<meta property="og:image" content="http://7xrzzi.com1.z0.glb.clouddn.com/ipfs11.png">
-<meta property="og:image" content="http://7xrzzi.com1.z0.glb.clouddn.com/ipfs12.png">
-<meta property="og:image" content="http://7xrzzi.com1.z0.glb.clouddn.com/ipfs1.png">
-<meta property="og:image" content="http://7xrzzi.com1.z0.glb.clouddn.com/ipfs2.png">
-<meta property="og:image" content="http://7xrzzi.com1.z0.glb.clouddn.com/ipfs5.png">
-<meta property="og:image" content="http://7xrzzi.com1.z0.glb.clouddn.com/ipfs4.png">
-<meta property="og:image" content="http://7xrzzi.com1.z0.glb.clouddn.com/ipfs6.png">
-<meta property="og:image" content="http://7xrzzi.com1.z0.glb.clouddn.com/ipfs%E5%B0%8F%E7%A8%8B%E5%BA%8F.png">
-<meta property="og:image" content="http://7xrzzi.com1.z0.glb.clouddn.com/ipfs7.png">
-<meta property="og:image" content="http://7xrzzi.com1.z0.glb.clouddn.com/ipfs9.png">
-<meta property="og:updated_time" content="2016-06-19T10:26:26.377Z">
+<meta property="og:description" content="继承概念面向对象程序设计有4个主要的特点：抽象、封装、继承和多态性。了解了面向对象程序设计的两个重要特征数据抽象与封装,已经能够设计出基于对象的程序，这是面向对象程序设计的基础。要较好地进行面向对象程序设计，还必须了解面向对象程序设计的另外两个重要的特性，*继承和多态性.
+继承的相关概念
+继承是类之间定义的一种重要关系
+一个B类继承A类，或称为从类A派生类B，类A称为基类（父类），类B称为派生类(">
+<meta property="og:updated_time" content="2016-06-20T15:02:25.539Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="IPFS 一个新的对等网络媒体协议">
-<meta name="twitter:description" content="IPFS简介    
-    
-　　　IPFS(The InterPlanetary File System)是一种新的超媒体分发协议，按内容和身份解决。 IPFS能够完全的分布式应用程序的创建。它的目的是使网络更快，更安全，更开放。IPFS是由IPFS社区和许多贡献者来自开源社区开发的一个开源项目IPFS是怎样运行的　    
-    　　　IPFS旨在所有的计算设备与相同的文件系统连接一个对等">
-<meta name="twitter:image" content="http://7xrzzi.com1.z0.glb.clouddn.com/ipfsIPFS.png">
+<meta name="twitter:title" content="C++中的继承学习基础">
+<meta name="twitter:description" content="继承概念面向对象程序设计有4个主要的特点：抽象、封装、继承和多态性。了解了面向对象程序设计的两个重要特征数据抽象与封装,已经能够设计出基于对象的程序，这是面向对象程序设计的基础。要较好地进行面向对象程序设计，还必须了解面向对象程序设计的另外两个重要的特性，*继承和多态性.
+继承的相关概念
+继承是类之间定义的一种重要关系
+一个B类继承A类，或称为从类A派生类B，类A称为基类（父类），类B称为派生类(">
 
 
 
@@ -156,9 +143,9 @@
 
 
 
-  <link rel="canonical" href="http://yunvoo.com/blog/2015/10/25/IPFS 一个新的对等网络媒体协议.html"/>
+  <link rel="canonical" href="http://yunvoo.com/blog/2015/01/05/C++中的继承学习基础.html"/>
 
-  <title> IPFS 一个新的对等网络媒体协议 | Yunvoo Blog </title>
+  <title> C++中的继承学习基础 | Yunvoo Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -338,7 +325,7 @@
             
             
               
-                IPFS 一个新的对等网络媒体协议
+                C++中的继承学习基础
               
             
           </h1>
@@ -350,38 +337,19 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-10-25T00:00:00+08:00" content="2015-10-25">
-              2015-10-25
+            <time itemprop="dateCreated" datetime="2015-01-05T00:00:00+08:00" content="2015-01-05">
+              2015-01-05
             </time>
           </span>
 
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/技术/" itemprop="url" rel="index">
-                    <span itemprop="name">技术</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
           
 
           
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/blog/2015/10/25/IPFS 一个新的对等网络媒体协议.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/10/25/IPFS 一个新的对等网络媒体协议.html" itemprop="commentsCount"></span>
+                <a href="/blog/2015/01/05/C++中的继承学习基础.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/01/05/C++中的继承学习基础.html" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -391,7 +359,7 @@
 
           
           
-             <span id="/blog/2015/10/25/IPFS 一个新的对等网络媒体协议.html" class="leancloud_visitors" data-flag-title="IPFS 一个新的对等网络媒体协议">
+             <span id="/blog/2015/01/05/C++中的继承学习基础.html" class="leancloud_visitors" data-flag-title="C++中的继承学习基础">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -413,25 +381,36 @@
       
 
       
-        <h2 id="IPFS简介"><a href="#IPFS简介" class="headerlink" title="IPFS简介"></a>IPFS简介</h2><p><center><br>    <p><img src="http://7xrzzi.com1.z0.glb.clouddn.com/ipfsIPFS.png" align="center"></p><br></center></p>
-<p><center><br>    <p><img src="http://7xrzzi.com1.z0.glb.clouddn.com/ipfs10.png" align="center"></p><br></center></p>
-<h1 id="IPFS-The-InterPlanetary-File-System-是一种新的超媒体分发协议，按内容和身份解决。-IPFS能够完全的分布式应用程序的创建。它的目的是使网络更快，更安全，更开放。IPFS是由IPFS社区和许多贡献者来自开源社区开发的一个开源项目"><a href="#IPFS-The-InterPlanetary-File-System-是一种新的超媒体分发协议，按内容和身份解决。-IPFS能够完全的分布式应用程序的创建。它的目的是使网络更快，更安全，更开放。IPFS是由IPFS社区和许多贡献者来自开源社区开发的一个开源项目" class="headerlink" title="　　　IPFS(The InterPlanetary File System)是一种新的超媒体分发协议，按内容和身份解决。 IPFS能够完全的分布式应用程序的创建。它的目的是使网络更快，更安全，更开放。IPFS是由IPFS社区和许多贡献者来自开源社区开发的一个开源项目"></a>　　　IPFS(The InterPlanetary File System)是一种新的超媒体分发协议，按内容和身份解决。 IPFS能够完全的分布式应用程序的创建。它的目的是使网络更快，更安全，更开放。IPFS是由IPFS社区和许多贡献者来自开源社区开发的一个开源项目</h1><h2 id="IPFS是怎样运行的"><a href="#IPFS是怎样运行的" class="headerlink" title="IPFS是怎样运行的　"></a>IPFS是怎样运行的　</h2><p><center><br>    <p><img src="http://7xrzzi.com1.z0.glb.clouddn.com/ipfs11.png" align="center"></p><br></center></p>
-<p><center><br>    <p><img src="http://7xrzzi.com1.z0.glb.clouddn.com/ipfs12.png" align="center"></p><br></center><br>　　　IPFS旨在所有的计算设备与相同的文件系统连接一个对等网络的分布是文件系统。在某些方面，IPFS是类似于Web，但IPFS可以被看作一个单独的BitTorrent群，一个Git仓库内的交换对象。换句话说，IPFS提供了一种高通量内容寻址存储模式，与内容寻址链接，IPFS结合了分布式哈希表。IPFS具有无单一故障点，节点并不需要相互信任。</p>
-<h2 id="下面是我在Linux安装体验了一下IPFS"><a href="#下面是我在Linux安装体验了一下IPFS" class="headerlink" title="下面是我在Linux安装体验了一下IPFS"></a>下面是我在Linux安装体验了一下IPFS</h2><p>　　　我将我安装过程分享给下家，感兴趣的话可以体验一下，保持一个好奇心！　我也是查资料看官方文档一步步了解的，希望大家多查查资料！我的是linux 64位的平台，Windows的没有试，感兴趣的可以试一试，效果都是一样的，官方提供的版本各个平台的都有！这是官网：【IPFS】（<a href="https://ipfs.io/" target="_blank" rel="external">https://ipfs.io/</a>)</p>
-<p>关键的地方我给大家截图</p>
-<ul>
-<li>1.去官网下载需要安装包<a href="https://ipfs.io/docs/install/" target="_blank" rel="external">go-ipfs_v0.3.11_linux-amd64.tar.gz</a> 进行解压 安装<center><br>  <p><img src="http://7xrzzi.com1.z0.glb.clouddn.com/ipfs1.png" align="center"></p><br></center><br><center><br>  <p><img src="http://7xrzzi.com1.z0.glb.clouddn.com/ipfs2.png" align="center"></p><br></center></li>
-<li>2.安装Go  <a href="https://golang.org/dl/" target="_blank" rel="external"> Download Go 1.5.2+</a>(注意版本 IPFS官方支持的版本 更高的版本暂时不支持！）解压到指定的目录 自己可以定，这里需要用到环境变量的！配置环境变量 编辑文件 vim /etc/profile<br><center><br>  <p><img src="http://7xrzzi.com1.z0.glb.clouddn.com/ipfs5.png" align="center"></p><br></center><br>在里面添加：<br>export PATH=$PATH:/usr/local/go/bin<br>export PATH=$PATH:$GOPATH/bin<br><center><br>  <p><img src="http://7xrzzi.com1.z0.glb.clouddn.com/ipfs4.png" align="center"></p><br></center><br>这个文件一般是linux系统中存在，是在开机加载系统是或用的登录时执行的一个配置文件，其主要功能类似初始化一些环境变量，定义一些自动执行的功能如果对其进行修改后让其生效的方法执行  </li>
+        <h2 id="继承概念"><a href="#继承概念" class="headerlink" title="继承概念"></a>继承概念</h2><p>面向对象程序设计有4个主要的特点：抽象、封装、继承和多态性。了解了面向对象程序设计的两个重要特征<em>数据抽象与封装</em>,已经能够设计出基于对象的程序，这是面向对象程序设计的基础。要较好地进行面向对象程序设计，还必须了解面向对象程序设计的另外两个重要的特性，*继承和多态性.</p>
+<h3 id="继承的相关概念"><a href="#继承的相关概念" class="headerlink" title="继承的相关概念"></a>继承的相关概念</h3><ul>
+<li>继承是类之间定义的一种重要关系</li>
+<li>一个B类继承A类，或称为从类A派生类B，类A称为基类（父类），类B称为派生类(子类）</li>
 </ul>
-<ol>
-<li>source /etc/profile   </li>
-<li>./etc/profile   </li>
-<li>重启系统，或退出登录后再重新登录<br>查看环境变量是否有错，有错会给你报错的！<center><br> <p><img src="http://7xrzzi.com1.z0.glb.clouddn.com/ipfs6.png" align="center"></p><br></center></li>
-</ol>
-<ul>
-<li>3.为GOPATH环境变量设置工作空间，可以选择编写一个GO语言的hello world测试一下！非必须！只要一步步来一般情况下不会出错！照着做就行了！<center><br>  <p><img src="http://7xrzzi.com1.z0.glb.clouddn.com/ipfs%E5%B0%8F%E7%A8%8B%E5%BA%8F.png" align="center"></p><br></center></li>
-<li>4.至此环境搭建完了！详细搭建请参照官网说明吧！ 可以执行 IPFS命令感受一下了！<br><center><br>  <p><img src="http://7xrzzi.com1.z0.glb.clouddn.com/ipfs7.png" align="center"></p><br></center><br><center><br>  <p><img src="http://7xrzzi.com1.z0.glb.clouddn.com/ipfs9.png" align="center"></p><br></center><br><strong>更多命令可以到官网资料手册！IPFS我也是最多了解有这么个东西！关于这方面的有兴趣的可以官网<a href="https://ipfs.io/" target="_blank" rel="external"> https://ipfs.io</a>， github 这是github  <a href="https://github.com/RichardLitt" target="_blank" rel="external"> https://github.com/RichardLitt</a>查相关资料，我也是不懂啊！见谅啦！</strong>  </li>
+<p>派生类的定义</p>
+<blockquote>
+<p>类继承关系的语法形式<br>class 派生类：基类名表<br>{<br>数据成员和成员函数声明<br>};<br>基类名表 构成<br>访问控制 基类名1，访问控制 基类名2，，，，访问控制 基类名n<br>访问控制表示派生类对基类的继承方式，使用关键字：<br>public   公有继承<br>private  私有继承<br>protected  保护继承<br>**   注意： c++中继承方式(public、private、protected）会影响子类的对外访问属性</p>
+</blockquote>
+<h3 id="继承的几点重要说明"><a href="#继承的几点重要说明" class="headerlink" title="继承的几点重要说明:"></a>继承的几点重要说明:</h3><pre><code>- 1.子类拥有父类的所有成员变量和成员函数
+- 2.子类可以拥有父类没有的方法和属性
+- 3.子类对象可以当做父类对象来使用
+- 4. 子类就是一种特殊的父类
+</code></pre><ul>
+<li>c++中的继承方式会影响子类的对外的访问属性<blockquote>
+<p> public继承: 父类成员在子类中保持原有的访问级别<br> private继承: 父类成员在子类中变成private成员<br> protected继承: 父类中public成员会变成protected</p>
+<pre><code>父类中protected成员仍然为protected
+父类中private成员仍然为private
+</code></pre><p> private成员在子类中依然存在，但是却无法访问到，不论何种方式继承基类，派生类d都不能直接使用基类的私有成员.</p>
+</blockquote>
+</li>
 </ul>
+<h3 id="派生类类成员访问级别设置的原则"><a href="#派生类类成员访问级别设置的原则" class="headerlink" title="派生类类成员访问级别设置的原则"></a>派生类类成员访问级别设置的原则</h3><ul>
+<li>1.需要被外界访问的成员直接设置为public</li>
+<li>2.只能在当前类中访问的成员设置为private</li>
+<li>3.只能在当前类和子类中访问的成员设置为protected,protected成员的访问权限介于public和private之间</li>
+</ul>
+<h2 id="类型兼容性原则"><a href="#类型兼容性原则" class="headerlink" title="类型兼容性原则"></a>类型兼容性原则</h2><p>  类型兼容规则是指在需要基类对象的任何地方，都可以使用公有派生类的对象来替代。通过公有继承，派生类得到了基类中除构造函数、析构函数之外的所有成员。这样，公有派生类实际就具备了基类的所有功能，凡是基类能解决的问题，公有派生类都可以解决。类型兼容规则中所指的替代包括以下情况：<br>子类对象可以当作父类对象使用<br>子类对象可以直接赋值给父类对象<br>子类对象可以直接初始化父类对象<br>父类指针可以直接指向子类对象<br>父类引用可以直接引用子类对象<br>在替代之后，派生类对象就可以作为基类的对象使用，但是只能使用从基类继承的成员。<br>类型兼容规则是多态性的重要基础之一。</p>
+<p><code>没有写程序</code>附一个随机数程序<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;ctime&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	srand((<span class="keyword">unsigned</span>)time(<span class="number">0</span>));</span><br><span class="line">	<span class="keyword">int</span> var = <span class="number">1</span> + rand() % (<span class="number">100</span> - <span class="number">1</span> + <span class="number">1</span>);</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"Rand number is:"</span>;</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; var;</span><br><span class="line">	getchar();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong> 比较基础点  自己总结了写不是太全面 </strong></p>
 
       
     </div>
@@ -453,7 +432,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/IPFS，协议/" rel="tag">#IPFS，协议</a>
+            <a href="/tags/C/" rel="tag">#C++</a>
           
         </div>
       
@@ -462,16 +441,16 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/blog/2015/10/23/Death.March.html" rel="next" title="Death March">
-                <i class="fa fa-chevron-left"></i> Death March
+              <a href="/blog/2015/01/03/告诉你一个秘密：努力的方法.html" rel="next" title="告诉你一个秘密：努力的方法">
+                <i class="fa fa-chevron-left"></i> 告诉你一个秘密：努力的方法
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/blog/2015/10/26/长期发展的团队和归属感.html" rel="prev" title="长期发展的团队和归属感">
-                长期发展的团队和归属感 <i class="fa fa-chevron-right"></i>
+              <a href="/blog/2015/10/03/linux多进程处理函数.html" rel="prev" title="linux多进程处理函数">
+                linux多进程处理函数 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -487,10 +466,10 @@
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="/blog/2015/10/25/IPFS 一个新的对等网络媒体协议.html"
-     data-title="IPFS 一个新的对等网络媒体协议"
+        <div class="ds-share flat" data-thread-key="/blog/2015/01/05/C++中的继承学习基础.html"
+     data-title="C++中的继承学习基础"
      data-content=""
-     data-url="http://yunvoo.com/blog/2015/10/25/IPFS 一个新的对等网络媒体协议.html">
+     data-url="http://yunvoo.com/blog/2015/01/05/C++中的继承学习基础.html">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -520,8 +499,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="/blog/2015/10/25/IPFS 一个新的对等网络媒体协议.html"
-           data-title="IPFS 一个新的对等网络媒体协议" data-url="http://yunvoo.com/blog/2015/10/25/IPFS 一个新的对等网络媒体协议.html">
+      <div class="ds-thread" data-thread-key="/blog/2015/01/05/C++中的继承学习基础.html"
+           data-title="C++中的继承学习基础" data-url="http://yunvoo.com/blog/2015/01/05/C++中的继承学习基础.html">
       </div>
     
   </div>
@@ -675,7 +654,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#IPFS简介"><span class="nav-number">1.</span> <span class="nav-text">IPFS简介</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IPFS-The-InterPlanetary-File-System-是一种新的超媒体分发协议，按内容和身份解决。-IPFS能够完全的分布式应用程序的创建。它的目的是使网络更快，更安全，更开放。IPFS是由IPFS社区和许多贡献者来自开源社区开发的一个开源项目"><span class="nav-number"></span> <span class="nav-text">　　　IPFS(The InterPlanetary File System)是一种新的超媒体分发协议，按内容和身份解决。 IPFS能够完全的分布式应用程序的创建。它的目的是使网络更快，更安全，更开放。IPFS是由IPFS社区和许多贡献者来自开源社区开发的一个开源项目</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#IPFS是怎样运行的"><span class="nav-number">1.</span> <span class="nav-text">IPFS是怎样运行的　</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#下面是我在Linux安装体验了一下IPFS"><span class="nav-number">2.</span> <span class="nav-text">下面是我在Linux安装体验了一下IPFS</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#继承概念"><span class="nav-number">1.</span> <span class="nav-text">继承概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#继承的相关概念"><span class="nav-number">1.1.</span> <span class="nav-text">继承的相关概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#继承的几点重要说明"><span class="nav-number">1.2.</span> <span class="nav-text">继承的几点重要说明:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#派生类类成员访问级别设置的原则"><span class="nav-number">1.3.</span> <span class="nav-text">派生类类成员访问级别设置的原则</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#类型兼容性原则"><span class="nav-number">2.</span> <span class="nav-text">类型兼容性原则</span></a></li></ol></div>
             
           </div>
         </section>
