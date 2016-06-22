@@ -86,7 +86,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="C++," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -104,25 +104,16 @@
 
 
 
-<meta name="description" content="继承概念面向对象程序设计有4个主要的特点：抽象、封装、继承和多态性。了解了面向对象程序设计的两个重要特征数据抽象与封装,已经能够设计出基于对象的程序，这是面向对象程序设计的基础。要较好地进行面向对象程序设计，还必须了解面向对象程序设计的另外两个重要的特性，*继承和多态性.
-继承的相关概念
-继承是类之间定义的一种重要关系
-一个B类继承A类，或称为从类A派生类B，类A称为基类（父类），类B称为派生类(">
+<meta name="description" content="C++ 初学者常有一个错误的认识，认为一个 class 的大小就是该 class 内所有 non static members 的大小总和。既然是错误的认识，那么实际上就不是或者不单纯是该 class 内所有 non static members 的大小总和。在 c++ 对象模型里，一个 class 的大小主要受下面三个方面影响现在有这样一段代码：1234567891011class A &amp;#12">
 <meta property="og:type" content="article">
-<meta property="og:title" content="C++中的继承学习基础">
-<meta property="og:url" content="http://yunvoo.com/blog/2015/01/05/C++中的继承学习基础.html">
+<meta property="og:title" content="深度探索C++对象模型：类的大小">
+<meta property="og:url" content="http://yunvoo.com/blog/2015/03/20/探索C++对象模型：类的大小.html">
 <meta property="og:site_name" content="Yunvoo Blog">
-<meta property="og:description" content="继承概念面向对象程序设计有4个主要的特点：抽象、封装、继承和多态性。了解了面向对象程序设计的两个重要特征数据抽象与封装,已经能够设计出基于对象的程序，这是面向对象程序设计的基础。要较好地进行面向对象程序设计，还必须了解面向对象程序设计的另外两个重要的特性，*继承和多态性.
-继承的相关概念
-继承是类之间定义的一种重要关系
-一个B类继承A类，或称为从类A派生类B，类A称为基类（父类），类B称为派生类(">
-<meta property="og:updated_time" content="2016-06-22T01:12:20.039Z">
+<meta property="og:description" content="C++ 初学者常有一个错误的认识，认为一个 class 的大小就是该 class 内所有 non static members 的大小总和。既然是错误的认识，那么实际上就不是或者不单纯是该 class 内所有 non static members 的大小总和。在 c++ 对象模型里，一个 class 的大小主要受下面三个方面影响现在有这样一段代码：1234567891011class A &amp;#12">
+<meta property="og:updated_time" content="2016-06-22T01:03:29.302Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="C++中的继承学习基础">
-<meta name="twitter:description" content="继承概念面向对象程序设计有4个主要的特点：抽象、封装、继承和多态性。了解了面向对象程序设计的两个重要特征数据抽象与封装,已经能够设计出基于对象的程序，这是面向对象程序设计的基础。要较好地进行面向对象程序设计，还必须了解面向对象程序设计的另外两个重要的特性，*继承和多态性.
-继承的相关概念
-继承是类之间定义的一种重要关系
-一个B类继承A类，或称为从类A派生类B，类A称为基类（父类），类B称为派生类(">
+<meta name="twitter:title" content="深度探索C++对象模型：类的大小">
+<meta name="twitter:description" content="C++ 初学者常有一个错误的认识，认为一个 class 的大小就是该 class 内所有 non static members 的大小总和。既然是错误的认识，那么实际上就不是或者不单纯是该 class 内所有 non static members 的大小总和。在 c++ 对象模型里，一个 class 的大小主要受下面三个方面影响现在有这样一段代码：1234567891011class A &amp;#12">
 
 
 
@@ -143,9 +134,9 @@
 
 
 
-  <link rel="canonical" href="http://yunvoo.com/blog/2015/01/05/C++中的继承学习基础.html"/>
+  <link rel="canonical" href="http://yunvoo.com/blog/2015/03/20/探索C++对象模型：类的大小.html"/>
 
-  <title> C++中的继承学习基础 | Yunvoo Blog </title>
+  <title> 深度探索C++对象模型：类的大小 | Yunvoo Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -325,7 +316,7 @@
             
             
               
-                C++中的继承学习基础
+                深度探索C++对象模型：类的大小
               
             
           </h1>
@@ -337,8 +328,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-01-05T00:00:00+08:00" content="2015-01-05">
-              2015-01-05
+            <time itemprop="dateCreated" datetime="2015-03-20T00:00:00+08:00" content="2015-03-20">
+              2015-03-20
             </time>
           </span>
 
@@ -351,8 +342,8 @@
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/c-c/" itemprop="url" rel="index">
-                    <span itemprop="name">c/c++</span>
+                  <a href="/categories/c-深度探索C-对象模型/" itemprop="url" rel="index">
+                    <span itemprop="name">c++ 深度探索C++对象模型</span>
                   </a>
                 </span>
 
@@ -367,8 +358,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/blog/2015/01/05/C++中的继承学习基础.html#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/01/05/C++中的继承学习基础.html" itemprop="commentsCount"></span>
+                <a href="/blog/2015/03/20/探索C++对象模型：类的大小.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/03/20/探索C++对象模型：类的大小.html" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -378,7 +369,7 @@
 
           
           
-             <span id="/blog/2015/01/05/C++中的继承学习基础.html" class="leancloud_visitors" data-flag-title="C++中的继承学习基础">
+             <span id="/blog/2015/03/20/探索C++对象模型：类的大小.html" class="leancloud_visitors" data-flag-title="深度探索C++对象模型：类的大小">
                &nbsp; | &nbsp;
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -400,36 +391,21 @@
       
 
       
-        <h2 id="继承概念"><a href="#继承概念" class="headerlink" title="继承概念"></a>继承概念</h2><p>面向对象程序设计有4个主要的特点：抽象、封装、继承和多态性。了解了面向对象程序设计的两个重要特征<em>数据抽象与封装</em>,已经能够设计出基于对象的程序，这是面向对象程序设计的基础。要较好地进行面向对象程序设计，还必须了解面向对象程序设计的另外两个重要的特性，*继承和多态性.</p>
-<h3 id="继承的相关概念"><a href="#继承的相关概念" class="headerlink" title="继承的相关概念"></a>继承的相关概念</h3><ul>
-<li>继承是类之间定义的一种重要关系</li>
-<li>一个B类继承A类，或称为从类A派生类B，类A称为基类（父类），类B称为派生类(子类）</li>
-</ul>
-<p>派生类的定义</p>
+        <p><code>C++</code> 初学者常有一个错误的认识，认为一个 <code>class</code> 的大小就是该 <code>class</code> 内所有 <code>non static members</code> 的大小总和。既然是错误的认识，那么实际上就不是或者不单纯是该 <code>class</code> 内所有 <code>non static members</code> 的大小总和。在 <code>c++</code> 对象模型里，一个 <code>class</code> 的大小主要受下面三个方面影响<br>现在有这样一段代码：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> A &#123;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> B : <span class="keyword">public</span> <span class="keyword">virtual</span> A &#123;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> C : <span class="keyword">public</span> <span class="keyword">virtual</span> A &#123;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> D : <span class="keyword">public</span> B, <span class="keyword">public</span> C &#123;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure><br>对 <code>class A、B、C、D</code> 进行 <code>sizeof</code> 运算结果是什么呢？如果你心里已经有了答案，不妨看完下面的分析再说。   </p>
+<h3 id="1-语言本身特性造成的额外负担"><a href="#1-语言本身特性造成的额外负担" class="headerlink" title="1 语言本身特性造成的额外负担"></a>1 语言本身特性造成的额外负担</h3><p>这里的额外负担主要是受 <code>virtual</code> 特性影响，包括 <code>virtual base class</code> 和 <code>virtual function</code>。在 <code>derived class</code> 中这种额外负担反映在某种形式的指针上，可以是虚函数指针，或者指向虚基类的 <code>subject class</code> 偏移地址等。详细内容可以参考<a href="http://glgjing.github.io/blog/2015/01/03/c-plus-plus-xu-han-shu-qian-xi/" target="_blank" rel="external">C++ 虚函数浅析</a>。</p>
+<h3 id="2-编译器对特殊情况的优化处理"><a href="#2-编译器对特殊情况的优化处理" class="headerlink" title="2 编译器对特殊情况的优化处理"></a>2 编译器对特殊情况的优化处理</h3><p>例如对于 <code>empty virtual base class</code> 的特殊支持，在 <code>C++</code> 对象模型中一个空的 <code>class</code> 大小为 <code>1 byte</code>，因为编译器为了使每个 <code>object</code> 在内存中能有独一无二的地址，为空 <code>class</code> 安插了一个 <code>char</code>。如果一个空的 <code>class</code> 大小为 <code>0 byte</code>，那么像该 <code>class</code> 的数组 <code>A x[10];</code>，编译器将无法区分每个元素的地址。但是如果 <code>derived class</code> 的大小不为 <code>0</code>，就不需要 <code>base class</code> 的 <code>1 byte</code> 进行内存地址区分，那么如果编译器对这种情况进行了优化的话，就会将该 <code>1 byte</code> 去掉，如果没有还是会继续保留这个额外的 <code>1 byte</code> 空间。  </p>
+<p>说到编译器对特殊情况的优化，下面这段话比较恰当表述了编译器演化与<code>C++</code>对象模型的关系：</p>
 <blockquote>
-<p>类继承关系的语法形式<br>class 派生类：基类名表<br>{<br>数据成员和成员函数声明<br>};<br>基类名表 构成<br>访问控制 基类名1，访问控制 基类名2，，，，访问控制 基类名n<br>访问控制表示派生类对基类的继承方式，使用关键字：<br>public   公有继承<br>private  私有继承<br>protected  保护继承<br>**   注意： c++中继承方式(public、private、protected）会影响子类的对外访问属性</p>
+<p>编译器之间的潜在差异正说明了 <code>C++</code> 对象模型的演化。这个模型为一般情况提供了解决之道，当特殊情况渐渐被挖掘出来时，种种启发法于是被引入，提供优化的处理。如果成功，启发法于是就提升为普遍的策略，并跨越各种编译器而合并。他被视为标准（虽然他并不被规范为标准），久而久之也就成了语言的一部分。</p>
 </blockquote>
-<h3 id="继承的几点重要说明"><a href="#继承的几点重要说明" class="headerlink" title="继承的几点重要说明:"></a>继承的几点重要说明:</h3><pre><code>- 1.子类拥有父类的所有成员变量和成员函数
-- 2.子类可以拥有父类没有的方法和属性
-- 3.子类对象可以当做父类对象来使用
-- 4. 子类就是一种特殊的父类
-</code></pre><ul>
-<li>c++中的继承方式会影响子类的对外的访问属性<blockquote>
-<p> public继承: 父类成员在子类中保持原有的访问级别<br> private继承: 父类成员在子类中变成private成员<br> protected继承: 父类中public成员会变成protected</p>
-<pre><code>父类中protected成员仍然为protected
-父类中private成员仍然为private
-</code></pre><p> private成员在子类中依然存在，但是却无法访问到，不论何种方式继承基类，派生类d都不能直接使用基类的私有成员.</p>
-</blockquote>
-</li>
-</ul>
-<h3 id="派生类类成员访问级别设置的原则"><a href="#派生类类成员访问级别设置的原则" class="headerlink" title="派生类类成员访问级别设置的原则"></a>派生类类成员访问级别设置的原则</h3><ul>
-<li>1.需要被外界访问的成员直接设置为public</li>
-<li>2.只能在当前类中访问的成员设置为private</li>
-<li>3.只能在当前类和子类中访问的成员设置为protected,protected成员的访问权限介于public和private之间</li>
-</ul>
-<h2 id="类型兼容性原则"><a href="#类型兼容性原则" class="headerlink" title="类型兼容性原则"></a>类型兼容性原则</h2><p>  类型兼容规则是指在需要基类对象的任何地方，都可以使用公有派生类的对象来替代。通过公有继承，派生类得到了基类中除构造函数、析构函数之外的所有成员。这样，公有派生类实际就具备了基类的所有功能，凡是基类能解决的问题，公有派生类都可以解决。类型兼容规则中所指的替代包括以下情况：<br>子类对象可以当作父类对象使用<br>子类对象可以直接赋值给父类对象<br>子类对象可以直接初始化父类对象<br>父类指针可以直接指向子类对象<br>父类引用可以直接引用子类对象<br>在替代之后，派生类对象就可以作为基类的对象使用，但是只能使用从基类继承的成员。<br>类型兼容规则是多态性的重要基础之一。</p>
-<p><code>没有写程序</code>附一个随机数程序<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;ctime&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span> *argv[])</span></span><br><span class="line"></span>&#123;</span><br><span class="line">	srand((<span class="keyword">unsigned</span>)time(<span class="number">0</span>));</span><br><span class="line">	<span class="keyword">int</span> var = <span class="number">1</span> + rand() % (<span class="number">100</span> - <span class="number">1</span> + <span class="number">1</span>);</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; <span class="string">"Rand number is:"</span>;</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; var;</span><br><span class="line">	getchar();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p><strong> 比较基础点  自己总结了写不是太全面 </strong></p>
+<h3 id="3-边界调整（Dlignment）的影响"><a href="#3-边界调整（Dlignment）的影响" class="headerlink" title="3 边界调整（Dlignment）的影响"></a>3 边界调整（Dlignment）的影响</h3><p>为了数据能够更有效率的在内存中存取，编译器会 <code>class</code> 的内存边界进行调整，在<code>32</code>位机器上通常 <code>alignment</code> 为 <code>4 bytes</code>，以使总线的运输效率最高。</p>
+<p>经过上面的分析后，可以看出具体结果要视编译器而定。首先讨论在编译器没有对 <code>empty virtual base class</code> 进行优化的情况，那么：</p>
+<ol>
+<li><code>class A</code>  的大小应该是 <code>1 byte</code>，该 <code>1 byte</code> 由编译器插入。</li>
+<li><code>class B</code> 和 <code>class C</code> 的大小相同为 <code>8</code>，包括 <code>4 byte</code> 的 虚基类指针再加上 <code>1 byte</code> 的基类 A的大小，考虑到内存对齐需要补齐 <code>3 byte</code>，所以最终结果为 <code>8 byte</code>。</li>
+<li><code>class D</code> 的大小为<code>12 byte</code>，包括 <code>class B</code> 和 <code>class C</code> 内的两个 <code>4 byte</code> 虚基类指针共 <code>8 byte</code>，此外由于 <code>A</code> 为虚基类，所以在 <code>D</code> 内只有一个实体，所以应该再加上 <code>A</code> 的 <code>1 byte</code> 和内存对齐额外补齐的 <code>3 byte</code>，共 <code>12 byte</code>。   </li>
+</ol>
+<p>所以最终结果为：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">sizeof</span>(A) = <span class="number">1</span> byte</span><br><span class="line"><span class="keyword">sizeof</span>(B) = <span class="keyword">sizeof</span>(C) = <span class="number">8</span> byte</span><br><span class="line"><span class="keyword">sizeof</span>(D) = <span class="number">12</span> byte。</span><br></pre></td></tr></table></figure><br>如果编译器对 <code>empty virtual base class</code> 进行了优化，那么 <code>class A</code> 的 <code>1 byte</code> 空间在派生类中将被拿掉，相应的由于内存对齐而引起的 <code>3 byte</code> 也被去掉了，所以最终结果应该是：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">sizeof</span>(A) = <span class="number">1</span> byte</span><br><span class="line"><span class="keyword">sizeof</span>(B) = <span class="keyword">sizeof</span>(C) = <span class="number">4</span> byte</span><br><span class="line"><span class="keyword">sizeof</span>(D) = <span class="number">8</span> byte。</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -449,27 +425,21 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/C/" rel="tag">#C++</a>
-          
-        </div>
-      
 
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/blog/2015/01/03/告诉你一个秘密：努力的方法.html" rel="next" title="告诉你一个秘密：努力的方法">
-                <i class="fa fa-chevron-left"></i> 告诉你一个秘密：努力的方法
+              <a href="/blog/2015/01/05/C++中的继承学习基础.html" rel="next" title="C++中的继承学习基础">
+                <i class="fa fa-chevron-left"></i> C++中的继承学习基础
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/blog/2015/03/20/探索C++对象模型：类的大小.html" rel="prev" title="深度探索C++对象模型：类的大小">
-                深度探索C++对象模型：类的大小 <i class="fa fa-chevron-right"></i>
+              <a href="/blog/2015/10/03/linux多进程处理函数.html" rel="prev" title="linux多进程处理函数">
+                linux多进程处理函数 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -485,10 +455,10 @@
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="/blog/2015/01/05/C++中的继承学习基础.html"
-     data-title="C++中的继承学习基础"
+        <div class="ds-share flat" data-thread-key="/blog/2015/03/20/探索C++对象模型：类的大小.html"
+     data-title="深度探索C++对象模型：类的大小"
      data-content=""
-     data-url="http://yunvoo.com/blog/2015/01/05/C++中的继承学习基础.html">
+     data-url="http://yunvoo.com/blog/2015/03/20/探索C++对象模型：类的大小.html">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -518,8 +488,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="/blog/2015/01/05/C++中的继承学习基础.html"
-           data-title="C++中的继承学习基础" data-url="http://yunvoo.com/blog/2015/01/05/C++中的继承学习基础.html">
+      <div class="ds-thread" data-thread-key="/blog/2015/03/20/探索C++对象模型：类的大小.html"
+           data-title="深度探索C++对象模型：类的大小" data-url="http://yunvoo.com/blog/2015/03/20/探索C++对象模型：类的大小.html">
       </div>
     
   </div>
@@ -673,7 +643,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#继承概念"><span class="nav-number">1.</span> <span class="nav-text">继承概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#继承的相关概念"><span class="nav-number">1.1.</span> <span class="nav-text">继承的相关概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#继承的几点重要说明"><span class="nav-number">1.2.</span> <span class="nav-text">继承的几点重要说明:</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#派生类类成员访问级别设置的原则"><span class="nav-number">1.3.</span> <span class="nav-text">派生类类成员访问级别设置的原则</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#类型兼容性原则"><span class="nav-number">2.</span> <span class="nav-text">类型兼容性原则</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-语言本身特性造成的额外负担"><span class="nav-number">1.</span> <span class="nav-text">1 语言本身特性造成的额外负担</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-编译器对特殊情况的优化处理"><span class="nav-number">2.</span> <span class="nav-text">2 编译器对特殊情况的优化处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-边界调整（Dlignment）的影响"><span class="nav-number">3.</span> <span class="nav-text">3 边界调整（Dlignment）的影响</span></a></li></ol></div>
             
           </div>
         </section>

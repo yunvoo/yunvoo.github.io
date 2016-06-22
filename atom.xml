@@ -358,11 +358,46 @@
   </entry>
   
   <entry>
+    <title>深度探索C++对象模型：类的大小</title>
+    <link href="http://yunvoo.com//blog/2015/03/20/%E6%8E%A2%E7%B4%A2C++%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B%EF%BC%9A%E7%B1%BB%E7%9A%84%E5%A4%A7%E5%B0%8F.html"/>
+    <id>http://yunvoo.com//blog/2015/03/20/探索C++对象模型：类的大小.html</id>
+    <published>2015-03-19T16:00:00.000Z</published>
+    <updated>2016-06-22T01:03:29.302Z</updated>
+    
+    <content type="html">&lt;p&gt;&lt;code&gt;C++&lt;/code&gt; 初学者常有一个错误的认识，认为一个 &lt;code&gt;class&lt;/code&gt; 的大小就是该 &lt;code&gt;class&lt;/code&gt; 内所有 &lt;code&gt;non static members&lt;/code&gt; 的大小总和。既然是错误的认识，那么实际上就不是或者不单纯是该 &lt;code&gt;class&lt;/code&gt; 内所有 &lt;code&gt;non static members&lt;/code&gt; 的大小总和。在 &lt;code&gt;c++&lt;/code&gt; 对象模型里，一个 &lt;code&gt;class&lt;/code&gt; 的大小主要受下面三个方面影响&lt;br&gt;现在有这样一段代码：&lt;br&gt;&lt;figure class=&quot;highlight cpp&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt; A &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt; B : &lt;span class=&quot;keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;virtual&lt;/span&gt; A &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt; C : &lt;span class=&quot;keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;virtual&lt;/span&gt; A &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt; D : &lt;span class=&quot;keyword&quot;&gt;public&lt;/span&gt; B, &lt;span class=&quot;keyword&quot;&gt;public&lt;/span&gt; C &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;br&gt;对 &lt;code&gt;class A、B、C、D&lt;/code&gt; 进行 &lt;code&gt;sizeof&lt;/code&gt; 运算结果是什么呢？如果你心里已经有了答案，不妨看完下面的分析再说。   &lt;/p&gt;
+&lt;h3 id=&quot;1-语言本身特性造成的额外负担&quot;&gt;&lt;a href=&quot;#1-语言本身特性造成的额外负担&quot; class=&quot;headerlink&quot; title=&quot;1 语言本身特性造成的额外负担&quot;&gt;&lt;/a&gt;1 语言本身特性造成的额外负担&lt;/h3&gt;&lt;p&gt;这里的额外负担主要是受 &lt;code&gt;virtual&lt;/code&gt; 特性影响，包括 &lt;code&gt;virtual base class&lt;/code&gt; 和 &lt;code&gt;virtual function&lt;/code&gt;。在 &lt;code&gt;derived class&lt;/code&gt; 中这种额外负担反映在某种形式的指针上，可以是虚函数指针，或者指向虚基类的 &lt;code&gt;subject class&lt;/code&gt; 偏移地址等。详细内容可以参考&lt;a href=&quot;http://glgjing.github.io/blog/2015/01/03/c-plus-plus-xu-han-shu-qian-xi/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;C++ 虚函数浅析&lt;/a&gt;。&lt;/p&gt;
+&lt;h3 id=&quot;2-编译器对特殊情况的优化处理&quot;&gt;&lt;a href=&quot;#2-编译器对特殊情况的优化处理&quot; class=&quot;headerlink&quot; title=&quot;2 编译器对特殊情况的优化处理&quot;&gt;&lt;/a&gt;2 编译器对特殊情况的优化处理&lt;/h3&gt;&lt;p&gt;例如对于 &lt;code&gt;empty virtual base class&lt;/code&gt; 的特殊支持，在 &lt;code&gt;C++&lt;/code&gt; 对象模型中一个空的 &lt;code&gt;class&lt;/code&gt; 大小为 &lt;code&gt;1 byte&lt;/code&gt;，因为编译器为了使每个 &lt;code&gt;object&lt;/code&gt; 在内存中能有独一无二的地址，为空 &lt;code&gt;class&lt;/code&gt; 安插了一个 &lt;code&gt;char&lt;/code&gt;。如果一个空的 &lt;code&gt;class&lt;/code&gt; 大小为 &lt;code&gt;0 byte&lt;/code&gt;，那么像该 &lt;code&gt;class&lt;/code&gt; 的数组 &lt;code&gt;A x[10];&lt;/code&gt;，编译器将无法区分每个元素的地址。但是如果 &lt;code&gt;derived class&lt;/code&gt; 的大小不为 &lt;code&gt;0&lt;/code&gt;，就不需要 &lt;code&gt;base class&lt;/code&gt; 的 &lt;code&gt;1 byte&lt;/code&gt; 进行内存地址区分，那么如果编译器对这种情况进行了优化的话，就会将该 &lt;code&gt;1 byte&lt;/code&gt; 去掉，如果没有还是会继续保留这个额外的 &lt;code&gt;1 byte&lt;/code&gt; 空间。  &lt;/p&gt;
+&lt;p&gt;说到编译器对特殊情况的优化，下面这段话比较恰当表述了编译器演化与&lt;code&gt;C++&lt;/code&gt;对象模型的关系：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;编译器之间的潜在差异正说明了 &lt;code&gt;C++&lt;/code&gt; 对象模型的演化。这个模型为一般情况提供了解决之道，当特殊情况渐渐被挖掘出来时，种种启发法于是被引入，提供优化的处理。如果成功，启发法于是就提升为普遍的策略，并跨越各种编译器而合并。他被视为标准（虽然他并不被规范为标准），久而久之也就成了语言的一部分。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;3-边界调整（Dlignment）的影响&quot;&gt;&lt;a href=&quot;#3-边界调整（Dlignment）的影响&quot; class=&quot;headerlink&quot; title=&quot;3 边界调整（Dlignment）的影响&quot;&gt;&lt;/a&gt;3 边界调整（Dlignment）的影响&lt;/h3&gt;&lt;p&gt;为了数据能够更有效率的在内存中存取，编译器会 &lt;code&gt;class&lt;/code&gt; 的内存边界进行调整，在&lt;code&gt;32&lt;/code&gt;位机器上通常 &lt;code&gt;alignment&lt;/code&gt; 为 &lt;code&gt;4 bytes&lt;/code&gt;，以使总线的运输效率最高。&lt;/p&gt;
+&lt;p&gt;经过上面的分析后，可以看出具体结果要视编译器而定。首先讨论在编译器没有对 &lt;code&gt;empty virtual base class&lt;/code&gt; 进行优化的情况，那么：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;class A&lt;/code&gt;  的大小应该是 &lt;code&gt;1 byte&lt;/code&gt;，该 &lt;code&gt;1 byte&lt;/code&gt; 由编译器插入。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;class B&lt;/code&gt; 和 &lt;code&gt;class C&lt;/code&gt; 的大小相同为 &lt;code&gt;8&lt;/code&gt;，包括 &lt;code&gt;4 byte&lt;/code&gt; 的 虚基类指针再加上 &lt;code&gt;1 byte&lt;/code&gt; 的基类 A的大小，考虑到内存对齐需要补齐 &lt;code&gt;3 byte&lt;/code&gt;，所以最终结果为 &lt;code&gt;8 byte&lt;/code&gt;。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;class D&lt;/code&gt; 的大小为&lt;code&gt;12 byte&lt;/code&gt;，包括 &lt;code&gt;class B&lt;/code&gt; 和 &lt;code&gt;class C&lt;/code&gt; 内的两个 &lt;code&gt;4 byte&lt;/code&gt; 虚基类指针共 &lt;code&gt;8 byte&lt;/code&gt;，此外由于 &lt;code&gt;A&lt;/code&gt; 为虚基类，所以在 &lt;code&gt;D&lt;/code&gt; 内只有一个实体，所以应该再加上 &lt;code&gt;A&lt;/code&gt; 的 &lt;code&gt;1 byte&lt;/code&gt; 和内存对齐额外补齐的 &lt;code&gt;3 byte&lt;/code&gt;，共 &lt;code&gt;12 byte&lt;/code&gt;。   &lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;所以最终结果为：&lt;br&gt;&lt;figure class=&quot;highlight cpp&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;sizeof&lt;/span&gt;(A) = &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt; byte&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;sizeof&lt;/span&gt;(B) = &lt;span class=&quot;keyword&quot;&gt;sizeof&lt;/span&gt;(C) = &lt;span class=&quot;number&quot;&gt;8&lt;/span&gt; byte&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;sizeof&lt;/span&gt;(D) = &lt;span class=&quot;number&quot;&gt;12&lt;/span&gt; byte。&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;br&gt;如果编译器对 &lt;code&gt;empty virtual base class&lt;/code&gt; 进行了优化，那么 &lt;code&gt;class A&lt;/code&gt; 的 &lt;code&gt;1 byte&lt;/code&gt; 空间在派生类中将被拿掉，相应的由于内存对齐而引起的 &lt;code&gt;3 byte&lt;/code&gt; 也被去掉了，所以最终结果应该是：&lt;br&gt;&lt;figure class=&quot;highlight cpp&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;sizeof&lt;/span&gt;(A) = &lt;span class=&quot;number&quot;&gt;1&lt;/span&gt; byte&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;sizeof&lt;/span&gt;(B) = &lt;span class=&quot;keyword&quot;&gt;sizeof&lt;/span&gt;(C) = &lt;span class=&quot;number&quot;&gt;4&lt;/span&gt; byte&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;sizeof&lt;/span&gt;(D) = &lt;span class=&quot;number&quot;&gt;8&lt;/span&gt; byte。&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;code&gt;C++&lt;/code&gt; 初学者常有一个错误的认识，认为一个 &lt;code&gt;class&lt;/code&gt; 的大小就是该 &lt;code&gt;class&lt;/code&gt; 内所有 &lt;code&gt;non static members&lt;/code&gt; 的大小总和。既然是错误的认识，那么实际上就
+    
+    </summary>
+    
+      <category term="c++ 深度探索C++对象模型" scheme="http://yunvoo.com/categories/c-%E6%B7%B1%E5%BA%A6%E6%8E%A2%E7%B4%A2C-%E5%AF%B9%E8%B1%A1%E6%A8%A1%E5%9E%8B/"/>
+    
+    
+  </entry>
+  
+  <entry>
     <title>C++中的继承学习基础</title>
     <link href="http://yunvoo.com//blog/2015/01/05/C++%E4%B8%AD%E7%9A%84%E7%BB%A7%E6%89%BF%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80.html"/>
     <id>http://yunvoo.com//blog/2015/01/05/C++中的继承学习基础.html</id>
     <published>2015-01-04T16:00:00.000Z</published>
-    <updated>2016-06-20T15:02:25.539Z</updated>
+    <updated>2016-06-22T01:12:20.039Z</updated>
     
     <content type="html">&lt;h2 id=&quot;继承概念&quot;&gt;&lt;a href=&quot;#继承概念&quot; class=&quot;headerlink&quot; title=&quot;继承概念&quot;&gt;&lt;/a&gt;继承概念&lt;/h2&gt;&lt;p&gt;面向对象程序设计有4个主要的特点：抽象、封装、继承和多态性。了解了面向对象程序设计的两个重要特征&lt;em&gt;数据抽象与封装&lt;/em&gt;,已经能够设计出基于对象的程序，这是面向对象程序设计的基础。要较好地进行面向对象程序设计，还必须了解面向对象程序设计的另外两个重要的特性，*继承和多态性.&lt;/p&gt;
 &lt;h3 id=&quot;继承的相关概念&quot;&gt;&lt;a href=&quot;#继承的相关概念&quot; class=&quot;headerlink&quot; title=&quot;继承的相关概念&quot;&gt;&lt;/a&gt;继承的相关概念&lt;/h3&gt;&lt;ul&gt;
@@ -401,6 +436,8 @@
       &lt;h2 id=&quot;继承概念&quot;&gt;&lt;a href=&quot;#继承概念&quot; class=&quot;headerlink&quot; title=&quot;继承概念&quot;&gt;&lt;/a&gt;继承概念&lt;/h2&gt;&lt;p&gt;面向对象程序设计有4个主要的特点：抽象、封装、继承和多态性。了解了面向对象程序设计的两个重要特征&lt;em&gt;数据抽象与封装&lt;/e
     
     </summary>
+    
+      <category term="c/c++" scheme="http://yunvoo.com/categories/c-c/"/>
     
     
       <category term="C++" scheme="http://yunvoo.com/tags/C/"/>
