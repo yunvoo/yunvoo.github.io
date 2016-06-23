@@ -1,0 +1,960 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="C++编译器," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Yunvoo Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="思考：为什么函数模板可以和函数重载放在一块。C++编译器是如何提供函数模板机制的？
+
+编译器原理什么是gcc
+gcc（GNU C Compiler）编译器的作者是Richard Stallman，也是GNU项目的奠基者。什么是gcc：gcc是GNU Compiler Collection的缩写。最初是作为C语言的编译器（GNU C Compiler），现在已经支持多种语言了，如C、C++、Jav">
+<meta property="og:type" content="article">
+<meta property="og:title" content="C++编译器模板机制剖析">
+<meta property="og:url" content="http://yunvoo.com/blog/2015/05/20/C++编译器模板机制剖析.html">
+<meta property="og:site_name" content="Yunvoo Blog">
+<meta property="og:description" content="思考：为什么函数模板可以和函数重载放在一块。C++编译器是如何提供函数模板机制的？
+
+编译器原理什么是gcc
+gcc（GNU C Compiler）编译器的作者是Richard Stallman，也是GNU项目的奠基者。什么是gcc：gcc是GNU Compiler Collection的缩写。最初是作为C语言的编译器（GNU C Compiler），现在已经支持多种语言了，如C、C++、Jav">
+<meta property="og:image" content="http://7xrzzi.com1.z0.glb.clouddn.com/gcc.png">
+<meta property="og:updated_time" content="2016-06-23T03:09:48.873Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="C++编译器模板机制剖析">
+<meta name="twitter:description" content="思考：为什么函数模板可以和函数重载放在一块。C++编译器是如何提供函数模板机制的？
+
+编译器原理什么是gcc
+gcc（GNU C Compiler）编译器的作者是Richard Stallman，也是GNU项目的奠基者。什么是gcc：gcc是GNU Compiler Collection的缩写。最初是作为C语言的编译器（GNU C Compiler），现在已经支持多种语言了，如C、C++、Jav">
+<meta name="twitter:image" content="http://7xrzzi.com1.z0.glb.clouddn.com/gcc.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yunvoo.com/blog/2015/05/20/C++编译器模板机制剖析.html"/>
+
+  <title> C++编译器模板机制剖析 | Yunvoo Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?6eba031d3986244aaaa7d59a8c373fdb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Yunvoo Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">人生如路-->须在荒凉中走出繁华的风景</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'jV21XzyjE_bi5yc21gs_','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                C++编译器模板机制剖析
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-05-20T00:00:00+08:00" content="2015-05-20">
+              2015-05-20
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/c-c/" itemprop="url" rel="index">
+                    <span itemprop="name">c/c++</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/blog/2015/05/20/C++编译器模板机制剖析.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/05/20/C++编译器模板机制剖析.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/blog/2015/05/20/C++编译器模板机制剖析.html" class="leancloud_visitors" data-flag-title="C++编译器模板机制剖析">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <ul>
+<li>思考：为什么函数模板可以和函数重载放在一块。C++编译器是如何提供函数模板机制的？</li>
+</ul>
+<h2 id="编译器原理"><a href="#编译器原理" class="headerlink" title="编译器原理"></a>编译器原理</h2><h3 id="什么是gcc"><a href="#什么是gcc" class="headerlink" title="什么是gcc"></a>什么是gcc</h3><blockquote>
+<p>gcc（GNU C Compiler）编译器的作者是Richard Stallman，也是GNU项目的奠基者。<br>什么是gcc：gcc是GNU Compiler Collection的缩写。最初是作为C语言的编译器（GNU C Compiler），<br>现在已经支持多种语言了，如C、C++、Java、Pascal、Ada、COBOL语言等。<br>gcc支持多种硬件平台，甚至对Don Knuth 设计的 MMIX 这类不常见的计算机都提供了完善的支持</p>
+</blockquote>
+<h3 id="gcc主要特征"><a href="#gcc主要特征" class="headerlink" title="gcc主要特征"></a>gcc主要特征</h3><ul>
+<li>1.gcc是一个可移植的编译器，支持多种硬件平台</li>
+<li>2.gcc不仅仅是个本地编译器，它还能跨平台交叉编译。</li>
+<li>3.gcc有多种语言前端，用于解析不同的语言。</li>
+<li>4.gcc是按模块化设计的，可以加入新语言和新CPU架构的支持</li>
+<li>5.gcc是自由软件</li>
+</ul>
+<h3 id="gcc编译过程"><a href="#gcc编译过程" class="headerlink" title="gcc编译过程"></a>gcc编译过程</h3><p>预处理（Pre-Processing）<br>编译（Compiling）<br>汇编（Assembling）<br>链接（Linking）<br>Gcc <em>.c –o 1exe (总的编译步骤)<br>Gcc –E 1.c –o 1.i  //宏定义 宏展开<br>Gcc –S 1.i –o 1.s<br>Gcc –c 1.s –o 1.o<br>Gcc 1.o –o 1exe<br>结论：gcc编译工具是一个工具链。<br><img src="http://7xrzzi.com1.z0.glb.clouddn.com/gcc.png" alt=""><br><em>* hello程序是一个高级Ｃ语言程序，这种形式容易被人读懂。为了在系统上运行hello.c程序，每条Ｃ语句都必须转化为低级机器指令。然后将这些指令打包成可执行目标文件格式，并以二进制形式存储器于磁盘中。</em></em></p>
+<h3 id="gcc常用编译选项"><a href="#gcc常用编译选项" class="headerlink" title="gcc常用编译选项"></a>gcc常用编译选项</h3><p>选项    作用<br>-o    产生目标（.i、.s、.o、可执行文件等）<br>-c    通知gcc取消链接步骤，即编译源码并在最后生成目标文件<br>-E    只运行C预编译器<br>-S    告诉编译器产生汇编语言文件后停止编译，产生的汇编语言文件扩展名为.s<br>-Wall    使gcc对源文件的代码有问题的地方发出警告<br>-Idir    将dir目录加入搜索头文件的目录路径<br>-Ldir    将dir目录加入搜索库的目录路径<br>-llib    链接lib库<br>-g    在目标文件中嵌入调试信息，以便gdb之类的调试程序调试</p>
+<h2 id="练习"><a href="#练习" class="headerlink" title="练习"></a>练习</h2><p>gcc -E hello.c -o hello.i（预处理）<br>gcc -S hello.i -o hello.s（编译）<br>gcc -c hello.s -o hello.o（汇编）<br>gcc hello.o -o hello（链接）<br>以上四个步骤，可合成一个步骤<br>gcc hello.c -o hello（直接编译链接成可执行目标文件）<br>gcc -c hello.c或gcc -c hello.c -o hello.o（编译生成可重定位目标文件）</p>
+<p><em>建议初学都加这个选项。下面这个例子如果不加-Wall选项编译器不报任何错误，但是得到的结果却不是预期的。</em><br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span><br><span class="line"></span>&#123;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"2+1 is %f"</span>, <span class="number">3</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<blockquote>
+<p>Gcc编译多个.c<br>hello_1.h<br>hello_1.c<br>main.c<br>一次性编译<br>gcc  hello_1.c main.c –o newhello<br>独立编译<br>gcc -Wall -c main.c -o main.o<br>gcc -Wall -c hello_1.c -o hello_fn.o<br>gcc -Wall main.o hello_1.o -o newhello</p>
+</blockquote>
+</blockquote>
+<h2 id="模板函数反汇编观察"><a href="#模板函数反汇编观察" class="headerlink" title="模板函数反汇编观察"></a>模板函数反汇编观察</h2><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br></pre></td><td class="code"><pre><span class="line">命令：g++ -S 7.cpp -o 7.s</span><br><span class="line"></span><br><span class="line">	.file	"7.cpp"</span><br><span class="line">	.text</span><br><span class="line">	.def	__ZL6printfPKcz;	.scl	3;	.type	32;	.endef</span><br><span class="line">__ZL6printfPKcz:</span><br><span class="line">LFB264:</span><br><span class="line">	.cfi_startproc</span><br><span class="line">	pushl	%ebp</span><br><span class="line">	.cfi_def_cfa_offset 8</span><br><span class="line">	.cfi_offset 5, -8</span><br><span class="line">	movl	%esp, %ebp</span><br><span class="line">	.cfi_def_cfa_register 5</span><br><span class="line">	pushl	%ebx</span><br><span class="line">	subl	$36, %esp</span><br><span class="line">	.cfi_offset 3, -12</span><br><span class="line">	leal	12(%ebp), %eax</span><br><span class="line">	movl	%eax, -12(%ebp)</span><br><span class="line">	movl	-12(%ebp), %eax</span><br><span class="line">	movl	%eax, 4(%esp)</span><br><span class="line">	movl	8(%ebp), %eax</span><br><span class="line">	movl	%eax, (%esp)</span><br><span class="line">	call	___mingw_vprintf</span><br><span class="line">	movl	%eax, %ebx</span><br><span class="line">	movl	%ebx, %eax</span><br><span class="line">	addl	$36, %esp</span><br><span class="line">	popl	%ebx</span><br><span class="line">	.cfi_restore 3</span><br><span class="line">	popl	%ebp</span><br><span class="line">	.cfi_restore 5</span><br><span class="line">	.cfi_def_cfa 4, 4</span><br><span class="line">	ret</span><br><span class="line">	.cfi_endproc</span><br><span class="line">LFE264:</span><br><span class="line">.lcomm __ZStL8__ioinit,1,1</span><br><span class="line">	.def	___main;	.scl	2;	.type	32;	.endef</span><br><span class="line">	.section .rdata,"dr"</span><br><span class="line">LC0:</span><br><span class="line">	.ascii "a:%d b:%d \12\0"</span><br><span class="line">LC1:</span><br><span class="line">	.ascii "c1:%c c2:%c \12\0"</span><br><span class="line">LC2:</span><br><span class="line">	.ascii "pause\0"</span><br><span class="line">	.text</span><br><span class="line">	.globl	_main</span><br><span class="line">	.def	_main;	.scl	2;	.type	32;	.endef</span><br><span class="line">_main:</span><br><span class="line">LFB1023:</span><br><span class="line">	.cfi_startproc</span><br><span class="line">	.cfi_personality 0,___gxx_personality_v0</span><br><span class="line">	.cfi_lsda 0,LLSDA1023</span><br><span class="line">	pushl	%ebp</span><br><span class="line">	.cfi_def_cfa_offset 8</span><br><span class="line">	.cfi_offset 5, -8</span><br><span class="line">	movl	%esp, %ebp</span><br><span class="line">	.cfi_def_cfa_register 5</span><br><span class="line">	andl	$-16, %esp</span><br><span class="line">	subl	$32, %esp</span><br><span class="line">	call	___main</span><br><span class="line">	movl	$0, 28(%esp)</span><br><span class="line">	movl	$10, 24(%esp)</span><br><span class="line">	movb	$97, 23(%esp)</span><br><span class="line">	movb	$98, 22(%esp)</span><br><span class="line">	leal	24(%esp), %eax</span><br><span class="line">	movl	%eax, 4(%esp)</span><br><span class="line">	leal	28(%esp), %eax</span><br><span class="line">	movl	%eax, (%esp)</span><br><span class="line">	call	__Z6myswapIiEvRT_S1_  //66  ===&gt;126 </span><br><span class="line">	movl	24(%esp), %edx</span><br><span class="line">	movl	28(%esp), %eax</span><br><span class="line">	movl	%edx, 8(%esp)</span><br><span class="line">	movl	%eax, 4(%esp)</span><br><span class="line">	movl	$LC0, (%esp)</span><br><span class="line">	call	__ZL6printfPKcz</span><br><span class="line">	leal	22(%esp), %eax</span><br><span class="line">	movl	%eax, 4(%esp)</span><br><span class="line">	leal	23(%esp), %eax</span><br><span class="line">	movl	%eax, (%esp)</span><br><span class="line">	call	__Z6myswapIcEvRT_S1_ //77 ===&gt;155 </span><br><span class="line">	movzbl	22(%esp), %eax</span><br><span class="line">	movsbl	%al, %edx</span><br><span class="line">	movzbl	23(%esp), %eax</span><br><span class="line">	movsbl	%al, %eax</span><br><span class="line">	movl	%edx, 8(%esp)</span><br><span class="line">	movl	%eax, 4(%esp)</span><br><span class="line">	movl	$LC1, (%esp)</span><br><span class="line">	call	__ZL6printfPKcz</span><br><span class="line">	movl	$LC2, (%esp)</span><br><span class="line">LEHB0:</span><br><span class="line">	call	_system</span><br><span class="line">LEHE0:</span><br><span class="line">	movl	$0, %eax</span><br><span class="line">	jmp	L7</span><br><span class="line">L6:</span><br><span class="line">	movl	%eax, (%esp)</span><br><span class="line">LEHB1:</span><br><span class="line">	call	__Unwind_Resume</span><br><span class="line">LEHE1:</span><br><span class="line">L7:</span><br><span class="line">	leave</span><br><span class="line">	.cfi_restore 5</span><br><span class="line">	.cfi_def_cfa 4, 4</span><br><span class="line">	ret</span><br><span class="line">	.cfi_endproc</span><br><span class="line">LFE1023:</span><br><span class="line">	.def	___gxx_personality_v0;	.scl	2;	.type	32;	.endef</span><br><span class="line">	.section	.gcc_except_table,"w"</span><br><span class="line">LLSDA1023:</span><br><span class="line">	.byte	0xff</span><br><span class="line">	.byte	0xff</span><br><span class="line">	.byte	0x1</span><br><span class="line">	.uleb128 LLSDACSE1023-LLSDACSB1023</span><br><span class="line">LLSDACSB1023:</span><br><span class="line">	.uleb128 LEHB0-LFB1023</span><br><span class="line">	.uleb128 LEHE0-LEHB0</span><br><span class="line">	.uleb128 L6-LFB1023</span><br><span class="line">	.uleb128 0</span><br><span class="line">	.uleb128 LEHB1-LFB1023</span><br><span class="line">	.uleb128 LEHE1-LEHB1</span><br><span class="line">	.uleb128 0</span><br><span class="line">	.uleb128 0</span><br><span class="line">LLSDACSE1023:</span><br><span class="line">	.text</span><br><span class="line">	.section	.text$_Z6myswapIiEvRT_S1_,"x"</span><br><span class="line">	.linkonce discard</span><br><span class="line">	.globl	__Z6myswapIiEvRT_S1_</span><br><span class="line">	.def	__Z6myswapIiEvRT_S1_;	.scl	2;	.type	32;	.endef</span><br><span class="line">__Z6myswapIiEvRT_S1_:  //126 </span><br><span class="line">LFB1024:</span><br><span class="line">	.cfi_startproc</span><br><span class="line">	pushl	%ebp</span><br><span class="line">	.cfi_def_cfa_offset 8</span><br><span class="line">	.cfi_offset 5, -8</span><br><span class="line">	movl	%esp, %ebp</span><br><span class="line">	.cfi_def_cfa_register 5</span><br><span class="line">	subl	$16, %esp</span><br><span class="line">	movl	8(%ebp), %eax</span><br><span class="line">	movl	(%eax), %eax</span><br><span class="line">	movl	%eax, -4(%ebp)</span><br><span class="line">	movl	12(%ebp), %eax</span><br><span class="line">	movl	(%eax), %edx</span><br><span class="line">	movl	8(%ebp), %eax</span><br><span class="line">	movl	%edx, (%eax)</span><br><span class="line">	movl	12(%ebp), %eax</span><br><span class="line">	movl	-4(%ebp), %edx</span><br><span class="line">	movl	%edx, (%eax)</span><br><span class="line">	leave</span><br><span class="line">	.cfi_restore 5</span><br><span class="line">	.cfi_def_cfa 4, 4</span><br><span class="line">	ret</span><br><span class="line">	.cfi_endproc</span><br><span class="line">LFE1024:</span><br><span class="line">	.section	.text$_Z6myswapIcEvRT_S1_,"x"</span><br><span class="line">	.linkonce discard</span><br><span class="line">	.globl	__Z6myswapIcEvRT_S1_</span><br><span class="line">	.def	__Z6myswapIcEvRT_S1_;	.scl	2;	.type	32;	.endef</span><br><span class="line">__Z6myswapIcEvRT_S1_: //155 </span><br><span class="line">LFB1025:</span><br><span class="line">	.cfi_startproc</span><br><span class="line">	pushl	%ebp</span><br><span class="line">	.cfi_def_cfa_offset 8</span><br><span class="line">	.cfi_offset 5, -8</span><br><span class="line">	movl	%esp, %ebp</span><br><span class="line">	.cfi_def_cfa_register 5</span><br><span class="line">	subl	$16, %esp</span><br><span class="line">	movl	8(%ebp), %eax</span><br><span class="line">	movzbl	(%eax), %eax</span><br><span class="line">	movb	%al, -1(%ebp)</span><br><span class="line">	movl	12(%ebp), %eax</span><br><span class="line">	movzbl	(%eax), %edx</span><br><span class="line">	movl	8(%ebp), %eax</span><br><span class="line">	movb	%dl, (%eax)</span><br><span class="line">	movl	12(%ebp), %eax</span><br><span class="line">	movzbl	-1(%ebp), %edx</span><br><span class="line">	movb	%dl, (%eax)</span><br><span class="line">	leave</span><br><span class="line">	.cfi_restore 5</span><br><span class="line">	.cfi_def_cfa 4, 4</span><br><span class="line">	ret</span><br><span class="line">	.cfi_endproc</span><br><span class="line">LFE1025:</span><br><span class="line">	.text</span><br><span class="line">	.def	___tcf_0;	.scl	3;	.type	32;	.endef</span><br><span class="line">___tcf_0:</span><br><span class="line">LFB1027:</span><br><span class="line">	.cfi_startproc</span><br><span class="line">	pushl	%ebp</span><br><span class="line">	.cfi_def_cfa_offset 8</span><br><span class="line">	.cfi_offset 5, -8</span><br><span class="line">	movl	%esp, %ebp</span><br><span class="line">	.cfi_def_cfa_register 5</span><br><span class="line">	subl	$8, %esp</span><br><span class="line">	movl	$__ZStL8__ioinit, %ecx</span><br><span class="line">	call	__ZNSt8ios_base4InitD1Ev</span><br><span class="line">	leave</span><br><span class="line">	.cfi_restore 5</span><br><span class="line">	.cfi_def_cfa 4, 4</span><br><span class="line">	ret</span><br><span class="line">	.cfi_endproc</span><br><span class="line">LFE1027:</span><br><span class="line">	.def	__Z41__static_initialization_and_destruction_0ii;	.scl	3;	.type	32;	.endef</span><br><span class="line">__Z41__static_initialization_and_destruction_0ii:</span><br><span class="line">LFB1026:</span><br><span class="line">	.cfi_startproc</span><br><span class="line">	pushl	%ebp</span><br><span class="line">	.cfi_def_cfa_offset 8</span><br><span class="line">	.cfi_offset 5, -8</span><br><span class="line">	movl	%esp, %ebp</span><br><span class="line">	.cfi_def_cfa_register 5</span><br><span class="line">	subl	$24, %esp</span><br><span class="line">	cmpl	$1, 8(%ebp)</span><br><span class="line">	jne	L11</span><br><span class="line">	cmpl	$65535, 12(%ebp)</span><br><span class="line">	jne	L11</span><br><span class="line">	movl	$__ZStL8__ioinit, %ecx</span><br><span class="line">	call	__ZNSt8ios_base4InitC1Ev</span><br><span class="line">	movl	$___tcf_0, (%esp)</span><br><span class="line">	call	_atexit</span><br><span class="line">L11:</span><br><span class="line">	leave</span><br><span class="line">	.cfi_restore 5</span><br><span class="line">	.cfi_def_cfa 4, 4</span><br><span class="line">	ret</span><br><span class="line">	.cfi_endproc</span><br><span class="line">LFE1026:</span><br><span class="line">	.def	__GLOBAL__sub_I_main;	.scl	3;	.type	32;	.endef</span><br><span class="line">__GLOBAL__sub_I_main:</span><br><span class="line">LFB1028:</span><br><span class="line">	.cfi_startproc</span><br><span class="line">	pushl	%ebp</span><br><span class="line">	.cfi_def_cfa_offset 8</span><br><span class="line">	.cfi_offset 5, -8</span><br><span class="line">	movl	%esp, %ebp</span><br><span class="line">	.cfi_def_cfa_register 5</span><br><span class="line">	subl	$24, %esp</span><br><span class="line">	movl	$65535, 4(%esp)</span><br><span class="line">	movl	$1, (%esp)</span><br><span class="line">	call	__Z41__static_initialization_and_destruction_0ii</span><br><span class="line">	leave</span><br><span class="line">	.cfi_restore 5</span><br><span class="line">	.cfi_def_cfa 4, 4</span><br><span class="line">	ret</span><br><span class="line">	.cfi_endproc</span><br><span class="line">LFE1028:</span><br><span class="line">	.section	.ctors,"w"</span><br><span class="line">	.align 4</span><br><span class="line">	.long	__GLOBAL__sub_I_main</span><br><span class="line">	.ident	"GCC: (rev2, Built by MinGW-builds project) 4.8.0"</span><br><span class="line">	.def	___mingw_vprintf;	.scl	2;	.type	32;	.endef</span><br><span class="line">	.def	_system;	.scl	2;	.type	32;	.endef</span><br><span class="line">	.def	__Unwind_Resume;	.scl	2;	.type	32;	.endef</span><br><span class="line">	.def	__ZNSt8ios_base4InitD1Ev;	.scl	2;	.type	32;	.endef</span><br><span class="line">	.def	__ZNSt8ios_base4InitC1Ev;	.scl	2;	.type	32;	.endef</span><br><span class="line">	.def	_atexit;	.scl	2;	.type	32;	.endef</span><br></pre></td></tr></table></figure>
+<h2 id="函数模板机制结论"><a href="#函数模板机制结论" class="headerlink" title="函数模板机制结论"></a>函数模板机制结论</h2><ul>
+<li>编译器并不是把函数模板处理成能够处理任意类的函数</li>
+<li>编译器从函数模板通过具体类型产生不同的函数</li>
+<li>编译器会对函数模板进行两次编译</li>
+<li>在声明的地方对模板代码本身进行编译；在调用的地方对参数替换后的代码进行编译</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/C-编译器/" rel="tag">#C++编译器</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2015/05/19/泛型编程之函数模板基础.html" rel="next" title="泛型编程之函数模板基础.md">
+                <i class="fa fa-chevron-left"></i> 泛型编程之函数模板基础.md
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/2015/08/06/bootloader.html" rel="prev" title="什么是bootloader">
+                什么是bootloader <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="/blog/2015/05/20/C++编译器模板机制剖析.html"
+     data-title="C++编译器模板机制剖析"
+     data-content=""
+     data-url="http://yunvoo.com/blog/2015/05/20/C++编译器模板机制剖析.html">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="/blog/2015/05/20/C++编译器模板机制剖析.html"
+           data-title="C++编译器模板机制剖析" data-url="http://yunvoo.com/blog/2015/05/20/C++编译器模板机制剖析.html">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="yunvoo" />
+          <p class="site-author-name" itemprop="name">yunvoo</p>
+          <p class="site-description motion-element" itemprop="description">The best way to prediet the future is to create it</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">20</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://www.yunvoo.com" target="_blank" title="博客">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  博客
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://facebook.com/yunvooli" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/yunvooli" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://plus.google.com/107492061888791876239/posts" target="_blank" title="Google+">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Google+
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yunvoo" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://7xrzzi.com1.z0.glb.clouddn.com/4.png" target="_blank" title="微信">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微信
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#编译器原理"><span class="nav-number">1.</span> <span class="nav-text">编译器原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是gcc"><span class="nav-number">1.1.</span> <span class="nav-text">什么是gcc</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gcc主要特征"><span class="nav-number">1.2.</span> <span class="nav-text">gcc主要特征</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gcc编译过程"><span class="nav-number">1.3.</span> <span class="nav-text">gcc编译过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gcc常用编译选项"><span class="nav-number">1.4.</span> <span class="nav-text">gcc常用编译选项</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#练习"><span class="nav-number">2.</span> <span class="nav-text">练习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模板函数反汇编观察"><span class="nav-number">3.</span> <span class="nav-text">模板函数反汇编观察</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#函数模板机制结论"><span class="nav-number">4.</span> <span class="nav-text">函数模板机制结论</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yunvoo</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动 
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"yunvooli"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+
+  
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("da8KweghFc2VzU2Y8iGjEgCi-gzGzoHsz", "gT6O2WdFMqMyDkuIXUm7HnjF");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>
