@@ -416,6 +416,37 @@
   </entry>
   
   <entry>
+    <title></title>
+    <link href="http://yunvoo.com//blog/2015/05/25/%E5%AF%B9%E4%BA%8E%E6%8B%96%E5%BB%B6%E7%97%87%E7%9A%84%E5%BB%BA%E8%AE%AE.html"/>
+    <id>http://yunvoo.com//blog/2015/05/25/对于拖延症的建议.html</id>
+    <published>2015-05-24T16:00:00.000Z</published>
+    <updated>2016-06-23T09:22:39.030Z</updated>
+    
+    <content type="html">&lt;hr&gt;
+&lt;p&gt;layout: blog&lt;br&gt;categories: 散文&lt;br&gt;title: 对于拖延症的建议&lt;br&gt;data: 2015-05-25&lt;br&gt;tags: 建议&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;有意识地同时关注某一决定对当下以及未来造成的影响，而不是主要看眼前的结果。&lt;/li&gt;
+&lt;li&gt;避免在多任务或者疲劳状态下做重要的决定。因为在这两种情况下，个体可能缺乏必要的心理资源（比如注意资源和意志力）去全面地思考问题。&lt;/li&gt;
+&lt;li&gt;学会正确评估自身的拖延倾向。&lt;/li&gt;
+&lt;li&gt;为自己设定不可逾越的最后期限，为需要长期投入的任务制定切实可行的计划并严格执行。&lt;/li&gt;
+&lt;li&gt;考虑当前和未来结果时同时关注其相对具体的方面，比如要花多少时间，有多困难，以及相对抽象和具有目的性的方面，比如完成它意味着什么。&lt;/li&gt;
+&lt;li&gt;学会正确评估未来的时间稀缺程度。一般情况下，如果一件事现在没时间做，未来也不太可能多出很多时间来让你做这件事。&lt;/li&gt;
+&lt;/ol&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;hr&gt;
+&lt;p&gt;layout: blog&lt;br&gt;categories: 散文&lt;br&gt;title: 对于拖延症的建议&lt;br&gt;data: 2015-05-25&lt;br&gt;tags: 建议&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;有意识地同时关注某一决定对当下以及未来造成的影响，而不是主要看眼前的结果。
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>类模板基本语法</title>
     <link href="http://yunvoo.com//blog/2015/05/21/%E7%B1%BB%E6%A8%A1%E6%9D%BF%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95.html"/>
     <id>http://yunvoo.com//blog/2015/05/21/类模板基本语法.html</id>
@@ -984,182 +1015,6 @@
     
     
       <category term="DHCP,Bash" scheme="http://yunvoo.com/tags/DHCP-Bash/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>读 HTTP 协议 RFC-2616</title>
-    <link href="http://yunvoo.com//blog/2014/10/01/http.html"/>
-    <id>http://yunvoo.com//blog/2014/10/01/http.html</id>
-    <published>2014-09-30T16:00:00.000Z</published>
-    <updated>2016-06-18T23:51:20.232Z</updated>
-    
-    <content type="html">&lt;p&gt;&lt;strong&gt;超文本传输协议（英文：HyperText Transfer Protocol，缩写：HTTP）&lt;/strong&gt; 是互联网上应用最为广泛的一种网络协议。设计HTTP最初的目的是为了提供一种发布和接收HTML页面的方法。通过HTTP或者HTTPS协议请求的资源由 &lt;strong&gt;统一资源标识符（Uniform Resource Identifiers，URI）&lt;/strong&gt; 来标识。&lt;/p&gt;
-&lt;p&gt;HTTP协议标准是由万维网协会（World Wide Web Consortium，W3C）和互联网工程任务组（Internet Engineering Task Force，IETF）制定的，其中最著名的是RFC-2616，定义了HTTP协议中现今广泛使用的一个版本—HTTP 1.1。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;第一个版本的HTTP（HTTP/0.9）用于Internet上的传输原始数据；HTTP/1.0加入了MIME支持、元数据、请求/应答限定符。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;对web开发者而言HTTP协议的用法已耳熟能详，本文只记录与web开发相关的HTTP重要细节。&lt;/p&gt;
-&lt;p&gt;HTTP是一种通用的、无状态的应用层协议，适用于分布式、协同的、超媒体信息系统。通过一些扩展（如请求方法、错误码、头信息），HTTP可用于超文本外的其他用途，例如命名服务器、分布式对象管理。HTTP的特点在于数据表示的类型与协商，允许建立系统时不必考虑数据是如何传输的。&lt;/p&gt;
-&lt;font size=&quot;5&quot; color=&quot;#FF2D2D&quot;&gt;操作&lt;/font&gt; 
-
-&lt;p&gt;多数HTTP通信由用户代理发起请求，服务器响应该请求。更复杂的情况则可能包括代理、网关和隧道。 &lt;strong&gt;代理&lt;/strong&gt; 是指转发代理，它接受URI请求，重写部分消息，然后把重写过的消息转发至URI标识的服务器。 &lt;strong&gt;网关&lt;/strong&gt; 是指接收代理，它运行在其他服务器之上，需要时可以为背后的服务器翻译请求。 &lt;strong&gt;隧道&lt;/strong&gt; 相当于两个连接的中转站，但不会改变消息。当通信需要通过一个中介时可以使用隧道，即使该中介不理解消息内容。&lt;/p&gt;
-&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;   request chain --------------------------------------&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;UA -----v----- A -----v----- B -----v----- C -----v----- O&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;   &amp;lt;------------------------------------- response chain&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;除隧道外的通信方都可能会采用内部缓存和处理消息，缓存可以缩短请求/应答链。但并不是所有消息都可以被缓存，缓存行为也在RFC-2616中加以定义。&lt;/p&gt;
-&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;   request chain ----------&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;UA -----v----- A -----v----- B - - - - - - C - - - - - - O&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;   &amp;lt;--------- response chain&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;blockquote&gt;
-&lt;p&gt;HTTP通常发生在TCP/IP连接上，默认的TCP端口为80，当然也可以使用别的端口。这不会影响到HTTP实现，HTTP只假设有一个可靠的传输协议。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;HTTP/1.1连接应该是持久连接。这不仅能够减小TCP连接的内存、CPU开销，减小了TCP包的数量，同时提供了更短的延迟和及时的错误反馈。此时，请求与应答可以形成管道而不必等上一个连接的关闭。&lt;/p&gt;
-&lt;font size=&quot;5&quot; color=&quot;#FF2D2D&quot;&gt;URI&lt;/font&gt; 
-
-&lt;p&gt;在HTTP中，URI 是用来标识资源的字符串。&lt;/p&gt;
-&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;http_URL = &amp;quot;http:&amp;quot; &amp;quot;//&amp;quot; host [ &amp;quot;:&amp;quot; port ] [ abs_path [ &amp;quot;?&amp;quot; query ]]&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;HTTP URI 是大小写敏感的，相同的URI应该每个字节都完全相同。除非：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;端口空。此时相当于默认端口。&lt;/li&gt;
-&lt;li&gt;主机名必须大小写无关。&lt;/li&gt;
-&lt;li&gt;模式名必须大小写无关。&lt;/li&gt;
-&lt;li&gt;绝对路径为空。此时相当于&lt;code&gt;/&lt;/code&gt;。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;font size=&quot;5&quot; color=&quot;#FF2D2D&quot;&gt;HTTP方法&lt;/font&gt; 
-
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;GET&lt;/code&gt;：获取URI制定的信息。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;HEAD&lt;/code&gt;：同&lt;code&gt;GET&lt;/code&gt;，但服务器不返回消息体。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;POST&lt;/code&gt;：请求服务器接受请求中包装的实体，将其作为URI标识的资源的附属信息。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;PUT&lt;/code&gt;：让服务器将请求中包装的实体存储为URI标识位置。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;DELETE&lt;/code&gt;：让服务器将URI标识的资源删除。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;TRACE&lt;/code&gt;：调用远程的应用层环回。最终服务器应将收到的消息包装为实体并返回状态码为200的应答。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;CONNECT&lt;/code&gt;：保留，用作代理。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;blockquote&gt;
-&lt;p&gt;其中&lt;code&gt;HEAD&lt;/code&gt;和&lt;code&gt;GET&lt;/code&gt;被称为安全方法，即服务器只是返回所需的信息，不应该产生其他的副作用。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;font size=&quot;5&quot; color=&quot;#FF2D2D&quot;&gt;HTTP 头字段简介&lt;/font&gt; 
-
-&lt;p&gt;HTTP 头字段包括通用头字段（general-header），请求头字段（request-header），响应头字段（response-header）和实体头字段（entity-header）。&lt;/p&gt;
-&lt;p&gt;每个头字段包括字段名与字段只，以冒号&lt;code&gt;:&lt;/code&gt;分隔。其中字段名大小写不敏感。&lt;/p&gt;
-&lt;font size=&quot;5&quot; color=&quot;#FF2D2D&quot;&gt;通用头字段&lt;/font&gt; 
-
-&lt;p&gt;通用头字段对于HTTP请求和响应均可用，用来描述HTTP消息（HTTP message）本身，&lt;br&gt;不可用来描述被传输的实体（HTTP entity）。共9个：&lt;/p&gt;
-&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;general-header = Cache-Control           ; Section 14.9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;              | Connection               ; Section 14.10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;              | Date                     ; Section 14.18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;              | Pragma                   ; Section 14.32&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;              | Trailer                  ; Section 14.40&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;              | Transfer-Encoding        ; Section 14.41&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;              | Upgrade                  ; Section 14.42&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;              | Via                      ; Section 14.45&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;              | Warning                  ; Section 14.46&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;Cache-Control&lt;/code&gt;：指定整个请求链中必须遵循的缓存指令，是单向的。其值包括&lt;code&gt;max-age&lt;/code&gt;，&lt;code&gt;no-cache&lt;/code&gt;等。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;Connection&lt;/code&gt;：发送者用来指定连接选项，属于hop by hop头字段，不可被代理传递。例如Websocket建立连接时的Handshake HTTP Request，包含&lt;code&gt;Connection: upgrade&lt;/code&gt;与&lt;code&gt;Upgrade: Websocket&lt;/code&gt;头字段。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;Date&lt;/code&gt;：请求或响应的时间和日期。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;Pragma&lt;/code&gt;：用来指定实现相关（implementation-specific）的指令，例如：&lt;code&gt;Pragma: no-cache&lt;/code&gt;。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;Transfer-Encoding&lt;/code&gt;：为了使消息安全到达，HTTP消息经过了何种转换，例如&lt;code&gt;Transfer-Encoding: chunked&lt;/code&gt;。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;Via&lt;/code&gt;：HTTP消息传送期间经过了何种协议或代理，网关和代理必须实现该字段。如&lt;code&gt;Via: 1.0 fred, 1.1 nowhere.com (Apache/1.1)&lt;/code&gt;。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;font size=&quot;5&quot; color=&quot;#FF2D2D&quot;&gt;请求头字段&lt;/font&gt; 
-
-&lt;p&gt;request头部字段如下：&lt;/p&gt;
-&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;request-header = Accept                   ; Section 14.1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;              | Accept-Charset           ; Section 14.2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;              | Accept-Encoding          ; Section 14.3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;              | Accept-Language          ; Section 14.4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;              | Authorization            ; Section 14.8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;              | Expect                   ; Section 14.20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;              | From                     ; Section 14.22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;              | Host                     ; Section 14.23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;              | If-Match                 ; Section 14.24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;              | If-Modified-Since        ; Section 14.25&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;              | If-None-Match            ; Section 14.26&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;              | If-Range                 ; Section 14.27&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;              | If-Unmodified-Since      ; Section 14.28&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;              | Max-Forwards             ; Section 14.31&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;              | Proxy-Authorization      ; Section 14.34&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;              | Range                    ; Section 14.35&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;              | Referer                  ; Section 14.36&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;              | TE                       ; Section 14.39&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;              | User-Agent               ; Section 14.43&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;code&gt;Accept&lt;/code&gt;：可接受的应答的媒体类型，可使用通配符&lt;code&gt;*&lt;/code&gt;。&lt;/p&gt;
-  &lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;Accept: autio/*; q=0.2, autio/basic&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;# 最好是basic音频，如果没有的话任何音频都可以接受（这时我认为质量打了80%的折扣）请求头字段&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;code&gt;Accept-Charset&lt;/code&gt;：可接受的应答的字符集。&lt;/p&gt;
-  &lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;Accept-Charset: iso-8859-5, unicode-1-1;q=0.8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;# 最好是iso-8859-5，不过unicode-1-1也还好（80%的质量）请求头字段&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;code&gt;Accept-Encoding&lt;/code&gt;：可接受的应答的内容编码。&lt;/p&gt;
-  &lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;Accept-Encoding: gzip;q=1.0, identity; q=0.5, *;q=0&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;code&gt;Accept-Language&lt;/code&gt;：可接受的应答的自然语言集合。&lt;/p&gt;
-  &lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;Accept-Language: da, en-gb;q=0.8, en;q=0.7&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;code&gt;Authorization&lt;/code&gt;：用户想要让服务器给自己授权，通常在接受到&lt;code&gt;401&lt;/code&gt;之后发生。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;code&gt;Expect&lt;/code&gt;：客户需要的服务器行为。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;该字段是逐跳发生的，即代理如不能满足该期望应返回&lt;code&gt;417&lt;/code&gt;；但请求头是端到端的，该请求仍然必须被转发。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;code&gt;From&lt;/code&gt;：该字段应为控制发送请求的HTTP代理（agent）的用户电子邮箱名。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;Host&lt;/code&gt;：目标主机名与端口，来自URI。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;If-Match&lt;/code&gt;：与HTTP方法一起用，使得条件性执行该方法。条件为该实体匹配该列表，即没有发生用户所不知道的变化。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;blockquote&gt;
-&lt;p&gt;在HTTP中，质量值&lt;code&gt;qvalue&lt;/code&gt;作为协商参数的限定符，表示客户端认为该参数的重要性（权重）。如果一个参数&lt;code&gt;qvalue&lt;/code&gt;为0，表示该参数对客户端来讲是不可接受的。参数之间用&lt;code&gt;,&lt;/code&gt;分隔，参数值与质量值之间用&lt;code&gt;;&lt;/code&gt;分隔。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;font size=&quot;5&quot; color=&quot;#FF2D2D&quot;&gt;响应头字段&lt;/font&gt; 
-
-&lt;p&gt;response头部字段如下：&lt;/p&gt;
-&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;response-header = Accept-Ranges           ; Section 14.5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                | Age                     ; Section 14.6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                | ETag                    ; Section 14.19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                | Location                ; Section 14.30&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                | Proxy-Authenticate      ; Section 14.33&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                | Retry-After             ; Section 14.37&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                | Server                  ; Section 14.38&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                | Vary                    ; Section 14.44&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                | WWW-Authenticate        ; Section 14.47&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;&lt;code&gt;Accept-Ranges&lt;/code&gt;：&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;在HTTP/1.1中，客户端可以请求部分的应答（&lt;code&gt;range&lt;/code&gt;），服务器将根据指定的单位和Request的&lt;code&gt;Range&lt;/code&gt;将实体划分为&lt;code&gt;subrange&lt;/code&gt;返回给客户端。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;  该字段允许服务器指定接受怎样的&lt;code&gt;range&lt;/code&gt;请求。例如&lt;code&gt;Accept-Ranges: bytes&lt;/code&gt;表示接受以byte为单位的&lt;code&gt;Range&lt;/code&gt;。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;&lt;code&gt;Age&lt;/code&gt;：生成该response以来，服务器估计已经过去了多少时间。该字段用于缓存机制。&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;ETag&lt;/code&gt;：指定请求变量的当前实体Tag。该字段用来比较来自同一资源的变化的实体。与&lt;code&gt;If-Match/If-None-Match&lt;/code&gt;成对使用来实现缓存。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;Location&lt;/code&gt;：为完成请求或标识新的资源，服务器用该字段将接收者重定向。此处应指定绝对路径。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;Proxy-Authenticate&lt;/code&gt;：&lt;code&gt;407&lt;/code&gt;（Proxy Authentication Required）响应必须填写该字段。该字段应指出授权模式和该URI代理的参数。收到该响应后代理应寻找自己的授权证书。该字段只用于当前连接（点到点），不应传到下游的客户端。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;Retry-After&lt;/code&gt;：用于&lt;code&gt;503&lt;/code&gt;（Service Unavailable）响应。指示客户端服务预期多久不可用。可以是绝对时间，也可以是代表时间间隔的整数（单位为秒）。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;Server&lt;/code&gt;：原始服务器处理该请求的软件信息。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;Vary&lt;/code&gt;：指示不可缓存的请求头列表（大小写不敏感）。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;WWW-Authenticate&lt;/code&gt;：&lt;code&gt;401&lt;/code&gt;（Unauthorized）响应必须填写该字段。同&lt;code&gt;Proxy-Authenticate&lt;/code&gt;，只不过该字段作用于用户代理（User Agent）。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;font size=&quot;5&quot; color=&quot;#FF2D2D&quot;&gt;实体头字段&lt;/font&gt; 
-
-&lt;p&gt;实体头字段（entity ）用来表示HTTP实体（entity body）的元信息。&lt;br&gt;如果实体（HTTP body）不存在，则表示HTTP请求所标识的资源的元信息。&lt;/p&gt;
-&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;entity-header  = Allow                    ; Section 14.7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;              | Content-Encoding         ; Section 14.11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;              | Content-Language         ; Section 14.12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;              | Content-Length           ; Section 14.13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;              | Content-Location         ; Section 14.14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;              | Content-MD5              ; Section 14.15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;              | Content-Range            ; Section 14.16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;              | Content-Type             ; Section 14.17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;              | Expires                  ; Section 14.21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;              | Last-Modified            ; Section 14.29&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;Allow&lt;/code&gt;：实体允许哪些方法，例如：&lt;code&gt;Allow: GET, HEAD, PUT&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;Content-Encoding&lt;/code&gt;：内容编码，这是对&lt;code&gt;Content-Type&lt;/code&gt;的进一步修饰，例如&lt;code&gt;Content-Encoding: gzip&lt;/code&gt;。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;Content-Location&lt;/code&gt;的值是绝对或相对URI，表示请求体的资源处于何处。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;Content-Type&lt;/code&gt;：资源的媒体类型，例如&lt;code&gt;Content-Type: text/html; charset=ISO-8859-4&lt;/code&gt;。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;Expires&lt;/code&gt;：过期时间，例如&lt;code&gt;Expires: Thu, 01 Dec 1994 16:00:00 GMT&lt;/code&gt;。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;Last-Modified&lt;/code&gt;：服务器认为该资源上次修改的时间，格式同上。与&lt;code&gt;Not-Modified-Since&lt;/code&gt;成对使用可实现缓存。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;font size=&quot;5&quot; color=&quot;#FF2D2D&quot;&gt;缓存&lt;/font&gt; 
-
-&lt;p&gt;HTTP常用语信息系统，此时应答缓存可以提高性能。缓存应该保证是正确的，如果一个应答的缓存既非一手的，又不够新，则必须在应答中添加警告。&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;HTTP/1.1的基本缓存机制只有隐式的缓存指示，在有些系统中需要给出明确的缓存指示。此时要用到缓存控制（Cache-Control）头。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;最好的缓存应完全避免从原始服务器发送请求，主要的机制是服务器明确给定应答的过期时间。相反地，服务其可以将过期时间设为过去的时间，&lt;br&gt;以此强制得到最新的请求。过期时间的计算有两种方法：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;&lt;code&gt;now - Age Header&lt;/code&gt;，其中&lt;code&gt;Age Header&lt;/code&gt;是生成应答时服务器会设置的字段。&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;age_value&lt;/code&gt;，等于该应答在所有缓存中驻留的时间和，加上所有路径上传输所用的时间。&lt;/li&gt;
-&lt;/ol&gt;
-&lt;blockquote&gt;
-&lt;p&gt;当然，缓存服务器之间需要通过类似&lt;code&gt;NTP&lt;/code&gt;的协议来同步他们的时钟。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;在Web应用中，缓存通常通过&lt;a href=&quot;https://zh.wikipedia.org/wiki/HTTP_ETag&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Etag&lt;/a&gt;和&lt;code&gt;Expires&lt;/code&gt;响应头来实现。&lt;code&gt;Etag&lt;/code&gt;表示资源的ID，&lt;code&gt;Expires&lt;/code&gt;表示资源的过期时间。&lt;br&gt;User-Agent（比如浏览器）可以通过这两个字段来恰当地缓存这些HTTP响应。&lt;/p&gt;
-&lt;font size=&quot;5&quot; color=&quot;#FF2D2D&quot;&gt;状态码&lt;/font&gt; 
-
-&lt;p&gt;HTTP状态码（HTTP Status Code）是用以表示Web服务器HTTP响应状态的3位数字代码，分为5大类。&lt;br&gt;以下给出状态码说明，其描述参见wikipedia：&lt;a href=&quot;http://zh.wikipedia.org/wiki/HTTP%E7%8A%B6%E6%80%81%E7%A0%81&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;HTTP状态码&lt;/a&gt;&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;1xx：表示请求已被接受，但需要后续处理。&lt;/li&gt;
-&lt;li&gt;2xx：请求已成功被服务器接收、理解、并接受。&lt;/li&gt;
-&lt;li&gt;3xx：这类状态码代表需要客户端采取进一步的操作才能完成请求。通常，这些状态码用来重定向，&lt;br&gt;重定向目标在本次响应的&lt;code&gt;Location&lt;/code&gt;头字段中指明。&lt;/li&gt;
-&lt;li&gt;4xx：这类的状态码代表了客户端看起来可能发生了错误，妨碍了服务器的处理。&lt;br&gt;除非响应的是一个HEAD请求，否则服务器就应该返回一个解释当前错误状况的实体。&lt;/li&gt;
-&lt;li&gt;5xx：这类状态码代表了服务器在处理请求的过程中有错误或者异常状态发生，也有可能是服务器意识到以当前的软硬件资源无法完成对请求的处理。&lt;br&gt;并且响应消息体中应当给出理由，除非是HEAD请求。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;常见的响应状态码在&lt;a href=&quot;!--￼11--&quot;&gt;如何理解HTTP响应的状态码？&lt;/a&gt;一文有详细介绍。&lt;/p&gt;
-&lt;font size=&quot;5&quot; color=&quot;#FF2D2D&quot;&gt;参考连接&lt;/font&gt; 
-
-&lt;p&gt;RTF 2616: &lt;a href=&quot;http://tools.ietf.org/html/rfc2616&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://tools.ietf.org/html/rfc2616&lt;/a&gt;&lt;/p&gt;
-&lt;center&gt;&lt;br&gt;    &lt;p&gt;&lt;img src=&quot;http://7xrzzi.com1.z0.glb.clouddn.com/yunvooliyunvooli_meitu_1.jpg&quot; align=&quot;center&quot;&gt;&lt;/p&gt;&lt;br&gt;&lt;/center&gt;
-
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&lt;strong&gt;超文本传输协议（英文：HyperText Transfer Protocol，缩写：HTTP）&lt;/strong&gt; 是互联网上应用最为广泛的一种网络协议。设计HTTP最初的目的是为了提供一种发布和接收HTML页面的方法。通过HTTP或者HTTPS协议请求的资源
-    
-    </summary>
-    
-      <category term="技术" scheme="http://yunvoo.com/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-    
-      <category term="HTML,HTTP,协议" scheme="http://yunvoo.com/tags/HTML-HTTP-%E5%8D%8F%E8%AE%AE/"/>
     
   </entry>
   
