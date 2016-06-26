@@ -1,0 +1,979 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="IPC," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Yunvoo Blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="基本概念
+1、任务：任务是一个逻辑概念,指由一个软件完成的任务，或者是一系列共同达到某一目的的操作。
+2、进程：进程是指一个具有独立功能的程序在某个数据集上的一次动态执行过程，它是系统进行资源分配和调度的最小单元。从内核的观点看，进程的目的就是担当分配系统资源（CPU时间、内存等）的基本单位。
+3、线程：是进程的一个执行流，是CPU调度和分派的基本单位，它是比进程更小的能独立运行的基本单位。一个进">
+<meta property="og:type" content="article">
+<meta property="og:title" content="linux进程线程以及通信IPC">
+<meta property="og:url" content="http://yunvoo.com/blog/2015/10/06/07-linux进程线程以及通信IPC.html">
+<meta property="og:site_name" content="Yunvoo Blog">
+<meta property="og:description" content="基本概念
+1、任务：任务是一个逻辑概念,指由一个软件完成的任务，或者是一系列共同达到某一目的的操作。
+2、进程：进程是指一个具有独立功能的程序在某个数据集上的一次动态执行过程，它是系统进行资源分配和调度的最小单元。从内核的观点看，进程的目的就是担当分配系统资源（CPU时间、内存等）的基本单位。
+3、线程：是进程的一个执行流，是CPU调度和分派的基本单位，它是比进程更小的能独立运行的基本单位。一个进">
+<meta property="og:image" content="http://7xrzzi.com1.z0.glb.clouddn.com/155237936.png">
+<meta property="og:image" content="http://7xrzzi.com1.z0.glb.clouddn.com/161330655.png">
+<meta property="og:image" content="http://7xrzzi.com1.z0.glb.clouddn.com/164731554.png">
+<meta property="og:image" content="http://7xrzzi.com1.z0.glb.clouddn.com/165436586.png">
+<meta property="og:image" content="http://7xrzzi.com1.z0.glb.clouddn.com/182815931.jpg">
+<meta property="og:image" content="http://7xrzzi.com1.z0.glb.clouddn.com/183055655.png">
+<meta property="og:updated_time" content="2016-06-26T10:09:15.673Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="linux进程线程以及通信IPC">
+<meta name="twitter:description" content="基本概念
+1、任务：任务是一个逻辑概念,指由一个软件完成的任务，或者是一系列共同达到某一目的的操作。
+2、进程：进程是指一个具有独立功能的程序在某个数据集上的一次动态执行过程，它是系统进行资源分配和调度的最小单元。从内核的观点看，进程的目的就是担当分配系统资源（CPU时间、内存等）的基本单位。
+3、线程：是进程的一个执行流，是CPU调度和分派的基本单位，它是比进程更小的能独立运行的基本单位。一个进">
+<meta name="twitter:image" content="http://7xrzzi.com1.z0.glb.clouddn.com/155237936.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yunvoo.com/blog/2015/10/06/07-linux进程线程以及通信IPC.html"/>
+
+  <title> linux进程线程以及通信IPC | Yunvoo Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?6eba031d3986244aaaa7d59a8c373fdb";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Yunvoo Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">人生如路-->须在荒凉中走出繁华的风景</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="#" class="st-search-show-outputs">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <form class="site-search-form">
+  <input type="text" id="st-search-input" class="st-search-input st-default-search-input" />
+</form>
+
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+    (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+    e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install', 'jV21XzyjE_bi5yc21gs_','2.0.0');
+</script>
+
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                linux进程线程以及通信IPC
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-10-06T00:00:00+08:00" content="2015-10-06">
+              2015-10-06
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/blog/2015/10/06/07-linux进程线程以及通信IPC.html#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="/blog/2015/10/06/07-linux进程线程以及通信IPC.html" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/blog/2015/10/06/07-linux进程线程以及通信IPC.html" class="leancloud_visitors" data-flag-title="linux进程线程以及通信IPC">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><ul>
+<li>1、任务：<br>任务是一个逻辑概念,指由一个软件完成的任务，或者是一系列共同达到某一目的的操作。</li>
+<li>2、进程：<br>进程是指一个具有独立功能的程序在某个数据集上的一次动态执行过程，它是系统进行资源分配和调度的最小单元。从内核的观点看，进程的目的就是担当分配系统资源（CPU时间、内存等）的基本单位。</li>
+<li>3、线程：<br>是进程的一个执行流，是CPU调度和分派的基本单位，它是比进程更小的能独立运行的基本单位。一个进程由几个线程组成（拥有很多相对独立的执行流的用户程序共享应用程序的大部分数据结构），线程与同属一个进程的其他的线程共享进程所拥有的全部资源。<br>“进程——资源分配的最小单位，线程——程序执行的最小单位”<br><strong> 任务、进程和线程之间的关系如图所示 </strong><br><img src="http://7xrzzi.com1.z0.glb.clouddn.com/155237936.png" alt=""></li>
+<li>4、关系与区别：<br> 进程有独立的地址空间，一个进程崩溃后，在保护模式下不会对其它进程产生影响，进程具有并发性、动态性、交互性、独立性和异步性等主要特性。而线程只是一个进程中的不同执行路径。线程有自己的堆栈和局部变量，但线程没有单独的地址空间，一个线程死掉就等于整个进程死掉，所以多进程的程序要比多线程的程序健壮，但在进程切换时，耗费资源较大，效率要差一些。但对于一些要求同时进行并且又要共享某些变量的并发操作，只能用线程，不能用进程。</li>
+<li>总的来说就是：进程有独立的地址空间，线程没有单独的地址空间（同一进程内的线程共享进程的地址空间）。（下面的内容摘自Linux下的多线程编程）<em><br>使用多线程的理由之一是和进程相比，它是一种非常”节俭”的多任务操作方式。我们知道，在Linux系统下，启动一个新的进程必须分配给它独立的地址空间，建立众多的数据表来维护它的代码段、堆栈段和数据段，这是一种”昂贵”的多任务工作方式。而运行于一个进程中的多个线程，它们彼此之间使用相同的地址空间，共享大部分数据，启动一个线程所花费的空间远远小于启动一个进程所花费的空间，而且，线程间彼此切换所需的时间也远远小于进程间切换所需要的时间。据统计，总的说来，一个进程的开销大约是一个线程开销的30倍左右，当然，在具体的系统上，这个数据可能会有较大的区别。<br>使用多线程的理由之二是线程间方便的通信机制。对不同进程来说，它们具有独立的数据空间，要进行数据的传递只能通过通信的方式进行，这种方式不仅费时，而且很不方便。线程则不然，由于同一进程下的线程之间共享数据空间，所以一个线程的数据可以直接为其它线程所用，这不仅快捷，而且方便。当然，数据的共享也带来其他一些问题，有的变量不能同时被两个线程所修改，有的子程序中声明为static的数据更有可能给多线程程序带来灾难性的打击，这些正是编写多线程程序时最需要注意的地方。<br>除了以上所说的优点外，不和进程比较，多线程程序作为一种多任务、并发的工作方式，当然有以下的优点：<br>提高应用程序响应。这对图形界面的程序尤其有意义，当一个操作耗时很长时，整个系统都会等待这个操作，此时程序不会响应键盘、鼠标、菜单的操作，而使用多线程技术，将耗时长的操作（time consuming）置于一个新的线程，可以避免这种尴尬的情况。<br>使多CPU系统更加有效。操作系统会保证当线程数不大于CPU数目时，不同的线程运行于不同的CPU上。<br>改善程序结构。一个既长又复杂的进程可以考虑分为多个线程，成为几个独立或半独立的运行部分，这样的程序会利于理解和修改。<br><em>* 从函数调用上来说，进程创建使用fork()操作；线程创建使用clone()操作。</em></em><h2 id="进程具体介绍"><a href="#进程具体介绍" class="headerlink" title="进程具体介绍"></a>进程具体介绍</h2><h3 id="Linux下的进程结构"><a href="#Linux下的进程结构" class="headerlink" title="Linux下的进程结构"></a>Linux下的进程结构</h3>进程不但包括程序的指令和数据，而且包括程序计数器和处理器的所有寄存器及存储临时数据的进程堆栈，因此，正在执行的进程包括处理器当前的一切活动。<br>因为linux是一个多任务多进程的操作系统，所以其他的进程必须等到系统将处理器使用权分配给自己之后才能运行。当正在运行的进程等待其他的系统资源时，linux内核将取得处理器的控制权，并将处理器分配给其他正在等待的进程，他按照内核中的调度算法决定将处理器分配给哪一个进程，也就是说，内核不会让处理器闲着。<br>内核将所有进程存放在双向循环链表（进程链表）中，其中链表的头是 init_task 描述符。链表的每一项都是类型为 task_struct，称为进程描述符的结构，该结构包含了一个进程相关的所有信息，定义在<include linux="" sched.h="">文件中。task_struct内核结构比较大，它能完整的描述一个进程，如进程的状态、进程的基本信息、进程标识符、内存相关信息、父进程相关信息、与进程相关的终端信息、当前工作目录、打开的文件信息、所接收的信号信息等。<h3 id="进程状态"><a href="#进程状态" class="headerlink" title="进程状态"></a>进程状态</h3></include></li>
+<li>运行状态（TASK_RUNNING）:进程当前正在运行，或者正在运行队列中等待调度。</li>
+<li>可中断的阻塞状态（TASK_INTERRUPTIBLE）：进程处于阻塞(睡眠)状态，正在等待某些事件发生或能够占用某些资源。处在这种状态下的进程可以被信号中断。接收到信号或被显式的唤醒呼叫（如调用 wake_up 系列宏:wake_up、wake_up_interruptible等）唤醒之后，进程将转变TASK_RUNNING 状态。</li>
+<li>不可中断的阻塞状态（TASK_UNINTERRUPTIBLE）:此进程状态类似于可中断的阻塞状态（TASK_INTERRUPTIBLE），只是它不会处理信号，把信号传递到这种状态下的进程不能改变它的状态。在一些特定的情况下（进程必须等待，直到某些不能被中断的事件发生），这种状态是很有用的。只有在它所等待的事件发生时，进程才被显示的唤醒呼叫唤醒。</li>
+<li>可终止的阻塞状态（TASK_KILLABLE）:该状态的运行机制类似于TASK_UNINTERRUPTIBLE，只不过处在该状态下的进程可以响应致命信号。它可以替代有效但可能无法终止的不可中断的阻塞状态（TASK_UNINTERRUPTIBLE）,以及易于唤醒但安全性欠佳的可中断的阻塞状态TASK_INTERRUPTIBLE）。</li>
+<li>暂停状态（TASK_STOPPED）:进程的执行被暂停，当进程收到 SIGSTOP、SIGSTP、SIGTTIN、SIGTTOU等信号时，就会进入暂停状态。</li>
+<li>跟踪状态（TASK_TRACED）:进程的执行被调试器暂停。当一个进程被另一个监控时（如调试器使用ptrace()系统调用监控测试程序），任何信号都可以把这个进程置于跟踪状态。</li>
+<li>僵尸状态（EXIT_ZOMBIE）:进程运行结束，父进程尚未使用 wait 函数族(如调用 waitpid()函数)等系统调用来“收尸”，即等待父进程销毁它。处在该状态下的进程“尸体”已经放弃了几乎所有的内存空间，没有任何可执行代码，也不能被调度，仅仅在进程列表中保留一个位置，记载该进程的推出状态等信息供其他进程收集。</li>
+<li>僵尸撤销状态（EXIT_DEAD）:这是最终状态，父进程调用 wait 函数族“收尸”后，进程彻底由系统删除。<br><strong> 它们之间的转换关系如图 </strong><br><img src="http://7xrzzi.com1.z0.glb.clouddn.com/161330655.png" alt=""></li>
+<li>进程可以使用 set_task_state 和 set_current_state 宏来改变指定进程的状态信息和当前进程的状态。*<br>Linux内核通过唯一的进程标识符 PID 来标识每个进程(就和文件描述符一样)。PID存放在进程描述符的 pid 字段中，新创建的 PID 通常是前一个进程的 PID 加1，不过PID的值有上限（最大值=PID_MAX_DEFAULT-1，通常为32767），读者可以查看/proc/sys/kernel/pid_max 来确定该系统的进程数上限。</li>
+</ul>
+<p>当系统启动后，内核通常作为某一个进程的代表。一个指向task_struct的宏current用来记录正在运行的进程。current经常作为进程描述符结构指针的形式出现在内核代码中，例如，current-&gt;pid 表示处理器正在执行的进程的PID。当系统需要查看所有的进程时，则调用for_each_process()宏，这将比系统搜索数组的速度要快的多。</p>
+<p>在Linux中获得当前进程号的（PID）和父进程号（PPID）的系统调用函数分别为getpid() 和 getppid()</p>
+<h3 id="进程的创建、执行、终止"><a href="#进程的创建、执行、终止" class="headerlink" title="进程的创建、执行、终止"></a>进程的创建、执行、终止</h3><p><strong> （1）进程的创建和执行 </strong><br>咱们首先得知道啥是创建，啥是执行哈！我刚开始看的时候没懂。创建进程就是产生一个新的进程，这个大家都知道。而进程的执行，前边讲进程的的定义的时候，就说了正在运行的子任务，说白了，进程执行也就是让产生的这个进程干点什么事，别占着那啥不拉那啥。<br>许多操作系统提供的都是产生进程的机制，也就是说，首先在新的地址空间里创建进程、读入可执行文件，最后再开始执行。Linux 中进程的创建很特别，它把上述的步骤分解到两个单独的函数中去执行：fork()函数和exec函数族。首先，fork()函数通过复制当前进程创建一个子进程(注意此时资源还没有被复制过来，去了解一下写时复制页技术吧)，子进程于父进程的区别仅仅在于不同的PID、PPID和某些资源及统计量。exec函数族负责读取可执行文件并将其载入地址空间开始运行。<br><strong> 进程的终止 </strong><br>进程终结也需要很多繁琐的工作，系统必须保证回收进程所占用的资源，并通知父进程。Linux首先把终止的进程设置为僵尸状态，这时，进程无法投入运行，它的存在只为父进程提供信息，申请死亡。父进程得到信息后，开始调用 wait 函数族，最后终止子进程，子进程占用的所有资源被全部释放。</p>
+<h3 id="进程的内存结构"><a href="#进程的内存结构" class="headerlink" title="进程的内存结构"></a>进程的内存结构</h3><p>Linux操作系统采用虚拟内存管理技术，使得每个进程都有各自互不干涉的进程地址空间。该地址空间是大小为 4GB的线性虚拟空间，用户所看到和接触到的都是该虚拟地址，无法看到实际的物理内存地址。利用这种虚拟地址不但能起到保护操作系统的效果（用户不能直接访问物理地址），而且，更重要的是，用户程序可以使用比实际物理内存更大的地址空间。<br>4GB的进程地址空间会被分成两个部分：用户空间与内核空间。用户地址空间是从0到3GB(0xC000 0000),内核地址空间占据3GB到4GB。用户进程通常情况下只能访问用户空间的虚拟地址，不能访问内核空间的虚拟地址。只有用户进程使用系统调用（代表用户进程在内核态执行）时可以访问到内核空间。每当进程切换时，用户空间就跟着变化;而内核空间由内核负责映射，它不会跟着进程改变，是固定的。内核空间地址有自己对应的页表，用户进程各自有不同的页表。每个进程的用户空间都是完全独立、互不相干的。进程的虚拟内存空间如图3所示，其中用户空间包括以下几个功能区域：<br><img src="http://7xrzzi.com1.z0.glb.clouddn.com/164731554.png" alt=""></p>
+<ul>
+<li>只读段: 包含程序代码(.init和.text)和只读数据(.rodata)。</li>
+<li>数据段: 存放的是全局变量和静态变量。其中可读可写数据段(.data)存放已初始化的全局变量和静态变量，BSS数据段(.bss)存放未初始化的全局变量和静态变量。</li>
+<li>堆: 由系统自动分配释放，存放函数的参数值、局部变量的值、返回地址等。</li>
+<li>堆栈: 存放动态分配的数据，一般由程序员动态分配和释放。若程序员不释放，程序结束时可能由操作系统回收。</li>
+<li>共享库的内存映射区域: 这是Linux动态链接器和其他共享代码库代码的映射区域。<br><strong> 由于在Linux系统中每一个进程都会有/proc文件系统下与之对应的一个目录（如将init进程的相关信息在/proc/1 目录下的文件中描述），因此通过 proc 文件系统可以查看某个进程的地址空间的映射情况。例如，运行一个应用程序,如果它的进程号为13703,则输入“ cat /proc/13703/maps”命令，可以查看该进程的内存映射情况。</strong><h2 id="线程介绍"><a href="#线程介绍" class="headerlink" title="线程介绍"></a>线程介绍</h2>前面已经讲到，进程是系统中程序执行和资源分配的基本单位。每个进程都拥有自己的数据段、代码段和堆栈段，这就造成了进程在进行切换等动作时需要较复杂的上下文切换等动作。为了进一步减少处理机的空闲时间，支持多处理器及减少上下文切换开销，进程在演化中出现了另一个概念—线程。它是进程内独立的一条运行路线，是处理器调度的最小单元，也可以称为轻量级线程。线程可以对进程的内存空间和资源分配进行访问，并与同一进程中的其他线程共享。因此，线程的上下文切换的开销比创建进程小得多。<br>一个进程可以拥有多个线程，每个线程必须有一个父进程。线程不拥有系统资源，它只具有运行时所必须的一些数据结构，如堆栈/寄存器与线程控制块(TCB)，线程与其父进程的其他线程共享该进程所拥有的全部资源。要注意的是，由于线程共享了进程的资源和地址空间，因此，任何线程对系统资源的操作都会给其他进程带来影响。由此可知，多线程中的同步是一个非常重要的问题。在多线程系统中，进程与线程的关系如图<br><img src="http://7xrzzi.com1.z0.glb.clouddn.com/165436586.png" alt=""><br><strong> 在Linux系统中，线程分为3种：①用户线程 ②轻量级线程 ③内核线程 </strong><br><strong> 函数介绍
+</strong> fork()函数<strong><br>在 Linux 中创建一个新进程的唯一方法是使用fork()函数。fork()函数是 Linux 系统中一个非常重要的函数，和咱们以前遇到过的函数由一些区别，因为它看起来执行一次却返回两个值，这又作何解释？
+</strong>函数说明:<strong><br>fork()函数用于从已存在的一个进程中创建一个新的进程，新进程称为子进程，而原进程称为父进程。使用fork()函数得到的子进程是父进程的一个复制品，它从父进程处继承了整个进程的地址空间，包括进程上下文、代码段、进程堆栈、内存信息、打开的文件描述符、信号控制设定、进程优先级、进程组号、当前工作目录、根目录、资源限制和控制终端等，而子进程所独有的只有它的进程号、资源使用和计时器等。<br>因为子进程几乎是父进程的完全复制，所以父子进程会运行同一个程序。这就需要用一种方式来区分它们，并使它们照此运行，否则，这两个进程不可能做不同的事。<br>实际上是在父进程中执行fork()函数时，父进程会复制出一个子进程，而且父子进程的代码从fork()函数的返回开始分别在两个地址空间中同时运行，从而使两个进程分别获得其所属fork()函数的返回值，其中在父进程中的返回值是子进程的进程号，而在子进程中返回0。因此，可以通过返回值来判定该进程是父进程还是子进程。<br>同时可以看出，使用fork()函数的代价是很大的，它复制了父进程中的代码段、数据段和堆栈段里的大部分内容，使得 fork()函数的系统开销比较大，而且执行速度页不是很快。
+</strong> 函数语法 **<br>下表列出了 fork() 函数的语法要点<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//所需头文件 </span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;sys/types.h&gt;</span> <span class="comment">//提供类型pid_t的定义</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="comment">//函数原型</span></span><br><span class="line"><span class="keyword">pid_t</span> fork(<span class="keyword">void</span>)</span><br><span class="line"><span class="comment">//函数返回值</span></span><br><span class="line"><span class="number">0</span>: 子进程</span><br><span class="line">子进程PID（大于<span class="number">0</span>的整数):父进程</span><br><span class="line"><span class="number">-1</span>: 出错</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><strong> exec函数族 </strong></p>
+<ul>
+<li>函数族说明 <em><br>fork() 函数用于创建一个新的子进程，该子进程几乎复制了父进程的全部内容，但是，这个新创建的子进程如何执行呢？exec 函数族就提供了一个在进程中启动另一个程序执行的方法。它可以根据指定的文件名或目录名找到可执行文件，并用它来取代原调用进程的数据段、代码段和堆栈段，在执行完之后，原调用进程的内容除了进程号外，其他全部被新的进程替换了。另外，这里的可执行文件既可以是二进制文件，也可以是Linux下任何可执行的脚本文件。<br><em>* 在 Linux 中使用exec函数族主要有两种情况：</em></em></li>
+<li>当进程认为自己不能再为系统和用户做出任何贡献时，就可以调用 exec 函数族中的任意一个函数让自己重生。、</li>
+<li>如果一个进程想执行另一个程序，那么它就可以调用 fork() 函数新建一个进程，然后调用 exec 函数族中的任意一个函数，这样看起来就像通过执行应用程序而产生了一个新进程（这种情况非常普遍）。<br><strong> 函数族语法 </strong><br>实际上，在Linux中并没有exec()函数，而是由6个以 exec 开头的函数，它们之间的语法有细微差别。下表列出了 exec 函数族的6个成员函数的语法：<br><img src="http://7xrzzi.com1.z0.glb.clouddn.com/182815931.jpg" alt=""></li>
+<li>查找方式：表1中的前4个函数的查找方式都是完整的文件目录路径，而最后两个函数（也就是以 p 结尾的两个函数）可以只给出文件名，系统就会自动按照环境变量“$PATH” 所指定的路径进行查找。</li>
+<li>参数传递方式：exec函数族的参数传递有两种：一种是逐个列举的方式，而另一种则是将所有参数整体构造指针数组传递。在这里是以函数名的第5位字母来区分的，字母为 “l”(list)的表示逐个列举参数的方式，其语法为const char <em>arg;字母为“v”(vector)的表示将所有参数整体构造指针数组传递，其语法为 char </em>const argv[]。这里的参数实际上就是用户在使用这个可执行文件时所需的全部命令选项字符串（包括该可执行程序命令本身）。要注意的是，这些参数必须以NULL结束。</li>
+<li>环境变量： exec函数族可以默认系统的环境变量，也可以传入指定的环境变量。这里以 “e”(environment)结尾的两个函数 execle()和 execve()就可以在 envp[]中指定当前进程所使用的环境变量。<br><strong> exit()和_exit()函数 </strong><br>创建进程使用fork()函数，执行进程使用exec函数族，终止进程则使用exit()和_exit()函数。当进程执行到exit()或_exit()函数时，进程会无条件的停止剩下的所有操作，清除各种数据结构，并终止本进程的运行。但是，这两个函数还是有区别的，其调用过程如图<br><img src="http://7xrzzi.com1.z0.glb.clouddn.com/183055655.png" alt=""><br>可以看出，_exit()函数的作用是：直接使进程停止运行，清除其使用的内存空间，并清除其在内核中的各种数据结构；而exit()函数则在这些基础上做了一些包装，在执行退出之前加了若干道工序。exit()函数和_exit()函数的最大区别就在于exit()函数在终止当前进程之前要检查该进程打开过哪些文件，把文件缓冲区中的内容写回文件，也就是图1中的“清理I/O缓冲”一项。</li>
+</ul>
+<p>在Linux的标准函数库中，有一种被称作“缓冲I/O（buffered I/O）”的操作，其特征就是对应每一个打开的文件，在内存中都有一片缓冲区。</p>
+<p>每次读文件时，会连续读出若干条记录，这样在下次读文件时就可以直接从内存的缓冲区中读取;同样，每次写文件时，也仅仅是写入内存中的缓冲区，等满足了一定的条件（如达到一定数量或遇到特定字符等，最典型的就是咱们的vim中使用的:w命令），再将缓冲区中的内容一次性写入文件。</p>
+<p>这种技术大大增加了文件读写的速度，但也给咱们的编程带来了一些麻烦。比如有些数据你认为已经被写入到文件中，实际上因为没有满足特定的条件，它们还只是被保存在缓冲区内，这时用_exit()函数直接将进程关闭掉，缓冲区中的数据就会丢失。因此，若想保证数据的完整性，最好使用exit()函数。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/IPC/" rel="tag">#IPC</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/blog/2015/10/05/使用getsockname和getpeername函数.html" rel="next" title="使用getsockname和getpeername函数">
+                <i class="fa fa-chevron-left"></i> 使用getsockname和getpeername函数
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/blog/2015/10/20/CEO的能力.html" rel="prev" title="CEO的能力">
+                CEO的能力 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="/blog/2015/10/06/07-linux进程线程以及通信IPC.html"
+     data-title="linux进程线程以及通信IPC"
+     data-content=""
+     data-url="http://yunvoo.com/blog/2015/10/06/07-linux进程线程以及通信IPC.html">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="/blog/2015/10/06/07-linux进程线程以及通信IPC.html"
+           data-title="linux进程线程以及通信IPC" data-url="http://yunvoo.com/blog/2015/10/06/07-linux进程线程以及通信IPC.html">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="yunvoo" />
+          <p class="site-author-name" itemprop="name">yunvoo</p>
+          <p class="site-description motion-element" itemprop="description">The best way to prediet the future is to create it</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">31</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">31</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://www.yunvoo.com" target="_blank" title="博客">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  博客
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://facebook.com/yunvooli" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/yunvooli" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://plus.google.com/107492061888791876239/posts" target="_blank" title="Google+">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Google+
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yunvoo" target="_blank" title="Github">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Github
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://7xrzzi.com1.z0.glb.clouddn.com/4.png" target="_blank" title="微信">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微信
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本概念"><span class="nav-number">1.</span> <span class="nav-text">基本概念</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#进程具体介绍"><span class="nav-number"></span> <span class="nav-text">进程具体介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Linux下的进程结构"><span class="nav-number">1.</span> <span class="nav-text">Linux下的进程结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进程状态"><span class="nav-number">2.</span> <span class="nav-text">进程状态</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进程的创建、执行、终止"><span class="nav-number">3.</span> <span class="nav-text">进程的创建、执行、终止</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#进程的内存结构"><span class="nav-number">4.</span> <span class="nav-text">进程的内存结构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程介绍"><span class="nav-number"></span> <span class="nav-text">线程介绍</span></a></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">yunvoo</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动 
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"yunvooli"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+
+  
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("da8KweghFc2VzU2Y8iGjEgCi-gzGzoHsz", "gT6O2WdFMqMyDkuIXUm7HnjF");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>
