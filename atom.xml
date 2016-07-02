@@ -316,18 +316,18 @@
     <link href="http://yunvoo.com//blog/2015/10/16/Linux%E5%8D%87%E7%BA%A7%E5%AE%89%E8%A3%85GCC.html"/>
     <id>http://yunvoo.com//blog/2015/10/16/Linux升级安装GCC.html</id>
     <published>2015-10-15T16:00:00.000Z</published>
-    <updated>2016-07-02T03:25:29.845Z</updated>
+    <updated>2016-07-02T03:28:50.196Z</updated>
     
     <content type="html">&lt;h2 id=&quot;linux升级安装GCC&quot;&gt;&lt;a href=&quot;#linux升级安装GCC&quot; class=&quot;headerlink&quot; title=&quot;linux升级安装GCC&quot;&gt;&lt;/a&gt;linux升级安装GCC&lt;/h2&gt;&lt;p&gt;最近装了几个软件，要求gcc的版本高，我的是gcc-4.4.7版本,用的系统是redhat 6.5，无奈就手动升级了gcc&lt;/p&gt;
-&lt;h3 id=&quot;下载最新版本的gcc&quot;&gt;&lt;a href=&quot;#下载最新版本的gcc&quot; class=&quot;headerlink&quot; title=&quot;下载最新版本的gcc&quot;&gt;&lt;/a&gt;下载最新版本的gcc&lt;/h3&gt;&lt;p&gt;我选一个gcc-5.4.0 ,不算最新的，差两个版本也是可以的，下面是我找到的两个下载镜像，下载速度还可以，都可以使用：&lt;br&gt;&lt;figure class=&quot;highlight cpp&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;wget http:&lt;span class=&quot;comment&quot;&gt;//gcc.parentingamerica.com/releases/gcc-5.4.0/gcc-5.4.0.tar.gz 或 wget http://ftp.tsukuba.wide.ad.jp/software/gcc/releases/gcc-5.4.0/gcc-5.4.0.tar.bz2&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;h3 id=&quot;下载最新版本的gcc&quot;&gt;&lt;a href=&quot;#下载最新版本的gcc&quot; class=&quot;headerlink&quot; title=&quot;下载最新版本的gcc&quot;&gt;&lt;/a&gt;下载最新版本的gcc&lt;/h3&gt;&lt;p&gt;我选一个gcc-5.4.0 ,不算最新的，差两个版本也是可以的，下面是我找到的两个下载镜像，下载速度还可以，都可以使用：&lt;br&gt;&lt;figure class=&quot;highlight cpp&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;wget http:&lt;span class=&quot;comment&quot;&gt;//gcc.parentingamerica.com/releases/gcc-5.4.0/gcc-5.4.0.tar.gz 或 &lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;wget http:&lt;span class=&quot;comment&quot;&gt;//ftp.tsukuba.wide.ad.jp/software/gcc/releases/gcc-5.4.0/gcc-5.4.0.tar.bz2&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt; 上面两个镜像分别位于加拿大和日本，由于gcc本身比较大（100MB左右），所以下载会需要一些时间。如果下载很慢，也可以到gcc官网查找较快的下载镜像。&lt;/strong&gt;&lt;/p&gt;
 &lt;h3 id=&quot;解压下载的文件&quot;&gt;&lt;a href=&quot;#解压下载的文件&quot; class=&quot;headerlink&quot; title=&quot;解压下载的文件&quot;&gt;&lt;/a&gt;解压下载的文件&lt;/h3&gt;&lt;p&gt;gcc安装文件下载完成后，执行以下命令解压文件：&lt;br&gt;tar -zxvf gcc-5.4.0.tar.gz&lt;/p&gt;
 &lt;h3 id=&quot;下载gcc-依赖文件和库&quot;&gt;&lt;a href=&quot;#下载gcc-依赖文件和库&quot; class=&quot;headerlink&quot; title=&quot;下载gcc 依赖文件和库&quot;&gt;&lt;/a&gt;下载gcc 依赖文件和库&lt;/h3&gt;&lt;p&gt;解压完成后，执行以下命令进入工作目录&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;cd gcc-5.4.0 *&lt;br&gt;执行download_prerequisites脚本，下载gcc依赖文件和库：&lt;/li&gt;
-&lt;li&gt;./contrib/download_prerequisites *&lt;br&gt;download_prerequisites脚本，会下载安装gcc所需的mpfr、gmp和mpc文件。&lt;h3 id=&quot;配置安装gcc&quot;&gt;&lt;a href=&quot;#配置安装gcc&quot; class=&quot;headerlink&quot; title=&quot;配置安装gcc&quot;&gt;&lt;/a&gt;配置安装gcc&lt;/h3&gt;建立一个输出目录，编译时所有生成的中间文件都放到该目录下：&lt;br&gt;mkdir gcc-tmp&lt;br&gt;工作目录切换至输出目录，并在其中执行配置和安装：&lt;br&gt;cd gcc-tmp&lt;br&gt;执行configure配置安装文件：&lt;figure class=&quot;highlight cpp&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;../configure --enable-checking=release --enable-languages=c,c++ --disable-multilib&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;/li&gt;
+&lt;li&gt;./contrib/download_prerequisites *&lt;br&gt;download_prerequisites脚本，会下载安装gcc所需的mpfr、gmp和mpc文件。&lt;/li&gt;
 &lt;/ul&gt;
+&lt;h3 id=&quot;配置安装gcc&quot;&gt;&lt;a href=&quot;#配置安装gcc&quot; class=&quot;headerlink&quot; title=&quot;配置安装gcc&quot;&gt;&lt;/a&gt;配置安装gcc&lt;/h3&gt;&lt;p&gt;建立一个输出目录，编译时所有生成的中间文件都放到该目录下：&lt;br&gt;mkdir gcc-tmp&lt;br&gt;工作目录切换至输出目录，并在其中执行配置和安装：&lt;br&gt;cd gcc-tmp&lt;br&gt;执行configure配置安装文件：&lt;br&gt;&lt;figure class=&quot;highlight cpp&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;../configure --enable-checking=release --enable-languages=c,c++ --disable-multilib&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;配置完成后，执行以下命令，编译gcc：&lt;br&gt;&lt;strong&gt; make &lt;/strong&gt;&lt;br&gt;&lt;strong&gt; 注意：编译gcc时间较长，我用了近三个小才编译完成。&lt;/strong&gt;&lt;br&gt;编译完成后，安装gcc：&lt;br&gt;&lt;figure class=&quot;highlight cpp&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;makeinstall&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;安装完成后还需要替换系统默认的gcc，执行以下命令，查找5.4版本的安装文件：&lt;br&gt;ls /usr/local/bin | grep gcc&lt;br&gt;&lt;figure class=&quot;highlight cpp&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;gcc&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;gcc-ar&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;gcc-nm&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;gcc-ranlib&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;x86_64-unknown-linux-gnu-gcc&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;x86_64-unknown-linux-gnu-gcc&lt;span class=&quot;number&quot;&gt;-5.2&lt;/span&gt;&lt;span class=&quot;number&quot;&gt;.0&lt;/span&gt;    &lt;span class=&quot;comment&quot;&gt;//就是这个&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;x86_64-unknown-linux-gnu-gcc-ar&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;x86_64-unknown-linux-gnu-gcc-nm&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;x86_64-unknown-linux-gnu-gcc-ranlib&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
 &lt;p&gt;执行升级命令：&lt;br&gt;&lt;figure class=&quot;highlight cpp&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;/usr/sbin/update-alternatives --install  /usr/bin/gcc gcc /usr/local/bin/x86_64-unknown-linux-gnu-gcc&lt;span class=&quot;number&quot;&gt;-5.4&lt;/span&gt;&lt;span class=&quot;number&quot;&gt;.0&lt;/span&gt; &lt;span class=&quot;number&quot;&gt;54&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
@@ -644,6 +644,32 @@
   </entry>
   
   <entry>
+    <title>什么是bootloader</title>
+    <link href="http://yunvoo.com//blog/2015/08/06/bootloader.html"/>
+    <id>http://yunvoo.com//blog/2015/08/06/bootloader.html</id>
+    <published>2015-08-05T16:00:00.000Z</published>
+    <updated>2016-06-22T10:26:46.726Z</updated>
+    
+    <content type="html">&lt;h2 id=&quot;什么是bootloader&quot;&gt;&lt;a href=&quot;#什么是bootloader&quot; class=&quot;headerlink&quot; title=&quot;什么是bootloader?&quot;&gt;&lt;/a&gt;什么是bootloader?&lt;/h2&gt;&lt;p&gt;引导程序（英语：boot loader）位于电脑或其他计算机应用上，是指引导操作系统启动的程序。引导程序引导方式及程序视应用机型种类而不同。例如在普通的个人电脑上，引导程序通常分为两部分：第一阶段引导程序位于主引导记录（MBR），用以引导位于某个分区上的第二阶段引导程序，如NTLDR、BOOTMGR和GNU GRUB等。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;BIOS&lt;/code&gt;开机完成后，bootloader就接手初始化硬件设备、创建内存空间的映射，以便为操作系统内核准备好正确的软硬件环境。&lt;/p&gt;
+&lt;p&gt;简单的&lt;code&gt;bootloader&lt;/code&gt;的虚拟汇编码，如其后的八个指令：&lt;/p&gt;
+&lt;p&gt;第一：将P寄存器的值设为8&lt;br&gt;第二：检查纸带（paper tape）读取器，是否已经可以进行读取&lt;br&gt;第三：如果还不能进行读取，跳至1&lt;br&gt;第四：从纸带读取器，读取一byte至累加器&lt;br&gt;第五：如为带子结尾，跳至8&lt;br&gt;第六：将寄存器的值，存储至P寄存器中的数值所指定的地址&lt;br&gt;第七：增加P寄存器的值&lt;br&gt;第八：跳至1&lt;br&gt;但是随着计算机操作系统越来越复杂，位于主引导记录的空间已经放不下引导操作系统的代码，于是就有了第二阶段的引导程序，而MBR中代码的功能也从直接引导操作系统变为了引导第二阶段的引导程序。&lt;br&gt;  &lt;code&gt;BootLoader是在操作系统内核运行之前运行的一段小程序。其实Bootloader就相当于手机的&lt;/code&gt;bios&lt;code&gt;，通过这段小程序，进行硬件初始化，获取内存大小信息等，调整手机到适配所以Bootloader是很重要的，如果bootloader不能正常加载，手机就是砖头一个，无法正常启动和使用。&lt;/code&gt;&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;什么是bootloader&quot;&gt;&lt;a href=&quot;#什么是bootloader&quot; class=&quot;headerlink&quot; title=&quot;什么是bootloader?&quot;&gt;&lt;/a&gt;什么是bootloader?&lt;/h2&gt;&lt;p&gt;引导程序（英语：boot loader）位于电脑
+    
+    </summary>
+    
+      <category term="技术" scheme="http://yunvoo.com/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="bootloader" scheme="http://yunvoo.com/tags/bootloader/"/>
+    
+  </entry>
+  
+  <entry>
     <title>静态绑定和动态绑定</title>
     <link href="http://yunvoo.com//blog/2015/08/06/%E9%9D%99%E6%80%81%E7%BB%91%E5%AE%9A%E5%92%8C%E5%8A%A8%E6%80%81%E7%BB%91%E5%AE%9A.html"/>
     <id>http://yunvoo.com//blog/2015/08/06/静态绑定和动态绑定.html</id>
@@ -679,32 +705,6 @@
     
     
       <category term="静态和动态绑定" scheme="http://yunvoo.com/tags/%E9%9D%99%E6%80%81%E5%92%8C%E5%8A%A8%E6%80%81%E7%BB%91%E5%AE%9A/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>什么是bootloader</title>
-    <link href="http://yunvoo.com//blog/2015/08/06/bootloader.html"/>
-    <id>http://yunvoo.com//blog/2015/08/06/bootloader.html</id>
-    <published>2015-08-05T16:00:00.000Z</published>
-    <updated>2016-06-22T10:26:46.726Z</updated>
-    
-    <content type="html">&lt;h2 id=&quot;什么是bootloader&quot;&gt;&lt;a href=&quot;#什么是bootloader&quot; class=&quot;headerlink&quot; title=&quot;什么是bootloader?&quot;&gt;&lt;/a&gt;什么是bootloader?&lt;/h2&gt;&lt;p&gt;引导程序（英语：boot loader）位于电脑或其他计算机应用上，是指引导操作系统启动的程序。引导程序引导方式及程序视应用机型种类而不同。例如在普通的个人电脑上，引导程序通常分为两部分：第一阶段引导程序位于主引导记录（MBR），用以引导位于某个分区上的第二阶段引导程序，如NTLDR、BOOTMGR和GNU GRUB等。&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;BIOS&lt;/code&gt;开机完成后，bootloader就接手初始化硬件设备、创建内存空间的映射，以便为操作系统内核准备好正确的软硬件环境。&lt;/p&gt;
-&lt;p&gt;简单的&lt;code&gt;bootloader&lt;/code&gt;的虚拟汇编码，如其后的八个指令：&lt;/p&gt;
-&lt;p&gt;第一：将P寄存器的值设为8&lt;br&gt;第二：检查纸带（paper tape）读取器，是否已经可以进行读取&lt;br&gt;第三：如果还不能进行读取，跳至1&lt;br&gt;第四：从纸带读取器，读取一byte至累加器&lt;br&gt;第五：如为带子结尾，跳至8&lt;br&gt;第六：将寄存器的值，存储至P寄存器中的数值所指定的地址&lt;br&gt;第七：增加P寄存器的值&lt;br&gt;第八：跳至1&lt;br&gt;但是随着计算机操作系统越来越复杂，位于主引导记录的空间已经放不下引导操作系统的代码，于是就有了第二阶段的引导程序，而MBR中代码的功能也从直接引导操作系统变为了引导第二阶段的引导程序。&lt;br&gt;  &lt;code&gt;BootLoader是在操作系统内核运行之前运行的一段小程序。其实Bootloader就相当于手机的&lt;/code&gt;bios&lt;code&gt;，通过这段小程序，进行硬件初始化，获取内存大小信息等，调整手机到适配所以Bootloader是很重要的，如果bootloader不能正常加载，手机就是砖头一个，无法正常启动和使用。&lt;/code&gt;&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;什么是bootloader&quot;&gt;&lt;a href=&quot;#什么是bootloader&quot; class=&quot;headerlink&quot; title=&quot;什么是bootloader?&quot;&gt;&lt;/a&gt;什么是bootloader?&lt;/h2&gt;&lt;p&gt;引导程序（英语：boot loader）位于电脑
-    
-    </summary>
-    
-      <category term="技术" scheme="http://yunvoo.com/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-    
-      <category term="bootloader" scheme="http://yunvoo.com/tags/bootloader/"/>
     
   </entry>
   
