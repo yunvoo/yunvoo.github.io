@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yunvoo.com/"/>
-  <updated>2016-06-26T07:15:08.677Z</updated>
+  <updated>2016-07-04T12:06:57.249Z</updated>
   <id>http://yunvoo.com/</id>
   
   <author>
@@ -14,6 +14,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>互联网兴盛时代已过去了</title>
+    <link href="http://yunvoo.com//blog/2016/07/04/%E4%BA%92%E8%81%94%E7%BD%91%E5%85%B4%E7%9B%9B%E6%97%B6%E4%BB%A3%E5%B7%B2%E8%BF%87%E5%8E%BB%E4%BA%86.html"/>
+    <id>http://yunvoo.com//blog/2016/07/04/互联网兴盛时代已过去了.html</id>
+    <published>2016-07-04T12:03:47.000Z</published>
+    <updated>2016-07-04T12:06:57.249Z</updated>
+    
+    <content type="html">&lt;h2 id=&quot;互联网&quot;&gt;&lt;a href=&quot;#互联网&quot; class=&quot;headerlink&quot; title=&quot;互联网&quot;&gt;&lt;/a&gt;互联网&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;物联网兴盛时代已经过去了&lt;br&gt;                         —-玛丽*米克尔&lt;/p&gt;
+&lt;h2 id=&quot;玛丽-米克尔&quot;&gt;&lt;a href=&quot;#玛丽-米克尔&quot; class=&quot;headerlink&quot; title=&quot;玛丽*米克尔&quot;&gt;&lt;/a&gt;玛丽*米克尔&lt;/h2&gt;&lt;p&gt;&lt;strong&gt; 玛丽·米克（1959年生于九月）是美国风险资本家和前华尔街 证券分析师。她的主要工作是对互联网和新技术。她是一个合伙人在硅谷的风险投资公司凯鹏华＆Byers公司。[1] [2] 2014年，她被列为第77届最有权势的女人在世界福布斯。&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;互联网&quot;&gt;&lt;a href=&quot;#互联网&quot; class=&quot;headerlink&quot; title=&quot;互联网&quot;&gt;&lt;/a&gt;互联网&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;物联网兴盛时代已经过去了&lt;br&gt;                         —-玛丽*米克尔&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="金融经济" scheme="http://yunvoo.com/categories/%E9%87%91%E8%9E%8D%E7%BB%8F%E6%B5%8E/"/>
+    
+    
+      <category term="互联网" scheme="http://yunvoo.com/tags/%E4%BA%92%E8%81%94%E7%BD%91/"/>
+    
+  </entry>
   
   <entry>
     <title>英国退欧引发地震 全球政治洗牌在即</title>
@@ -645,32 +672,6 @@
   </entry>
   
   <entry>
-    <title>什么是bootloader</title>
-    <link href="http://yunvoo.com//blog/2015/08/06/bootloader.html"/>
-    <id>http://yunvoo.com//blog/2015/08/06/bootloader.html</id>
-    <published>2015-08-05T16:00:00.000Z</published>
-    <updated>2016-06-22T10:26:46.726Z</updated>
-    
-    <content type="html">&lt;h2 id=&quot;什么是bootloader&quot;&gt;&lt;a href=&quot;#什么是bootloader&quot; class=&quot;headerlink&quot; title=&quot;什么是bootloader?&quot;&gt;&lt;/a&gt;什么是bootloader?&lt;/h2&gt;&lt;p&gt;引导程序（英语：boot loader）位于电脑或其他计算机应用上，是指引导操作系统启动的程序。引导程序引导方式及程序视应用机型种类而不同。例如在普通的个人电脑上，引导程序通常分为两部分：第一阶段引导程序位于主引导记录（MBR），用以引导位于某个分区上的第二阶段引导程序，如NTLDR、BOOTMGR和GNU GRUB等。&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;BIOS&lt;/code&gt;开机完成后，bootloader就接手初始化硬件设备、创建内存空间的映射，以便为操作系统内核准备好正确的软硬件环境。&lt;/p&gt;
-&lt;p&gt;简单的&lt;code&gt;bootloader&lt;/code&gt;的虚拟汇编码，如其后的八个指令：&lt;/p&gt;
-&lt;p&gt;第一：将P寄存器的值设为8&lt;br&gt;第二：检查纸带（paper tape）读取器，是否已经可以进行读取&lt;br&gt;第三：如果还不能进行读取，跳至1&lt;br&gt;第四：从纸带读取器，读取一byte至累加器&lt;br&gt;第五：如为带子结尾，跳至8&lt;br&gt;第六：将寄存器的值，存储至P寄存器中的数值所指定的地址&lt;br&gt;第七：增加P寄存器的值&lt;br&gt;第八：跳至1&lt;br&gt;但是随着计算机操作系统越来越复杂，位于主引导记录的空间已经放不下引导操作系统的代码，于是就有了第二阶段的引导程序，而MBR中代码的功能也从直接引导操作系统变为了引导第二阶段的引导程序。&lt;br&gt;  &lt;code&gt;BootLoader是在操作系统内核运行之前运行的一段小程序。其实Bootloader就相当于手机的&lt;/code&gt;bios&lt;code&gt;，通过这段小程序，进行硬件初始化，获取内存大小信息等，调整手机到适配所以Bootloader是很重要的，如果bootloader不能正常加载，手机就是砖头一个，无法正常启动和使用。&lt;/code&gt;&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;什么是bootloader&quot;&gt;&lt;a href=&quot;#什么是bootloader&quot; class=&quot;headerlink&quot; title=&quot;什么是bootloader?&quot;&gt;&lt;/a&gt;什么是bootloader?&lt;/h2&gt;&lt;p&gt;引导程序（英语：boot loader）位于电脑
-    
-    </summary>
-    
-      <category term="技术" scheme="http://yunvoo.com/categories/%E6%8A%80%E6%9C%AF/"/>
-    
-    
-      <category term="bootloader" scheme="http://yunvoo.com/tags/bootloader/"/>
-    
-  </entry>
-  
-  <entry>
     <title>静态绑定和动态绑定</title>
     <link href="http://yunvoo.com//blog/2015/08/06/%E9%9D%99%E6%80%81%E7%BB%91%E5%AE%9A%E5%92%8C%E5%8A%A8%E6%80%81%E7%BB%91%E5%AE%9A.html"/>
     <id>http://yunvoo.com//blog/2015/08/06/静态绑定和动态绑定.html</id>
@@ -706,6 +707,32 @@
     
     
       <category term="静态和动态绑定" scheme="http://yunvoo.com/tags/%E9%9D%99%E6%80%81%E5%92%8C%E5%8A%A8%E6%80%81%E7%BB%91%E5%AE%9A/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>什么是bootloader</title>
+    <link href="http://yunvoo.com//blog/2015/08/06/bootloader.html"/>
+    <id>http://yunvoo.com//blog/2015/08/06/bootloader.html</id>
+    <published>2015-08-05T16:00:00.000Z</published>
+    <updated>2016-06-22T10:26:46.726Z</updated>
+    
+    <content type="html">&lt;h2 id=&quot;什么是bootloader&quot;&gt;&lt;a href=&quot;#什么是bootloader&quot; class=&quot;headerlink&quot; title=&quot;什么是bootloader?&quot;&gt;&lt;/a&gt;什么是bootloader?&lt;/h2&gt;&lt;p&gt;引导程序（英语：boot loader）位于电脑或其他计算机应用上，是指引导操作系统启动的程序。引导程序引导方式及程序视应用机型种类而不同。例如在普通的个人电脑上，引导程序通常分为两部分：第一阶段引导程序位于主引导记录（MBR），用以引导位于某个分区上的第二阶段引导程序，如NTLDR、BOOTMGR和GNU GRUB等。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;BIOS&lt;/code&gt;开机完成后，bootloader就接手初始化硬件设备、创建内存空间的映射，以便为操作系统内核准备好正确的软硬件环境。&lt;/p&gt;
+&lt;p&gt;简单的&lt;code&gt;bootloader&lt;/code&gt;的虚拟汇编码，如其后的八个指令：&lt;/p&gt;
+&lt;p&gt;第一：将P寄存器的值设为8&lt;br&gt;第二：检查纸带（paper tape）读取器，是否已经可以进行读取&lt;br&gt;第三：如果还不能进行读取，跳至1&lt;br&gt;第四：从纸带读取器，读取一byte至累加器&lt;br&gt;第五：如为带子结尾，跳至8&lt;br&gt;第六：将寄存器的值，存储至P寄存器中的数值所指定的地址&lt;br&gt;第七：增加P寄存器的值&lt;br&gt;第八：跳至1&lt;br&gt;但是随着计算机操作系统越来越复杂，位于主引导记录的空间已经放不下引导操作系统的代码，于是就有了第二阶段的引导程序，而MBR中代码的功能也从直接引导操作系统变为了引导第二阶段的引导程序。&lt;br&gt;  &lt;code&gt;BootLoader是在操作系统内核运行之前运行的一段小程序。其实Bootloader就相当于手机的&lt;/code&gt;bios&lt;code&gt;，通过这段小程序，进行硬件初始化，获取内存大小信息等，调整手机到适配所以Bootloader是很重要的，如果bootloader不能正常加载，手机就是砖头一个，无法正常启动和使用。&lt;/code&gt;&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;什么是bootloader&quot;&gt;&lt;a href=&quot;#什么是bootloader&quot; class=&quot;headerlink&quot; title=&quot;什么是bootloader?&quot;&gt;&lt;/a&gt;什么是bootloader?&lt;/h2&gt;&lt;p&gt;引导程序（英语：boot loader）位于电脑
+    
+    </summary>
+    
+      <category term="技术" scheme="http://yunvoo.com/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+      <category term="bootloader" scheme="http://yunvoo.com/tags/bootloader/"/>
     
   </entry>
   
@@ -889,41 +916,6 @@
     
     
       <category term="建议" scheme="http://yunvoo.com/tags/%E5%BB%BA%E8%AE%AE/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>类模板基本语法</title>
-    <link href="http://yunvoo.com//blog/2015/05/21/%E7%B1%BB%E6%A8%A1%E6%9D%BF%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95.html"/>
-    <id>http://yunvoo.com//blog/2015/05/21/类模板基本语法.html</id>
-    <published>2015-05-20T16:00:00.000Z</published>
-    <updated>2016-06-23T05:41:24.484Z</updated>
-    
-    <content type="html">&lt;h2 id=&quot;类模板基本语法&quot;&gt;&lt;a href=&quot;#类模板基本语法&quot; class=&quot;headerlink&quot; title=&quot;类模板基本语法&quot;&gt;&lt;/a&gt;类模板基本语法&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;1.先写出一个实际的类。由于其语义明确，含义清楚，一般不会出错。&lt;/li&gt;
-&lt;li&gt;2.将此类中准备改变的类型名(如int要改变为float或char)改用一个自己指定的虚拟类型名&lt;/li&gt;
-&lt;li&gt;3.在类声明前面加入一行，格式为：&lt;br&gt;  template &lt;class 虚拟类型参数=&quot;&quot;&gt;&lt;br&gt;如：&lt;br&gt;  template &lt;class numtype=&quot;&quot;&gt; //注意本行末尾无分号&lt;br&gt;  class Compare&lt;br&gt;  {…}; //类体&lt;/class&gt;&lt;/class&gt;&lt;/li&gt;
-&lt;li&gt;4.用类模板定义对象时用以下形式：&lt;br&gt;  类模板名&amp;lt;实际类型名&amp;gt; 对象名;&lt;br&gt;  类模板名&amp;lt;实际类型名&amp;gt; 对象名(实参表列);&lt;br&gt;如：&lt;br&gt;  Compare&lt;int&gt; cmp;&lt;br&gt;  Compare&lt;int&gt; cmp(3,7);&lt;/int&gt;&lt;/int&gt;&lt;/li&gt;
-&lt;li&gt;5.如果在类模板外定义成员函数，应写成类模板形式：&lt;br&gt; template &lt;class 虚拟类型参数=&quot;&quot;&gt;&lt;br&gt; 函数类型 类模板名&amp;lt;虚拟类型参数&amp;gt;::成员函数名(函数形参表列) {…}&lt;/class&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h3 id=&quot;代码&quot;&gt;&lt;a href=&quot;#代码&quot; class=&quot;headerlink&quot; title=&quot;代码&quot;&gt;&lt;/a&gt;代码&lt;/h3&gt;&lt;figure class=&quot;highlight cpp&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;29&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;30&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;31&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;32&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;33&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;34&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;35&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;36&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;37&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;38&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;39&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;40&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;41&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;42&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;43&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;44&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;45&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;46&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;47&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;48&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;49&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;50&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;51&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;52&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;53&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;54&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;55&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;56&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;57&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;58&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;59&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;60&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;61&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;62&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;63&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;64&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;65&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;66&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;67&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;68&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;69&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;70&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;71&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;72&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;73&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;74&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;75&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;76&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;77&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;78&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;79&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;80&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;81&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;82&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;83&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;84&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;85&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;86&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;87&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;88&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;89&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;90&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;91&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;92&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;93&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;94&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;95&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;96&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;97&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;98&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;99&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;100&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;101&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;102&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;103&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;104&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;105&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;106&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;107&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;108&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;109&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;meta&quot;&gt;#&lt;span class=&quot;meta-keyword&quot;&gt;include&lt;/span&gt; &lt;span class=&quot;meta-string&quot;&gt;&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;using&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;namespace&lt;/span&gt; &lt;span class=&quot;built_in&quot;&gt;std&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;//A编程模板 类 &lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;//模板类  类型参数化&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;//类模板的定义&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;//类模板的使用&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;//类模板 做函数参数&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;//模板类 &lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;template&lt;/span&gt; &amp;lt;&lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt; T&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt; A&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;public&lt;/span&gt;:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	A(T a)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		&lt;span class=&quot;keyword&quot;&gt;this&lt;/span&gt;-&amp;gt;a = a;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;public&lt;/span&gt;:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;printA&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		&lt;span class=&quot;built_in&quot;&gt;cout&lt;/span&gt; &amp;lt;&amp;lt; &lt;span class=&quot;string&quot;&gt;&quot;a: &quot;&lt;/span&gt; &amp;lt;&amp;lt; a &amp;lt;&amp;lt; &lt;span class=&quot;built_in&quot;&gt;endl&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;protected&lt;/span&gt;:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	T a;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;//从模板类 派生了 普通类&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;// 模板类派生时, 需要具体化模板类. C++编译器需要知道 父类的数据类型具体是什么样子的&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;//=====&amp;gt; 要知道父类所占的内存大小是多少 只有数据类型固定下来,才知道如何分配内存 &lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt; B : &lt;span class=&quot;keyword&quot;&gt;public&lt;/span&gt; A&amp;lt;&lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;public&lt;/span&gt;:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	B(&lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; a=&lt;span class=&quot;number&quot;&gt;10&lt;/span&gt;, &lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; b=&lt;span class=&quot;number&quot;&gt;20&lt;/span&gt;) : A&amp;lt;&lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt;&amp;gt;(a)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		&lt;span class=&quot;keyword&quot;&gt;this&lt;/span&gt;-&amp;gt;b = b;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;printB&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		&lt;span class=&quot;built_in&quot;&gt;cout&lt;/span&gt; &amp;lt;&amp;lt; &lt;span class=&quot;string&quot;&gt;&quot;a:&quot;&lt;/span&gt; &amp;lt;&amp;lt; a &amp;lt;&amp;lt; &lt;span class=&quot;string&quot;&gt;&quot; b: &quot;&lt;/span&gt; &amp;lt;&amp;lt; b &amp;lt;&amp;lt; &lt;span class=&quot;built_in&quot;&gt;endl&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;protected&lt;/span&gt;:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;private&lt;/span&gt;:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt; b;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;//从模板类 派生 模板类&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;template&lt;/span&gt; &amp;lt;&lt;span class=&quot;keyword&quot;&gt;typename&lt;/span&gt; T&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;class&lt;/span&gt; C : &lt;span class=&quot;keyword&quot;&gt;public&lt;/span&gt; A&amp;lt;T&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;public&lt;/span&gt;:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	C(T c, T a) : A&amp;lt;T&amp;gt;(a)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		&lt;span class=&quot;keyword&quot;&gt;this&lt;/span&gt;-&amp;gt;c = c;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;printC&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		&lt;span class=&quot;built_in&quot;&gt;cout&lt;/span&gt; &amp;lt;&amp;lt; &lt;span class=&quot;string&quot;&gt;&quot;c:&quot;&lt;/span&gt; &amp;lt;&amp;lt; c &amp;lt;&amp;lt;&lt;span class=&quot;built_in&quot;&gt;endl&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;protected&lt;/span&gt;:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	T c;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	C&amp;lt;&lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt;&amp;gt; c1(&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	c1.printC();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	system(&lt;span class=&quot;string&quot;&gt;&quot;pause&quot;&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;//&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;main62&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;function&quot;&gt;B  &lt;span class=&quot;title&quot;&gt;b1&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(&lt;span class=&quot;number&quot;&gt;1&lt;/span&gt;, &lt;span class=&quot;number&quot;&gt;2&lt;/span&gt;)&lt;/span&gt;&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	b1.printB();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	system(&lt;span class=&quot;string&quot;&gt;&quot;pause&quot;&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;//类模板 做函数参数&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;//参数 ,C++编译器 要求具体的类 所以所 要 A&amp;lt;int&amp;gt; &amp;amp;a &lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;UseA&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;( A&amp;lt;&lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt;&amp;gt; &amp;amp;a )&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	a.printA();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;main61&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;comment&quot;&gt;//模板类(本身就是类型化的)====具体的类=====&amp;gt;定义具体的变量&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	A&amp;lt;&lt;span class=&quot;keyword&quot;&gt;int&lt;/span&gt;&amp;gt; a1(&lt;span class=&quot;number&quot;&gt;11&lt;/span&gt;), a2(&lt;span class=&quot;number&quot;&gt;20&lt;/span&gt;), a3(&lt;span class=&quot;number&quot;&gt;30&lt;/span&gt;); &lt;span class=&quot;comment&quot;&gt;//模板类是抽象的  ====&amp;gt;需要进行 类型具体&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;comment&quot;&gt;//a1.printA();&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	UseA(a1);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	UseA(a2);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	UseA(a3);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;built_in&quot;&gt;cout&lt;/span&gt;&amp;lt;&amp;lt;&lt;span class=&quot;string&quot;&gt;&quot;hello...&quot;&lt;/span&gt;&amp;lt;&amp;lt;&lt;span class=&quot;built_in&quot;&gt;endl&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	system(&lt;span class=&quot;string&quot;&gt;&quot;pause&quot;&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt; ;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;h2 id=&quot;关于类模板的几点说明&quot;&gt;&lt;a href=&quot;#关于类模板的几点说明&quot; class=&quot;headerlink&quot; title=&quot;关于类模板的几点说明&quot;&gt;&lt;/a&gt;关于类模板的几点说明&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;1.类模板的类型参数可以有一个或多个，每个类型前面都必须加class，如：&lt;br&gt;  template &lt;class t1,class=&quot;&quot; t2=&quot;&quot;&gt;&lt;br&gt;  class someclass&lt;br&gt;  {…};&lt;br&gt;在定义对象时分别代入实际的类型名，如：&lt;br&gt;  someclass&lt;int,double&gt; obj;&lt;/int,double&gt;&lt;/class&gt;&lt;/li&gt;
-&lt;li&gt;2.和使用类一样，使用类模板时要注意其作用域，只能在其有效作用域内用它定义对象。&lt;/li&gt;
-&lt;li&gt;3.模板可以有层次，一个类模板可以作为基类，派生出派生模板类。&lt;/li&gt;
-&lt;/ul&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;类模板基本语法&quot;&gt;&lt;a href=&quot;#类模板基本语法&quot; class=&quot;headerlink&quot; title=&quot;类模板基本语法&quot;&gt;&lt;/a&gt;类模板基本语法&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;1.先写出一个实际的类。由于其语义明确，含义清楚，一般不会出错。&lt;/li&gt;
-&lt;li&gt;2.
-    
-    </summary>
-    
-    
-      <category term="类模板" scheme="http://yunvoo.com/tags/%E7%B1%BB%E6%A8%A1%E6%9D%BF/"/>
     
   </entry>
   
